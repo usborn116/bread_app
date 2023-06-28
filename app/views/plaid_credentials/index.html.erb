@@ -29,7 +29,7 @@ document.getElementById('linkButton').onclick = function() {
 };
 
 async function get_transactions(){
-    const things = await fetch('/transactions', {
+    const things = await fetch('/sync_transactions', {
         headers: {
             "content-type": "application/json"
         },
