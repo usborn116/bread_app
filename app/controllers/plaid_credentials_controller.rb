@@ -30,7 +30,6 @@ class PlaidCredentialsController < ApplicationController
     end
 
     def exchange_public_token
-        print ("params: #{params}")
         @configuration = Plaid::Configuration.new
         @configuration.server_index = Plaid::Configuration::Environment[ENV['PLAID_ENV']]
         @configuration.api_key['PLAID-CLIENT-ID'] =  ENV['PLAID_CLIENT_ID']
@@ -46,11 +45,19 @@ class PlaidCredentialsController < ApplicationController
         @access_token = response.access_token
         @item_id = response.item_id
         print @access_token
-        {public_token_exchange: "complete"}.to_json
+        @access_token
+        #{public_token_exchange: "complete"}.to_json
     end
 
     def transactions
-        begin
+        
+        #begin
+            @configuration = Plaid::Configuration.new
+            @configuration.server_index = Plaid::Configuration::Environment[ENV['PLAID_ENV']]
+            @configuration.api_key['PLAID-CLIENT-ID'] =  ENV['PLAID_CLIENT_ID']
+            @configuration.api_key['PLAID-SECRET'] = ENV['PLAID_SECRET']
+            @api_client = Plaid::ApiClient.new(@configuration)
+            @client = Plaid::PlaidApi.new(@api_client)
             # Set cursor to empty to receive all historical updates
             @cursor = ''
         
@@ -63,32 +70,29 @@ class PlaidCredentialsController < ApplicationController
             while has_more
                 request = Plaid::TransactionsSyncRequest.new(
                     {
-                    access_token: @access_token,
+                    access_token: 'access-sandbox-e173576d-ff07-4fc0-a37f-05d39cae5caa',
                     cursor: @cursor
                     }
                 )
-                response = client.transactions_sync(request)
+                response = @client.transactions_sync(request)
                 # Add this page of results
                 added += response.added
                 modified += response.modified
                 removed += response.removed
                 has_more = response.has_more
                 # Update cursor to the next cursor
-                cursor = response.next_cursor
-            pretty_print_response(response.to_hash)
+                @cursor = response.next_cursor
             end
 
             # Return the 8 most recent transactions
-            content_type :json
+            print added.sort_by(&:date).last(8).map(&:to_hash).first.to_json
+            render json: added.sort_by(&:date).last(8).map(&:to_hash)
+            #return added.sort_by(&:date).last(8).map(&:to_hash)
 
-            { latest_transactions: added.sort_by(&:date).last(8).map(&:to_hash) }.to_json
-
-        rescue Plaid::ApiError => e
-            error_response = format_error(e)
-            pretty_print_response(error_response)
-            content_type :json
-            error_response.to_json
-        end
+        #rescue Plaid::ApiError => e
+        #    print e
+        #    e.to_json
+        #end
     end
 
 
