@@ -1,0 +1,55 @@
+<head>
+  <title>Connect a bank</title>
+</head>
+<body>
+<h1>Welcome <%=@user_id%></h1>
+<button id='linkButton'> Open Plaid Link </button>
+<script src="https://cdn.plaid.com/link/v2/stable/link-initialize.js"></script>
+<script>
+async function get_token(){
+    let x = await fetch('/create_link_token', {method: "post"})
+    let data = await x.json()
+    let linkHandler = Plaid.create({
+    token: data.link_token,
+    onSuccess: async function (public_token, metadata){
+        // Send the public_token to your app server.
+        let data = await public_token
+        const response = await fetch(`/exchange_public_token/${public_token}`, {
+            method: "post"
+        });
+        return response
+    }
+    })
+    console.log(linkHandler)
+    linkHandler.open();
+} 
+
+document.getElementById('linkButton').onclick = function() {
+    get_token()
+};
+</script>
+
+<!-- <button id='linkButton'> Open Plaid Link </button>
+<script>
+async function get_transactions(){
+    let x = await fetch('/transactions', {method: "post"})
+    let data = await x.json()
+    console.log(data)
+    Plaid.create({
+    token: data.link_token,
+    onSuccess: async (public_token, metadata) => {
+        // Send the public_token to your app server.
+        await fetch('/exchange_public_token', {method: "post", body: {
+        public_token: public_token,
+        }});
+    }
+    }).open();
+} 
+
+document.getElementById('linkButton').onclick = function() {
+    get_token()
+};
+</script> -->
+
+
+</body>
