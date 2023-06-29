@@ -56,9 +56,8 @@ class PlaidCredentialsController < ApplicationController
         @credential = find_credential
         print "ID: #{@credential.id}, Access: #{@credential.access_token}"
         
-        #begin
+        begin
             client = create_config
-            # Set cursor to empty to receive all historical updates
             cursor = @credential.cursor
         
             # New transaction updates since "cursor"
@@ -92,7 +91,7 @@ class PlaidCredentialsController < ApplicationController
                     amount: t.amount,
                     category_id: t.category_id,
                     date: t.date,
-                    category: t.category.join(','),
+                    category: t.personal_finance_category.values.join(','),
                     name: t.name,
                     merchant: t.merchant_name,
                     description: t.original_description,
@@ -104,14 +103,13 @@ class PlaidCredentialsController < ApplicationController
 
                 )
             end
-            print added.sort_by(&:date).last(8).map(&:to_hash).first.to_json
+            #print added.sort_by(&:date).last(8).map(&:to_hash).first.to_json
             render json: added.sort_by(&:date).last(8).map(&:to_hash)
-            #return added.sort_by(&:date).last(8).map(&:to_hash)
 
-        #rescue Plaid::ApiError => e
-        #    print e
-        #    e.to_json
-        #end
+        rescue Plaid::ApiError => e
+            print e
+            e.to_json
+        end
     end
 
     private
@@ -123,8 +121,5 @@ class PlaidCredentialsController < ApplicationController
     def plaid_credential_params
         require(:plaid_credential).permit(:link_token, :access_token, :item_id, :cursor)
     end
-
-
-
 
 end

@@ -1,0 +1,23 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  account_id: MyString
+  available: 1.5
+  current: 1.5
+  limit: 1.5
+  last_four: MyString
+  name: MyString
+  official_name: MyString
+  type: 
+  subtype: MyString
+
+two:
+  account_id: MyString
+  available: 1.5
+  current: 1.5
+  limit: 1.5
+  last_four: MyString
+  name: MyString
+  official_name: MyString
+  type: 
+  subtype: MyString

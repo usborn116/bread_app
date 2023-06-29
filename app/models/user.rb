@@ -5,5 +5,6 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable
   has_one :plaid_credential
   has_many :transactions
+  has_many :accounts
 end
 
