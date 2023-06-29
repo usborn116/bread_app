@@ -38,7 +38,7 @@ class PlaidCredentialsController < ApplicationController
     end
 
     def sync_transactions
-        begin
+        #begin
             # New transaction updates since "cursor"
             added = []
             modified = []
@@ -70,7 +70,7 @@ class PlaidCredentialsController < ApplicationController
                     amount: t.amount,
                     category_id: t.category_id,
                     date: t.date,
-                    category: t.personal_finance_category.values.join(','),
+                    category: t.category.join(', '),
                     name: t.name,
                     merchant: t.merchant_name,
                     description: t.original_description,
@@ -85,10 +85,11 @@ class PlaidCredentialsController < ApplicationController
             #print added.sort_by(&:date).last(8).map(&:to_hash).first.to_json
             render json: added.sort_by(&:date).last(8).map(&:to_hash)
 
-        rescue Plaid::ApiError => e
-            print e
-            e.to_json
-        end
+        #rescue Plaid::ApiError => e
+        #    print e
+        #    e.to_json
+        #end
+
     end
 
     def get_balances
