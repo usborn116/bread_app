@@ -7,11 +7,7 @@ class PlaidCredentialsController < ApplicationController
     end
 
     def update
-        if find_credential.update(plaid_credential_params)
-            print 'okay!'
-        else
-            print 'did not update'
-        end
+        find_credential.update!(plaid_credential_params)
     end
 
     def create_config
@@ -40,8 +36,7 @@ class PlaidCredentialsController < ApplicationController
             }
         )
         response = client.link_token_create(request)
-        @credential.update!(link_token: response.link_token.to_json)
-        @credential.save!
+        @credential.update!(:link_token => response.link_token.to_json)
         print @credential
         render json: response
     end
@@ -52,15 +47,9 @@ class PlaidCredentialsController < ApplicationController
 
         request = Plaid::ItemPublicTokenExchangeRequest.new({public_token: params[:public_token]})
         response = client.item_public_token_exchange(request)
-        # These values should be saved to a persistent database and
-        # associated with the currently signed-in user
         @credential.update!(access_token: response.access_token)
-        @credential.save!
         @credential.update!(item_id: response.item_id)
-        @credential.save!
-        print @credential
         @access_token
-        #{public_token_exchange: "complete"}.to_json
     end
 
     def sync_transactions
@@ -70,7 +59,7 @@ class PlaidCredentialsController < ApplicationController
         #begin
             client = create_config
             # Set cursor to empty to receive all historical updates
-            cursor = @credential.cursor || ''
+            cursor = @credential.cursor
         
             # New transaction updates since "cursor"
             added = []
@@ -78,26 +67,27 @@ class PlaidCredentialsController < ApplicationController
             removed = [] # Removed transaction ids
             has_more = true
             # Iterate through each page of new transaction updates for item
-            while has_more
-                request = Plaid::TransactionsSyncRequest.new(
-                    {
-                    access_token: @credential.access_token,
-                    cursor: cursor
-                    }
-                )
-                response = client.transactions_sync(request)
-                # Add this page of results
-                added += response.added
-                modified += response.modified
-                removed += response.removed
-                has_more = response.has_more
-                # Update cursor to the next cursor
-                @credential.cursor = response.next_cursor
-            end
+            request = Plaid::TransactionsSyncRequest.new(
+                {
+                access_token: @credential.access_token,
+                cursor: cursor
+                }
+            )
+            response = client.transactions_sync(request)
+            # Add this page of results
+            added += response.added
+            modified += response.modified
+            removed += response.removed
+            has_more = response.has_more
+            # Update cursor to the next cursor
+            puts response.next_cursor
+            puts response.has_more
+            @credential.cursor = response.next_cursor
 
             # Return the 8 most recent transactions
             added.each do |t| 
-                current_user.transactions.build(
+                txn = Transaction.find_or_create_by(transaction_id: t.transaction_id)
+                txn.update!(
                     account_id: t.account_id,
                     amount: t.amount,
                     category_id: t.category_id,
@@ -109,9 +99,10 @@ class PlaidCredentialsController < ApplicationController
                     pending: t.pending,
                     transaction_id: t.transaction_id,
                     transaction_type: t.transaction_type,
-                    authorized_date: t.authorized_date
+                    authorized_date: t.authorized_date,
+                    user_id: current_user.id
 
-                ).save
+                )
             end
             print added.sort_by(&:date).last(8).map(&:to_hash).first.to_json
             render json: added.sort_by(&:date).last(8).map(&:to_hash)
@@ -126,8 +117,7 @@ class PlaidCredentialsController < ApplicationController
     private
 
     def find_credential
-        print "Cred: #{current_user.plaid_credential}"
-        current_user.plaid_credential ? current_user.plaid_credential : false
+        PlaidCredential.find_or_create_by(user_id: current_user.id)
     end
 
     def plaid_credential_params

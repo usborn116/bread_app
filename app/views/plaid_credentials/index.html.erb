@@ -14,7 +14,6 @@ async function get_token(){
     token: data.link_token,
     onSuccess: async function (public_token, metadata){
         // Send the public_token to your app server.
-        let data = await public_token
         const response = await fetch(`/exchange_public_token/${public_token}`, {
             method: "post"
         });
