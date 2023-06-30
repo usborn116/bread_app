@@ -5,7 +5,7 @@
 <%= link_to 'Home', root_path%>
 
 <div id="transactions">
-  <% @transactions.each do |transaction| %>
+  <% @transactions[0..20].each do |transaction| %>
     <%= render transaction %>
     <p>
       <%= link_to "Show this transaction", transaction %>
