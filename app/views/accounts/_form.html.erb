@@ -12,8 +12,7 @@
   <% end %>
 
   <div>
-    <%= form.label :account_id, style: "display: block" %>
-    <%= form.text_field :account_id %>
+    <%= form.hidden_field :account_id, :value => Account.all.size.to_s %>
   </div>
 
   <div>
@@ -22,38 +21,16 @@
   </div>
 
   <div>
-    <%= form.label :current, style: "display: block" %>
-    <%= form.text_field :current %>
-  </div>
-
-  <div>
-    <%= form.label :limit, style: "display: block" %>
-    <%= form.text_field :limit %>
-  </div>
-
-  <div>
-    <%= form.label :last_four, style: "display: block" %>
-    <%= form.text_field :last_four %>
-  </div>
-
-  <div>
     <%= form.label :name, style: "display: block" %>
     <%= form.text_field :name %>
   </div>
 
   <div>
-    <%= form.label :official_name, style: "display: block" %>
-    <%= form.text_field :official_name %>
+    <%= form.hidden_field :account_type, :value => 'Cash' %>
   </div>
 
   <div>
-    <%= form.label :type, style: "display: block" %>
-    <%= form.text_field :type %>
-  </div>
-
-  <div>
-    <%= form.label :subtype, style: "display: block" %>
-    <%= form.text_field :subtype %>
+    <%= form.hidden_field :user_id, :value => current_user.id %>
   </div>
 
   <div>

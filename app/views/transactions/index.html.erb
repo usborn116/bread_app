@@ -2,15 +2,29 @@
 
 <h1>Transactions</h1>
 
+<%= link_to "New cash transaction", new_transaction_path %>
+
 <%= link_to 'Home', root_path%>
 
 <div id="transactions">
-  <% @transactions[0..20].each do |transaction| %>
-    <%= render transaction %>
-    <p>
-      <%= link_to "Show this transaction", transaction %>
-    </p>
-  <% end %>
+  <table>
+    <tr>
+      <th>Date</th>
+      <th>Name</th>
+      <th>Amount</th>
+      <th>Category</th>
+      <th>Merchant</th>
+      <th>Account</th>
+    </tr>
+      <% @transactions[0..20].each do |transaction| %>
+    <tr>
+      <td><%= transaction.date %></td>
+      <td><%= link_to "#{transaction.name}", transaction %></td>
+      <td><%= transaction.amount %></td>
+      <td><%= transaction.category %></td>
+      <td><%= transaction.merchant %></td>
+      <td><%= Account.find_by(account_id: transaction.account_id) ? Account.find_by(account_id: transaction.account_id).name : 'None' %></td>
+    </tr>
+    <% end %>
+  </table>
 </div>
-
-<%= link_to "New transaction", new_transaction_path %>

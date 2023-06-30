@@ -3,7 +3,7 @@ class AccountsController < ApplicationController
 
   # GET /accounts or /accounts.json
   def index
-    @accounts = Account.where(user_id: current_user.id)
+    @accounts = Account.where(user_id: current_user.id).sort_by(&:subtype)
   end
 
   # GET /accounts/1 or /accounts/1.json
@@ -61,10 +61,11 @@ class AccountsController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_account
       @account = Account.find(params[:id])
+      @txns = Transaction.where(account_id: @account.account_id)
     end
 
     # Only allow a list of trusted parameters through.
     def account_params
-      params.require(:account).permit(:account_id, :available, :current, :limit, :last_four, :name, :official_name, :type, :subtype)
+      params.require(:account).permit(:account_id, :available, :current, :limit, :last_four, :name, :official_name, :account_type, :subtype, :user_id)
     end
 end
