@@ -5,6 +5,9 @@
 <h1>Welcome <%=@user_id%></h1>
 <button id='linkButton'> Open Plaid Link </button>
 <button id='txnButton'> Get Transactions </button>
+<button id='acctButton'> Get Accounts </button>
+<%= link_to 'See Accounts', accounts_path %>
+<%= link_to 'See Transactions', transactions_path %>
 <script src="https://cdn.plaid.com/link/v2/stable/link-initialize.js"></script>
 <script>
 async function get_token(){
@@ -42,6 +45,22 @@ async function get_transactions(){
 
 document.getElementById('txnButton').onclick = function() {
     get_transactions()
+};
+async function get_accounts(){
+    const things = await fetch('/get_balances', {
+        headers: {
+            "content-type": "application/json"
+        },
+        method: "get"
+    })
+    console.log('got data!')
+    const response = await things.json()
+    console.log('converted!')
+    console.log("response:", response)
+} 
+
+document.getElementById('acctButton').onclick = function() {
+    get_accounts()
 };
 </script>
 

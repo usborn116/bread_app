@@ -99,7 +99,7 @@ class PlaidCredentialsController < ApplicationController
 
         accounts.each do |a| 
             acct = Account.find_or_create_by(account_id: a.account_id)
-            txn.update!(
+            acct.update!(
                 account_id: a.account_id,
                 available: a.balances.available,
                 current: a.balances.current,
@@ -107,12 +107,12 @@ class PlaidCredentialsController < ApplicationController
                 last_four: a.mask,
                 name: a.name,
                 official_name: a.official_name,
-                type: a.type,
+                account_type: a.type,
                 subtype: a.subtype,
                 user_id: current_user.id
             )
         end
-        render json: accounts.sort_by(&name).last(8).map(&:to_hash)
+        render json: accounts.sort_by(&:name).last(8).map(&:to_hash)
     end
 
     private
