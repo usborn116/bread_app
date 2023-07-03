@@ -1,11 +1,12 @@
 class PlaidCredentialsController < ApplicationController
-
-    before_action :find_credential, :create_config
+    before_action :find_credential, except: %i[create_link_token exchange_public_token index]
+    before_action :create_config, only: %i[ create_link_token exchange_public_token sync_transactions get_balances get_institution_id get_institution_name ]
     require 'plaid'
     require 'dotenv'
 
     def index
         @user_id = current_user.id
+        @credentials = PlaidCredential.where(user_id: current_user.id)
     end
 
     def update
@@ -25,47 +26,42 @@ class PlaidCredentialsController < ApplicationController
             }
         )
         response = @client.link_token_create(request)
-        @credential.update!(:link_token => response.link_token.to_json)
         render json: response
     end
 
     def exchange_public_token
+        @credential = PlaidCredential.new(user_id: current_user.id)
+        @credential.save
         request = Plaid::ItemPublicTokenExchangeRequest.new({public_token: params[:public_token]})
         response = @client.item_public_token_exchange(request)
         @credential.update!(access_token: response.access_token)
         @credential.update!(item_id: response.item_id)
+        get_institution_id
+        get_institution_name
         @access_token
     end
 
     def sync_transactions
-        #begin
-            # New transaction updates since "cursor"
-            added = []
-            modified = []
-            removed = [] # Removed transaction ids
-            has_more = true
-            # Iterate through each page of new transaction updates for item
-            request = Plaid::TransactionsSyncRequest.new(
-                {
-                access_token: @credential.access_token,
-                cursor: @credential.cursor
-                }
-            )
-            response = @client.transactions_sync(request)
-            # Add this page of results
+
+        added = []
+        removed = []
+        has_more = true
+        request = Plaid::TransactionsSyncRequest.new(
+            {access_token: @credential.access_token,
+            cursor: @credential.cursor}
+        )
+        response = @client.transactions_sync(request)
+        while has_more
             added += response.added
-            modified += response.modified
+            added += response.modified
             removed += response.removed
             has_more = response.has_more
-            # Update cursor to the next cursor
-            puts response.next_cursor
-            puts response.has_more
             @credential.update!(cursor: response.next_cursor)
 
-            # Return the 8 most recent transactions
             added.each do |t| 
                 txn = Transaction.find_or_create_by(transaction_id: t.transaction_id)
                 txn.update!(
+                    institution_name: @credential.institution_name,
                     account_id: t.account_id,
                     amount: t.amount,
                     category_id: t.category_id,
@@ -82,13 +78,14 @@ class PlaidCredentialsController < ApplicationController
 
                 )
             end
-            #print added.sort_by(&:date).last(8).map(&:to_hash).first.to_json
-            render json: added.sort_by(&:date).last(8).map(&:to_hash)
 
-        #rescue Plaid::ApiError => e
-        #    print e
-        #    e.to_json
-        #end
+            removed.each do |t| 
+                txn = Transaction.find_by(transaction_id: t.transaction_id)
+                txn.destroy
+            end
+        end
+        
+        render json: added.sort_by(&:date).last(8).map(&:to_hash)
 
     end
 
@@ -100,6 +97,7 @@ class PlaidCredentialsController < ApplicationController
         accounts.each do |a| 
             acct = Account.find_or_create_by(account_id: a.account_id)
             acct.update!(
+                institution_name: @credential.institution_name,
                 account_id: a.account_id,
                 available: a.balances.available,
                 current: a.balances.current,
@@ -118,11 +116,11 @@ class PlaidCredentialsController < ApplicationController
     private
 
     def find_credential
-        @credential = PlaidCredential.find_or_create_by(user_id: current_user.id)
+        @credential = PlaidCredential.find(params[:id])
     end
 
     def plaid_credential_params
-        require(:plaid_credential).permit(:link_token, :access_token, :item_id, :cursor)
+        require(:plaid_credential).permit(:id, :link_token, :access_token, :item_id, :cursor, :institution_name, :institution_id)
     end
 
     def create_config
@@ -132,6 +130,18 @@ class PlaidCredentialsController < ApplicationController
         configuration.api_key['PLAID-SECRET'] = ENV['PLAID_SECRET']
         api_client = Plaid::ApiClient.new(configuration)
         @client = Plaid::PlaidApi.new(api_client)
+    end
+
+    def get_institution_id
+        request = Plaid::ItemGetRequest.new({ access_token: @credential.access_token })
+        response = @client.item_get(request)
+        @credential.update!(institution_id: response.item.institution_id)
+    end
+
+    def get_institution_name
+        request = Plaid::InstitutionsGetByIdRequest.new({institution_id: @credential.institution_id,country_codes: ["US"]})
+        response = @client.institutions_get_by_id(request)
+        @credential.update!(institution_name: response.institution.name)
     end
 
 end

@@ -6,6 +6,25 @@
 
 <%= link_to 'Home', root_path%>
 
+<button id='acctButton'> Get Accounts </button>
+
+<script src="https://cdn.plaid.com/link/v2/stable/link-initialize.js"></script>
+<script>
+async function get_accounts(){
+    const things = await fetch('/get_balances', {
+        headers: {
+            "content-type": "application/json"
+        },
+        method: "get"
+    })
+    const response = await things.json()
+    console.log("response:", response)
+} 
+
+document.getElementById('acctButton').onclick = function() {
+    get_accounts()
+};
+</script>
 <div id="accounts">
   <table>
     <tr>
@@ -13,6 +32,7 @@
       <th>Available to spend</th>
       <th>Account Number</th>
       <th>Type</th>
+      <th>Institution</th>
     </tr>
     <% @accounts.each do |account| %>
     <tr>
@@ -20,6 +40,7 @@
       <td><%= account.available %></td>
       <td><%= account.last_four %></td>
       <td><%= account.subtype %></td>
+      <td><%= account.institution_name %></td>
     </tr>
     <%end%>
   </table>

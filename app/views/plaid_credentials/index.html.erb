@@ -3,7 +3,20 @@
 </head>
 <body>
 <h1>Welcome <%=@user_id%></h1>
-<button id='linkButton'> Open Plaid Link </button>
+<table>
+    <tr>
+        <th>Financial Account Name</th>
+        <th>Financial Account ID</th>
+    </tr>
+    <% @credentials.each do |c| %>
+    <tr>
+        <td><%= link_to "#{c.institution_name}", c %></td>
+        <td><%= c.institution_id%></td>
+    </tr>
+    <%end%>
+</table>
+
+<button id='linkButton'> Add New Financial Institution </button>
 <button id='txnButton'> Get Transactions </button>
 <button id='acctButton'> Get Accounts </button>
 <%= link_to 'See Accounts', accounts_path %>
@@ -31,7 +44,8 @@ document.getElementById('linkButton').onclick = function() {
 };
 
 async function get_transactions(){
-    const things = await fetch('/sync_transactions', {
+    let p = window.location.pathname.split('/').reverse()[0]
+    const things = await fetch(`/sync_transactions/${p}`, {
         headers: {
             "content-type": "application/json"
         },
@@ -47,7 +61,8 @@ document.getElementById('txnButton').onclick = function() {
     get_transactions()
 };
 async function get_accounts(){
-    const things = await fetch('/get_balances', {
+    let p = window.location.pathname.split('/').reverse()[0]
+    const things = await fetch(`/get_balances/${p}`, {
         headers: {
             "content-type": "application/json"
         },

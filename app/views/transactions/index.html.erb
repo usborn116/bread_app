@@ -15,6 +15,7 @@
       <th>Category</th>
       <th>Merchant</th>
       <th>Account</th>
+      <th>Institution</th>
     </tr>
       <% @transactions[0..20].each do |transaction| %>
     <tr>
@@ -23,7 +24,8 @@
       <td><%= transaction.amount %></td>
       <td><%= transaction.category %></td>
       <td><%= transaction.merchant %></td>
-      <td><%= Account.find_by(account_id: transaction.account_id) ? Account.find_by(account_id: transaction.account_id).name : 'None' %></td>
+      <td><%= Account.find_by(account_id: transaction.account_id).name%></td>
+      <td><%= Account.find_by(account_id: transaction.account_id).institution_name%></td>
     </tr>
     <% end %>
   </table>
