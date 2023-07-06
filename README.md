@@ -19,3 +19,10 @@ https://plaid.com/docs/quickstart/#how-it-works
 https://stackoverflow.com/questions/814613/how-to-read-get-data-from-a-url-using-javascript
 
 https://stackoverflow.com/questions/4116067/purge-or-recreate-a-ruby-on-rails-database
+
+Todos:
+- create scaffold for categories ((type:monthly or savings, name, current balance, budget:boolean, budget_amt))
+- paginate transactions
+- make accounts belong to plaid credential, transactions belong to accounts
+- add cash account to seeds
+- optional true for belongs_to (so that an account doesn't have to belong to a plaid credential and a transaction doesn't have to belong to an account?)
