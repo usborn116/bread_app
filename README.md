@@ -18,3 +18,4 @@ https://plaid.com/docs/quickstart/#how-it-works
 
 https://stackoverflow.com/questions/814613/how-to-read-get-data-from-a-url-using-javascript
 
+https://stackoverflow.com/questions/4116067/purge-or-recreate-a-ruby-on-rails-database

@@ -1,5 +1,5 @@
 class PlaidCredentialsController < ApplicationController
-    before_action :find_credential, except: %i[create_link_token exchange_public_token index]
+    before_action :find_credential, except: %i[create_link_token exchange_public_token sync_transactions get_balances index]
     before_action :create_config, only: %i[ create_link_token exchange_public_token sync_transactions get_balances get_institution_id get_institution_name ]
     require 'plaid'
     require 'dotenv'
@@ -38,79 +38,87 @@ class PlaidCredentialsController < ApplicationController
         @credential.update!(item_id: response.item_id)
         get_institution_id
         get_institution_name
+        get_balances
+        sync_transactions
         @access_token
     end
 
     def sync_transactions
 
-        added = []
-        removed = []
-        has_more = true
-        request = Plaid::TransactionsSyncRequest.new(
-            {access_token: @credential.access_token,
-            cursor: @credential.cursor}
-        )
-        response = @client.transactions_sync(request)
-        while has_more
-            added += response.added
-            added += response.modified
-            removed += response.removed
-            has_more = response.has_more
-            @credential.update!(cursor: response.next_cursor)
-
-            added.each do |t| 
-                txn = Transaction.find_or_create_by(transaction_id: t.transaction_id)
-                txn.update!(
-                    institution_name: @credential.institution_name,
-                    account_id: t.account_id,
-                    amount: t.amount,
-                    category_id: t.category_id,
-                    date: t.date,
-                    category: t.category.join(', '),
-                    name: t.name,
-                    merchant: t.merchant_name,
-                    description: t.original_description,
-                    pending: t.pending,
-                    transaction_id: t.transaction_id,
-                    transaction_type: t.transaction_type,
-                    authorized_date: t.authorized_date,
-                    user_id: current_user.id
-
+        PlaidCredential.all.each do |c|
+            added = []
+            removed = []
+            has_more = true
+            
+            while has_more
+                request = Plaid::TransactionsSyncRequest.new(
+                    {access_token: c.access_token,
+                    cursor: c.cursor,
+                    options: {include_personal_finance_category: true}
+                    }
                 )
-            end
+                response = @client.transactions_sync(request)
 
-            removed.each do |t| 
-                txn = Transaction.find_by(transaction_id: t.transaction_id)
-                txn.destroy
+                added += response.added
+                added += response.modified
+                removed += response.removed
+                has_more = response.has_more
+                c.update!(cursor: response.next_cursor)
+
+                added.each do |t|
+                    txn = Transaction.find_or_create_by(transaction_id: t.transaction_id)
+                    txn.update!(
+                        institution_name: c.institution_name,
+                        account_id: t.account_id,
+                        amount: t.amount,
+                        category_id: t.category_id,
+                        date: t.date,
+                        category: "#{t.personal_finance_category.primary}, #{t.personal_finance_category.detailed}",
+                        name: t.name,
+                        merchant: t.merchant_name,
+                        description: t.original_description,
+                        pending: t.pending,
+                        transaction_id: t.transaction_id,
+                        transaction_type: t.transaction_type,
+                        authorized_date: t.authorized_date,
+                        user_id: current_user.id
+                    )
+                end
+
+                removed.each do |t| 
+                    txn = Transaction.find_by(transaction_id: t.transaction_id)
+                    txn.destroy
+                end
             end
         end
-        
-        render json: added.sort_by(&:date).last(8).map(&:to_hash)
 
     end
 
     def get_balances
-        request = Plaid::AccountsBalanceGetRequest.new({ access_token: @credential.access_token })
-        response = @client.accounts_balance_get(request)
-        accounts = response.accounts
 
-        accounts.each do |a| 
-            acct = Account.find_or_create_by(account_id: a.account_id)
-            acct.update!(
-                institution_name: @credential.institution_name,
-                account_id: a.account_id,
-                available: a.balances.available,
-                current: a.balances.current,
-                limit: a.balances.limit,
-                last_four: a.mask,
-                name: a.name,
-                official_name: a.official_name,
-                account_type: a.type,
-                subtype: a.subtype,
-                user_id: current_user.id
-            )
+        PlaidCredential.all.each do |c|
+            request = Plaid::AccountsBalanceGetRequest.new({ access_token: c.access_token })
+            response = @client.accounts_balance_get(request)
+            accounts = response.accounts
+
+            accounts.each do |a| 
+                acct = Account.find_or_create_by(account_id: a.account_id)
+                acct.update!(
+                    institution_name: c.institution_name,
+                    account_id: a.account_id,
+                    available: a.balances.available,
+                    current: a.balances.current,
+                    limit: a.balances.limit,
+                    last_four: a.mask,
+                    name: a.name,
+                    official_name: a.official_name,
+                    account_type: a.type,
+                    subtype: a.subtype,
+                    user_id: current_user.id
+                )
+            end
         end
-        render json: accounts.sort_by(&:name).last(8).map(&:to_hash)
+        render json: Account.all.sort_by(&:name).last(8)
     end
 
     private

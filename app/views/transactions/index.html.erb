@@ -4,6 +4,27 @@
 
 <%= link_to "New cash transaction", new_transaction_path %>
 
+<button id='txnButton'> Get Transactions </button>
+<script src="https://cdn.plaid.com/link/v2/stable/link-initialize.js"></script>
+<script>
+async function get_transactions(){
+    const things = await fetch('/sync_transactions', {
+        headers: {
+            "content-type": "application/json"
+        },
+        method: "get"
+    })
+    console.log('got data!')
+    const response = await things.json()
+    console.log('converted!')
+    console.log("response:", response)
+} 
+
+document.getElementById('txnButton').onclick = function() {
+    get_transactions()
+};
+</script>
+
 <%= link_to 'Home', root_path%>
 
 <div id="transactions">
