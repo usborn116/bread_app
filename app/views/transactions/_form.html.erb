@@ -12,7 +12,8 @@
   <% end %>
 
   <div>
-    <%= form.hidden_field :account_id, :value => 'Cash'%>
+    <%= form.label :account_id, style: "display: block" %>
+    <%= form.text_field :account_id %>
   </div>
 
   <div>
@@ -21,7 +22,8 @@
   </div>
 
   <div>
-    <%= form.hidden_field :date, :value => Date.today %>
+    <%= form.label :date, style: "display: block" %>
+    <%= form.date_field :date %>
   </div>
 
   <div>
@@ -44,9 +46,6 @@
     <%= form.text_field :description %>
   </div>
 
-  <div>
-    <%= form.hidden_field :transaction_id, :value => Transaction.all.size.to_s %>
-  </div>
 
   <div>
     <%= form.hidden_field :user_id, :value => current_user.id %>
@@ -55,6 +54,11 @@
   <div>
     <%= form.label :transaction_type, style: "display: block" %>
     <%= form.text_field :transaction_type %>
+  </div>
+
+  <div>
+    <%= form.label :group_id, style: "display: block" %>
+    <%= form.collection_select :group_id, Category.order(:name), :id, :name%>
   </div>
 
   <div>

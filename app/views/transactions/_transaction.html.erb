@@ -59,4 +59,9 @@
     <%= transaction.authorized_date %>
   </p>
 
+  <p>
+    <strong>Budget Category:</strong>
+    <%= transaction.group ?  transaction.group.name : 'None'  %>
+  </p>
+
 </div>

@@ -1,5 +1,12 @@
 # README
 
+Todos:
+- paginate transactions
+- add cash account to seeds
+- connect categories to transactions to accounts
+- category index based on monthly budgets or savings funds
+
+
 Helpful things:
 
 Fetch api: https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch
@@ -20,9 +27,10 @@ https://stackoverflow.com/questions/814613/how-to-read-get-data-from-a-url-using
 
 https://stackoverflow.com/questions/4116067/purge-or-recreate-a-ruby-on-rails-database
 
-Todos:
-- create scaffold for categories ((type:monthly or savings, name, current balance, budget:boolean, budget_amt))
-- paginate transactions
-- make accounts belong to plaid credential, transactions belong to accounts
-- add cash account to seeds
-- optional true for belongs_to (so that an account doesn't have to belong to a plaid credential and a transaction doesn't have to belong to an account?)
+https://stackoverflow.com/questions/13694654/specifying-column-name-in-a-references-migration
+
+https://stackoverflow.com/questions/22815009/add-a-reference-column-migration-in-rails-4
+
+https://guides.rubyonrails.org/form_helpers.html#the-collection-select-helper
+
+https://stackoverflow.com/questions/9143371/how-do-i-sort-in-ruby-rails-on-two-fields

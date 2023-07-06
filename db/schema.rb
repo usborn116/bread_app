@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_07_03_222514) do
+ActiveRecord::Schema[7.0].define(version: 2023_07_06_215637) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -29,6 +29,20 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_03_222514) do
     t.datetime "updated_at", null: false
     t.string "institution_name"
     t.index ["user_id"], name: "index_accounts_on_user_id"
+  end
+
+  create_table "categories", force: :cascade do |t|
+    t.string "category_type"
+    t.string "name"
+    t.float "current"
+    t.boolean "budget"
+    t.float "budget_amt"
+    t.bigint "user_id", null: false
+    t.bigint "account_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id"], name: "index_categories_on_account_id"
+    t.index ["user_id"], name: "index_categories_on_user_id"
   end
 
   create_table "plaid_credentials", force: :cascade do |t|
@@ -61,6 +75,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_03_222514) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "institution_name"
+    t.bigint "group_id"
+    t.index ["group_id"], name: "index_transactions_on_group_id"
     t.index ["user_id"], name: "index_transactions_on_user_id"
   end
 
@@ -77,6 +93,9 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_03_222514) do
   end
 
   add_foreign_key "accounts", "users"
+  add_foreign_key "categories", "accounts"
+  add_foreign_key "categories", "users"
   add_foreign_key "plaid_credentials", "users"
+  add_foreign_key "transactions", "categories", column: "group_id"
   add_foreign_key "transactions", "users"
 end

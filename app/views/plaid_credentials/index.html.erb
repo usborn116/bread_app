@@ -17,10 +17,9 @@
 </table>
 
 <button id='linkButton'> Add New Financial Institution </button>
-<button id='txnButton'> Get Transactions </button>
-<button id='acctButton'> Get Accounts </button>
 <%= link_to 'See Accounts', accounts_path %>
 <%= link_to 'See Transactions', transactions_path %>
+<%= link_to 'See Categories', categories_path %>
 <script src="https://cdn.plaid.com/link/v2/stable/link-initialize.js"></script>
 <script>
 async function get_token(){
@@ -41,41 +40,6 @@ async function get_token(){
 
 document.getElementById('linkButton').onclick = function() {
     get_token()
-};
-
-async function get_transactions(){
-    let p = window.location.pathname.split('/').reverse()[0]
-    const things = await fetch(`/sync_transactions/${p}`, {
-        headers: {
-            "content-type": "application/json"
-        },
-        method: "get"
-    })
-    console.log('got data!')
-    const response = await things.json()
-    console.log('converted!')
-    console.log("response:", response)
-} 
-
-document.getElementById('txnButton').onclick = function() {
-    get_transactions()
-};
-async function get_accounts(){
-    let p = window.location.pathname.split('/').reverse()[0]
-    const things = await fetch(`/get_balances/${p}`, {
-        headers: {
-            "content-type": "application/json"
-        },
-        method: "get"
-    })
-    console.log('got data!')
-    const response = await things.json()
-    console.log('converted!')
-    console.log("response:", response)
-} 
-
-document.getElementById('acctButton').onclick = function() {
-    get_accounts()
 };
 </script>
 

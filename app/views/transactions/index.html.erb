@@ -45,8 +45,8 @@ document.getElementById('txnButton').onclick = function() {
       <td><%= transaction.amount %></td>
       <td><%= transaction.category %></td>
       <td><%= transaction.merchant %></td>
-      <td><%= Account.find_by(account_id: transaction.account_id).name%></td>
-      <td><%= Account.find_by(account_id: transaction.account_id).institution_name%></td>
+      <td><%= Account.find_by(account_id: transaction.account_id) ? Account.find_by(account_id: transaction.account_id).name : 'None' %></td>
+      <td><%= Account.find_by(account_id: transaction.account_id) ? Account.find_by(account_id: transaction.account_id).institution_name : 'None' %></td>
     </tr>
     <% end %>
   </table>

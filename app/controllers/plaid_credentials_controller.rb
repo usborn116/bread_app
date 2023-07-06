@@ -38,14 +38,14 @@ class PlaidCredentialsController < ApplicationController
         @credential.update!(item_id: response.item_id)
         get_institution_id
         get_institution_name
-        get_balances
-        sync_transactions
+        get_balances([@credential])
+        sync_transactions([@credential])
         @access_token
     end
 
-    def sync_transactions
+    def sync_transactions(credentials = PlaidCredential.all)
 
-        PlaidCredential.all.each do |c|
+        credentials.each do |c|
             added = []
             removed = []
             has_more = true
@@ -94,9 +94,9 @@ class PlaidCredentialsController < ApplicationController
 
     end
 
-    def get_balances
+    def get_balances(credentials = PlaidCredential.all)
 
-        PlaidCredential.all.each do |c|
+        credentials.each do |c|
             request = Plaid::AccountsBalanceGetRequest.new({ access_token: c.access_token })
             response = @client.accounts_balance_get(request)
             accounts = response.accounts

@@ -1,0 +1,37 @@
+<div id="<%= dom_id category %>">
+  <p>
+    <strong>Type:</strong>
+    <%= category.category_type %>
+  </p>
+
+  <p>
+    <strong>Name:</strong>
+    <%= category.name %>
+  </p>
+
+  <p>
+    <strong>Current:</strong>
+    <%= category.budget_amt - Transaction.where(group_id: category.id).map(&:amount).sum %>
+  </p>
+
+  <p>
+    <strong>Budget:</strong>
+    <%= category.budget %>
+  </p>
+
+  <p>
+    <strong>Budget amt:</strong>
+    <%= category.budget_amt %>
+  </p>
+
+  <p>
+    <strong>User:</strong>
+    <%= category.user_id %>
+  </p>
+
+  <p>
+    <strong>Account:</strong>
+    <%= category.account_id %>
+  </p>
+
+</div>

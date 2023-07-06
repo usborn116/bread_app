@@ -1,0 +1,19 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  type: 
+  name: MyString
+  current: 1.5
+  budget: false
+  budget_amt: 1.5
+  user: one
+  account: one
+
+two:
+  type: 
+  name: MyString
+  current: 1.5
+  budget: false
+  budget_amt: 1.5
+  user: two
+  account: two

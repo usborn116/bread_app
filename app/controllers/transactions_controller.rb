@@ -3,7 +3,7 @@ class TransactionsController < ApplicationController
 
   # GET /transactions or /transactions.json
   def index
-    @transactions = Transaction.where(user_id: current_user.id).sort_by(&:date).reverse
+    @transactions = Transaction.where(user_id: current_user.id).sort_by{|t| [t.date, t.updated_at]}.reverse
   end
 
   # GET /transactions/1 or /transactions/1.json
@@ -65,6 +65,6 @@ class TransactionsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def transaction_params
-      params.require(:transaction).permit(:account_id, :amount, :category_id, :date, :category, :name, :merchant, :description, :pending, :transaction_id, :transaction_type, :authorized_date, :user_id)
+      params.require(:transaction).permit(:account_id, :amount, :category_id, :date, :category, :name, :merchant, :description, :pending, :transaction_id, :transaction_type, :authorized_date, :user_id, :group_id)
     end
 end
