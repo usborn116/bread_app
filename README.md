@@ -1,10 +1,9 @@
 # README
 
 Todos:
-- paginate transactions
-- add cash account to seeds
 - connect categories to transactions to accounts
 - category index based on monthly budgets or savings funds
+- create new cash transactions
 
 
 Helpful things:
@@ -34,3 +33,5 @@ https://stackoverflow.com/questions/22815009/add-a-reference-column-migration-in
 https://guides.rubyonrails.org/form_helpers.html#the-collection-select-helper
 
 https://stackoverflow.com/questions/9143371/how-do-i-sort-in-ruby-rails-on-two-fields
+
+https://medium.com/@barrosgiovanni1/a-step-by-step-guide-to-paginate-your-rails-app-with-pagy-gem-d177c42a43a6

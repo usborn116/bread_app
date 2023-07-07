@@ -7,6 +7,8 @@ gem 'plaid'
 gem 'dotenv-rails', groups: [:development, :test], require: 'dotenv/rails-now'
 gem 'json'
 
+gem 'pagy', '~> 6.0'
+
 # Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
 gem "rails", "~> 7.0.5"
 

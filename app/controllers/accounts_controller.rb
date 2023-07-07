@@ -49,7 +49,10 @@ class AccountsController < ApplicationController
 
   # DELETE /accounts/1 or /accounts/1.json
   def destroy
+    n = @account.id
+    Category.where(account_id: n).each{|c| c.update(account_id: 1)}
     @account.destroy
+    Transaction.where(account_id: n).each{|t| t.destroy}
 
     respond_to do |format|
       format.html { redirect_to accounts_url, notice: "Account was successfully destroyed." }

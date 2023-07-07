@@ -38,12 +38,12 @@ document.getElementById('txnButton').onclick = function() {
       <th>Account</th>
       <th>Institution</th>
     </tr>
-      <% @transactions[0..20].each do |transaction| %>
+      <% @transactions.each do |transaction| %>
     <tr>
       <td><%= transaction.date %></td>
       <td><%= link_to "#{transaction.name}", transaction %></td>
       <td><%= transaction.amount %></td>
-      <td><%= transaction.category %></td>
+      <td><%= transaction.category.split(', ')[1] %></td>
       <td><%= transaction.merchant %></td>
       <td><%= Account.find_by(account_id: transaction.account_id) ? Account.find_by(account_id: transaction.account_id).name : 'None' %></td>
       <td><%= Account.find_by(account_id: transaction.account_id) ? Account.find_by(account_id: transaction.account_id).institution_name : 'None' %></td>
@@ -51,3 +51,5 @@ document.getElementById('txnButton').onclick = function() {
     <% end %>
   </table>
 </div>
+
+<%== pagy_nav(@pagy) %>

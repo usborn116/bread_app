@@ -5,41 +5,5 @@
 <div>
   <%= link_to "Edit this credential", edit_plaid_credential_path(@credential) %> |
   <%= link_to "Back to credentials", plaid_credentials_path %>
-  <button id='txnButton'> Get Transactions </button>
-  <button id='acctButton'> Get Accounts </button>
-  <script src="https://cdn.plaid.com/link/v2/stable/link-initialize.js"></script>
-<script>
-async function get_transactions(){
-    let p = window.location.pathname.split('/').reverse()[0]
-    const things = await fetch(`/sync_transactions/${p}`, {
-        headers: {
-            "content-type": "application/json"
-        },
-        method: "get"
-    })
-    const response = await things.json()
-    console.log("response:", response)
-} 
-
-document.getElementById('txnButton').onclick = function() {
-    get_transactions()
-};
-async function get_accounts(){
-    let p = window.location.pathname.split('/').reverse()[0]
-    const things = await fetch(`/get_balances/${p}`, {
-        headers: {
-            "content-type": "application/json"
-        },
-        method: "get"
-    })
-    const response = await things.json()
-    console.log("response:", response)
-} 
-
-document.getElementById('acctButton').onclick = function() {
-    get_accounts()
-};
-</script>
-
-  <%= button_to "Destroy this account", @account, method: :delete %>
+  <%= button_to "Destroy this Institution", @credential, method: :delete %>
 </div>

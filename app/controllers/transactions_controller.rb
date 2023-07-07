@@ -1,9 +1,13 @@
 class TransactionsController < ApplicationController
+
+  include Pagy::Backend
+
   before_action :set_transaction, only: %i[ show edit update destroy ]
 
   # GET /transactions or /transactions.json
   def index
-    @transactions = Transaction.where(user_id: current_user.id).sort_by{|t| [t.date, t.updated_at]}.reverse
+    @pagy, @transactions = pagy((Transaction.where(user_id: current_user.id).order('date DESC')))
+      #Transaction.where(user_id: current_user.id).sort_by{|t| [t.date, t.updated_at]}.reverse)
   end
 
   # GET /transactions/1 or /transactions/1.json
