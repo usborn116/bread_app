@@ -13,7 +13,7 @@
 
   <div>
     <%= form.label :category_type, style: "display: block" %>
-    <%= form.text_field :category_type %>
+    <%= form.select :category_type, [['Savings Fund', 'fund'], ['Monthly Budget', 'budget']] %>
   </div>
 
   <div>
@@ -24,11 +24,6 @@
   <div>
     <%= form.label :current, style: "display: block" %>
     <%= form.text_field :current %>
-  </div>
-
-  <div>
-    <%= form.label :budget, style: "display: block" %>
-    <%= form.check_box :budget %>
   </div>
 
   <div>

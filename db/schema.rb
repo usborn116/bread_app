@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_07_06_215637) do
+ActiveRecord::Schema[7.0].define(version: 2023_07_10_222032) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -31,6 +31,17 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_06_215637) do
     t.index ["user_id"], name: "index_accounts_on_user_id"
   end
 
+  create_table "budgets", force: :cascade do |t|
+    t.date "month"
+    t.float "balance"
+    t.float "budget_amount"
+    t.date "start_date"
+    t.date "end_date"
+    t.float "rollover"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "categories", force: :cascade do |t|
     t.string "category_type"
     t.string "name"
@@ -38,9 +49,12 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_06_215637) do
     t.boolean "budget"
     t.float "budget_amt"
     t.bigint "user_id", null: false
-    t.bigint "account_id", null: false
+    t.bigint "account_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "budget_type"
+    t.string "status"
+    t.date "budget_month"
     t.index ["account_id"], name: "index_categories_on_account_id"
     t.index ["user_id"], name: "index_categories_on_user_id"
   end

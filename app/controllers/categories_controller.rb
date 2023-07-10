@@ -6,6 +6,14 @@ class CategoriesController < ApplicationController
     @categories = Category.where(user_id: current_user.id).sort_by(&:name)
   end
 
+  def budget_categories
+    @budgets = Category.where(category_type: 'monthly')
+  end
+
+  def fund_categories
+    @savings = @budgets = Category.where(category_type: 'fund')
+  end
+
   # GET /categories/1 or /categories/1.json
   def show
   end

@@ -1,9 +1,9 @@
 # README
 
 Todos:
-- connect categories to transactions to accounts
-- category index based on monthly budgets or savings funds
 - create new cash transactions
+- create new budgets for each month
+- figure out React frontend for pages
 
 
 Helpful things:

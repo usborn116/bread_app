@@ -3,4 +3,5 @@ class Transaction < ApplicationRecord
     belongs_to :user
     belongs_to :group, class_name: "Category", optional: true
     belongs_to :account, optional: true
+    belongs_to :budget, optional: true
 end

@@ -11,7 +11,7 @@
 
   <p>
     <strong>Current:</strong>
-    <%= category.budget_amt - Transaction.where(group_id: category.id).map(&:amount).sum %>
+    <%= category.budget_amt ? category.budget_amt - Transaction.where(group_id: category.id).map(&:amount).sum : category.current %>
   </p>
 
   <p>

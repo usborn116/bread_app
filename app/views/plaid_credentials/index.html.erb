@@ -19,7 +19,8 @@
 <button id='linkButton'> Add New Financial Institution </button>
 <%= link_to 'See Accounts', accounts_path %>
 <%= link_to 'See Transactions', transactions_path %>
-<%= link_to 'See Categories', categories_path %>
+<a href='categories/budget_categories'>Monthly Budget Categories</a>
+<a href='/categories/fund_categories'>Savings Fund Categories</a>
 <script src="https://cdn.plaid.com/link/v2/stable/link-initialize.js"></script>
 <script>
 async function get_token(){

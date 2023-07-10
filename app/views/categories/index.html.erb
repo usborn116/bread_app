@@ -4,13 +4,6 @@
 
 <%= link_to "HOME", root_path %>
 
-<div id="categories">
-  <% @categories.each do |category| %>
-    <%= render category %>
-    <p>
-      <%= link_to "Show this category", category %>
-    </p>
-  <% end %>
-</div>
-
+<a href='/categories/budget_categories'>BUDGETS</a>
+<a href='/categories/fund_categories'>SAVINGS FUNDS</a>
 <%= link_to "New category", new_category_path %>
