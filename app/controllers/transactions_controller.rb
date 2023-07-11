@@ -29,6 +29,7 @@ class TransactionsController < ApplicationController
 
     respond_to do |format|
       if @transaction.save
+        Account.find_by(id: @transaction.account_id.to_i).decrement(:available, @transaction.amount).save
         format.html { redirect_to transaction_url(@transaction), notice: "Transaction was successfully created." }
         format.json { render :show, status: :created, location: @transaction }
       else

@@ -13,7 +13,7 @@
 
   <div>
     <%= form.label :account_id, style: "display: block" %>
-    <%= form.text_field :account_id %>
+    <%= form.collection_select :account_id, Account.where(subtype: 'cash').order(:name), :id, :name, include_blank: true%>
   </div>
 
   <div>
@@ -24,11 +24,6 @@
   <div>
     <%= form.label :date, style: "display: block" %>
     <%= form.date_field :date %>
-  </div>
-
-  <div>
-    <%= form.label :category, style: "display: block" %>
-    <%= form.text_area :category %>
   </div>
 
   <div>
@@ -52,12 +47,15 @@
   </div>
 
   <div>
-    <%= form.label :transaction_type, style: "display: block" %>
-    <%= form.text_field :transaction_type %>
+    <%= form.hidden_field :transaction_type, :value => 'special' %>
   </div>
 
   <div>
-    <%= form.label :group_id, style: "display: block" %>
+    <%= form.hidden_field :transaction_id, :value => "cash#{Transaction.all.size}" %>
+  </div>
+
+  <div>
+    <%= form.label :group_id, 'Budget/Fund', style: "display: block" %>
     <%= form.collection_select :group_id, Category.order(:name), :id, :name%>
   </div>
 

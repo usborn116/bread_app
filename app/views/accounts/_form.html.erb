@@ -16,7 +16,7 @@
   </div>
 
   <div>
-    <%= form.label :available, style: "display: block" %>
+    <%= form.label :available, 'Amount in account', style: "display: block" %>
     <%= form.text_field :available %>
   </div>
 
@@ -26,11 +26,19 @@
   </div>
 
   <div>
-    <%= form.hidden_field :account_type, :value => 'Cash' %>
+    <%= form.hidden_field :account_type, :value => 'depository' %>
+  </div>
+
+  <div>
+    <%= form.hidden_field :subtype, :value => 'cash' %>
   </div>
 
   <div>
     <%= form.hidden_field :user_id, :value => current_user.id %>
+  </div>
+
+  <div>
+    <%= form.hidden_field :institution_name, :value => 'Cash' %>
   </div>
 
   <div>
