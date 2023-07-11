@@ -1,7 +1,6 @@
 # README
 
 Todos:
-- create new cash transactions
 - create new budgets for each month
 - figure out React frontend for pages
 
@@ -35,3 +34,5 @@ https://guides.rubyonrails.org/form_helpers.html#the-collection-select-helper
 https://stackoverflow.com/questions/9143371/how-do-i-sort-in-ruby-rails-on-two-fields
 
 https://medium.com/@barrosgiovanni1/a-step-by-step-guide-to-paginate-your-rails-app-with-pagy-gem-d177c42a43a6
+
+Decrement method: https://apidock.com/rails/v6.1.3.1/ActiveRecord/Persistence/decrement%21
