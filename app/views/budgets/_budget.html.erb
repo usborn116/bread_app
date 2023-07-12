@@ -3,15 +3,33 @@
     <strong>Month:</strong>
     <%= budget.month %>
   </p>
+  <table>
+    <tr>
+      <th>Budget Item</th>
+      <th>Budget Amount</th>
+      <th>Budget Balance</th>
+      <th>Status</th>
+      <th>Budget Type</th>
+    </tr>
+    <% budget.categories.each do |c|%>
+    <tr>
+      <td><%= c.name %></td>
+      <td><%= c.budget_amt %></td>
+      <td><%= c.current %></td>
+      <td><%= c.status ? c.status : 'None' %></td>
+      <td><%= c.budget_type ? c.budget_type : 'None' %></td>
+    </tr>
+    <%end%>
+  </table>
 
   <p>
     <strong>Balance:</strong>
-    <%= budget.balance %>
+    <%= budget.categories.map(&:current).sum %>
   </p>
 
   <p>
     <strong>Budget amount:</strong>
-    <%= budget.budget_amount %>
+    <%= budget.categories.map(&:budget_amt).sum %>
   </p>
 
   <p>

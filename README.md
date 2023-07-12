@@ -1,7 +1,7 @@
 # README
 
 Todos:
-- create new budgets for each month
+- add start and end dates for new budgets when created
 - figure out React frontend for pages
 
 
@@ -36,3 +36,6 @@ https://stackoverflow.com/questions/9143371/how-do-i-sort-in-ruby-rails-on-two-f
 https://medium.com/@barrosgiovanni1/a-step-by-step-guide-to-paginate-your-rails-app-with-pagy-gem-d177c42a43a6
 
 Decrement method: https://apidock.com/rails/v6.1.3.1/ActiveRecord/Persistence/decrement%21
+
+https://blog.appsignal.com/2019/02/26/diving-into-dup-and-clone.html
+

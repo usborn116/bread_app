@@ -12,33 +12,12 @@
   <% end %>
 
   <div>
-    <%= form.label :month, style: "display: block" %>
-    <%= form.date_field :month %>
+    <%= form.label :month, "Month in #{Date.today.year}", style: "display: block" %>
+    <%= form.select :month, Date::MONTHNAMES[1..12] %>
   </div>
 
   <div>
-    <%= form.label :balance, style: "display: block" %>
-    <%= form.text_field :balance %>
-  </div>
-
-  <div>
-    <%= form.label :budget_amount, style: "display: block" %>
-    <%= form.text_field :budget_amount %>
-  </div>
-
-  <div>
-    <%= form.label :start_date, style: "display: block" %>
-    <%= form.date_field :start_date %>
-  </div>
-
-  <div>
-    <%= form.label :end_date, style: "display: block" %>
-    <%= form.date_field :end_date %>
-  </div>
-
-  <div>
-    <%= form.label :rollover, style: "display: block" %>
-    <%= form.text_field :rollover %>
+    <%= form.hidden_field :year, value: Date.today.year%>
   </div>
 
   <div>

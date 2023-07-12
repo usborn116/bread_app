@@ -22,9 +22,15 @@ class BudgetsController < ApplicationController
   # POST /budgets or /budgets.json
   def create
     @budget = Budget.new(budget_params)
+    @categories = Category.where(category_type:'monthly').map(&:name).uniq
 
     respond_to do |format|
       if @budget.save
+        @categories.map do |c| 
+          b = Category.where(category_type: 'monthly').order("created_at DESC").find_by(name: c)
+          b= b.dup
+          b.update(budget_id: @budget.id)
+        end
         format.html { redirect_to budget_url(@budget), notice: "Budget was successfully created." }
         format.json { render :show, status: :created, location: @budget }
       else
@@ -65,6 +71,6 @@ class BudgetsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def budget_params
-      params.require(:budget).permit(:month, :balance, :budget_amount, :start_date, :end_date, :rollover)
+      params.require(:budget).permit(:month, :year, :balance, :budget_amount, :start_date, :end_date, :rollover)
     end
 end
