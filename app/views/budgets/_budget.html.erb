@@ -24,12 +24,12 @@
 
   <p>
     <strong>Balance:</strong>
-    <%= budget.categories.map(&:current).sum %>
+    <%= budget.balance %>
   </p>
 
   <p>
     <strong>Budget amount:</strong>
-    <%= budget.categories.map(&:budget_amt).sum %>
+    <%= budget.budget_amount %>
   </p>
 
   <p>

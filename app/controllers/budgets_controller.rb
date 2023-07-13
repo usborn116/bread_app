@@ -22,17 +22,10 @@ class BudgetsController < ApplicationController
   # POST /budgets or /budgets.json
   def create
     @budget = Budget.new(budget_params)
-    @categories = Category.where(category_type:'monthly').map(&:name).uniq
 
     respond_to do |format|
       if @budget.save
-        @budget.update(start_date: Date.new(@budget.year.to_i, Date::MONTHNAMES.index(@budget.month), 1), 
-                       end_date: Date.new(@budget.year.to_i, Date::MONTHNAMES.index(@budget.month), -1))
-        @categories.map do |c| 
-          b = Category.where(category_type: 'monthly').order("created_at DESC").find_by(name: c)
-          b= b.dup
-          b.update(budget_id: @budget.id, budget_month: @budget.month)
-        end
+        @budget.update_categories
         format.html { redirect_to budget_url(@budget), notice: "Budget was successfully created." }
         format.json { render :show, status: :created, location: @budget }
       else
@@ -46,6 +39,7 @@ class BudgetsController < ApplicationController
   def update
     respond_to do |format|
       if @budget.update(budget_params)
+        @budget.update_categories
         format.html { redirect_to budget_url(@budget), notice: "Budget was successfully updated." }
         format.json { render :show, status: :ok, location: @budget }
       else
@@ -57,6 +51,7 @@ class BudgetsController < ApplicationController
 
   # DELETE /budgets/1 or /budgets/1.json
   def destroy
+    @budget.categories.each{|c| c.destroy}
     @budget.destroy
 
     respond_to do |format|
