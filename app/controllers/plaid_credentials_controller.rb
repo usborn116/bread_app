@@ -44,7 +44,7 @@ class PlaidCredentialsController < ApplicationController
         @access_token
     end
 
-    def sync_transactions(credentials = PlaidCredential.all)
+    def sync_transactions(credentials = PlaidCredential.all.select{|c| c.institution_id != 'Cash account'})
 
         credentials.each do |c|
             added = []

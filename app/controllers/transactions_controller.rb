@@ -29,7 +29,7 @@ class TransactionsController < ApplicationController
 
     respond_to do |format|
       if @transaction.save
-        Account.find_by(id: @transaction.account_id.to_i).decrement(:available, @transaction.amount).save
+        @transaction.update_accts_budget_category
         format.html { redirect_to transaction_url(@transaction), notice: "Transaction was successfully created." }
         format.json { render :show, status: :created, location: @transaction }
       else
@@ -43,7 +43,7 @@ class TransactionsController < ApplicationController
   def update
     respond_to do |format|
       if @transaction.update(transaction_params)
-        @transaction.group.decrement(:current, @transaction.amount).save
+        @transaction.update_accts_budget_category
         format.html { redirect_to transaction_url(@transaction), notice: "Transaction was successfully updated." }
         format.json { render :show, status: :ok, location: @transaction }
       else

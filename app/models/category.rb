@@ -7,4 +7,8 @@ class Category < ApplicationRecord
   def name_with_month
     "#{self.name} - #{self.budget_month}"
   end
+
+  def update_current
+    self.budget_amt ? self.update(current: budget_amt - Transaction.where(group_id: self.id).map(&:amount).sum) : self.current
+  end
 end
