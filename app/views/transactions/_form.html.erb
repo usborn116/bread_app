@@ -56,7 +56,7 @@
 
   <div>
     <%= form.label :group_id, 'Budget/Fund', style: "display: block" %>
-    <%= form.collection_select :group_id, Category.order(:name), :id, :name%>
+    <%= form.collection_select :group_id, Category.order(:name).where(budget_month: Date::MONTHNAMES[Date.today.month]), :id, :name_with_month%>
   </div>
 
   <div>
