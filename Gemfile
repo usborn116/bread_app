@@ -26,7 +26,6 @@ gem "puma", "~> 5.0"
 gem "importmap-rails"
 
 # Hotwire's SPA-like page accelerator [https://turbo.hotwired.dev]
-#gem "turbo-rails"
 gem "turbo-rails"
 
 # Hotwire's modest JavaScript framework [https://stimulus.hotwired.dev]
@@ -80,5 +79,3 @@ group :test do
 end
 
 gem "devise", "~> 4.9"
-
-gem "jsbundling-rails", "~> 1.1"

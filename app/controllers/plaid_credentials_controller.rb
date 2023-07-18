@@ -7,7 +7,6 @@ class PlaidCredentialsController < ApplicationController
     def index
         @user_id = current_user.id
         @credentials = PlaidCredential.where(user_id: current_user.id)
-        render json: @credentials
     end
 
     def update
@@ -45,7 +44,7 @@ class PlaidCredentialsController < ApplicationController
         @access_token
     end
 
-    def sync_transactions(credentials = PlaidCredential.all)
+    def sync_transactions(credentials = PlaidCredential.all.select{|c| c.institution_id != 'Cash account'})
 
         credentials.each do |c|
             added = []
