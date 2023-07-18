@@ -40,3 +40,11 @@ Decrement method: https://apidock.com/rails/v6.1.3.1/ActiveRecord/Persistence/de
 
 https://blog.appsignal.com/2019/02/26/diving-into-dup-and-clone.html
 
+https://www.digitalocean.com/community/tutorials/how-to-set-up-a-ruby-on-rails-v7-project-with-a-react-frontend-on-ubuntu-20-04#step-5-configuring-react-as-your-rails-frontend
+
+https://www.freecodecamp.org/news/git-revert-commit-how-to-undo-the-last-commit/
+
+https://ryanbigg.com/2023/06/rails-7-react-typescript-setup
+
+
+

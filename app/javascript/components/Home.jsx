@@ -10,15 +10,15 @@ const Home= () => {
     
     useEffect(() => {
         const url = "/plaid_credentials";
-        getData(url, setItems)
+        getData(url, setItems, navigate)
         load(setLoading, items)
     }, [loading]);
 
     const allItems = items.map((cred, index) => (
-              <tr key={index}>
-                <td>{cred.institution_name}</td>
-                <td>{cred.institution_id}</td>
-              </tr>
+        <tr key={index}>
+            <td>{cred.institution_name}</td>
+            <td>{cred.institution_id}</td>
+        </tr>
       ));
 
     const noItems = (
@@ -44,7 +44,7 @@ const Home= () => {
         </table>
         
         <Link
-          to="/transactions"
+          to="/transactions_list"
           className="btn btn-lg custom-button"
           role="button"
         >

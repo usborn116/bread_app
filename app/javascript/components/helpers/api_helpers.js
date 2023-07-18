@@ -6,7 +6,7 @@ export const load = (setter, items) => {
     console.log(items)
 }
 
-export const getData= async (endpoint, setter)=>{
+export const getData= async (endpoint, setter, navigate)=>{
     try {
         const response=await fetch(`${endpoint}`)
         const data=await response.json()
@@ -16,5 +16,6 @@ export const getData= async (endpoint, setter)=>{
     catch(error){
         console.log(error)
         setter([])
+        navigate('/')
     }
 }
