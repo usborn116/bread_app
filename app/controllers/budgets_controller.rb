@@ -25,7 +25,7 @@ class BudgetsController < ApplicationController
 
     respond_to do |format|
       if @budget.save
-        @budget.add_categories
+        @budget.update_categories
         format.html { redirect_to budget_url(@budget), notice: "Budget was successfully created." }
         format.json { render :show, status: :created, location: @budget }
       else

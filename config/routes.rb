@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  root to: 'homepage#index'
   resources :budgets
   resources :categories do
     collection do
@@ -15,7 +16,7 @@ Rails.application.routes.draw do
   resources :plaid_credentials
   devise_for :users
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
-  root to: "plaid_credentials#index"
+  get "plaid_credentials/index"
   # Defines the root path route ("/")
   # root "articles#index"
   
