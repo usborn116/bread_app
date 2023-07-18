@@ -43,13 +43,8 @@ const Home= () => {
             </tbody>
         </table>
         
-        <Link
-          to="/transactions_list"
-          className="btn btn-lg custom-button"
-          role="button"
-        >
-          View Transactions
-        </Link>
+        <Link to="/transactions_list" className="btn btn-lg custom-button" role="button">View Transactions</Link>
+        <Link to="/accounts_list" className="btn btn-lg custom-button" role="button">View Accounts</Link>
   </div>
     )
 };

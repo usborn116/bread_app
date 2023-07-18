@@ -14,51 +14,48 @@ const Transactions = () => {
     }, [loading]);
 
     const allTransactions = transactions.map((t, index) => (
-        <tr key={index}>
-            <td>{t.date}</td>
-            <td>{t.name}</td>
-            <td>{t.amount}</td>
-
-            <td>{t.merchant}</td>
-        </tr>
+        <div key={index} className="row">
+            <div>{t.date}</div>
+            <div>{t.name}</div>
+            <div>{t.amount}</div>
+            <div>{t.group ? t.group.name : 'None'}</div>
+            <div>{t.merchant}</div>
+        </div>
     ));
 
-    //            <td>{t.group.name}</td>
+    //            
 
     const noTransactions = (
-        <tr>
-            <td>There are no transactions!</td>
-        </tr>
+        <div>
+            <div>NONE!</div>
+        </div>
     )
 
     return (
-        <div className="vw-100 vh-100 primary-color d-flex align-items-center justify-content-center">
-              <h1 className="display-4">Transactions</h1>
-              <table>
-                  <thead>
-                      <tr>
-                        <th>Date</th>
-                        <th>Name</th>
-                        <th>Amount</th>
-                        <th>Budget/Fund</th>
-                        <th>Merchant</th>
-                        <th>Account</th>
-                        <th>Institution</th>
-                      </tr>
-                  </thead>
-                  <tbody>
-                  {transactions.length > 0 ? allTransactions : noTransactions}
-                  </tbody>
-              </table>
-              
-              <Link
-                to="/transactions"
-                className="btn btn-lg custom-button"
-                role="button"
-              >
-                View Transactions
-              </Link>
-        </div>
+        <div>
+            <h1 className="display-4">Transactions</h1>
+            <div className="table txn">
+                
+                <div className='row'>
+                    <div>Date</div>
+                    <div>Name</div>
+                    <div>Amount</div>
+                    <div>Budget/Fund</div>
+                    <div>Merchant</div>
+                    <div>Account</div>
+                    <div>Institution</div>
+                </div>
+                {transactions.length > 0 ? allTransactions : noTransactions}
+                
+                <Link
+                    to="/transactions"
+                    className="btn btn-lg custom-button"
+                    role="button"
+                >
+                    View Transactions
+                </Link>
+            </div>
+            </div>
           )
 };
 

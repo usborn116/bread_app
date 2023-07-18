@@ -7,8 +7,8 @@ class TransactionsController < ApplicationController
   # GET /transactions or /transactions.json
   def index
     #@pagy, @transactions = pagy((Transaction.where(user_id: current_user.id).order('date DESC')))
-    @transactions = Transaction.where(user_id: current_user.id).sort_by{|t| [t.date, t.updated_at]}.reverse.last(25)
-    render json: @transactions, include: [:group => {:include => :name}]
+    @transactions = Transaction.where(user_id: current_user.id).sort_by{|t| [t.date, t.updated_at]}.reverse.first(25)
+    render json: @transactions.to_json(:include => {:group => {only: [:name]}})
   end
 
   # GET /transactions/1 or /transactions/1.json
