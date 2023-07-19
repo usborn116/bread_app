@@ -4,6 +4,8 @@ class BudgetsController < ApplicationController
   # GET /budgets or /budgets.json
   def index
     @budgets = Budget.all
+    render json: @budgets.to_json(:include => {:categories => {only: [:name, :current, :budget_amt]}})
+
   end
 
   # GET /budgets/1 or /budgets/1.json

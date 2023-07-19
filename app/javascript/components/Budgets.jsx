@@ -2,10 +2,6 @@ import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { getData, load } from "./helpers/api_helpers";
 
-import React, { useState, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { getData, load } from "./helpers/api_helpers";
-
 const Budgets = () => {
     const navigate = useNavigate();
     const [budgets, setBudgets] = useState([])
@@ -17,19 +13,18 @@ const Budgets = () => {
         load(setLoading, budgets)
     }, [loading]);
 
-    const allAccounts = accounts.map((a, index) => (
+    const allBudgets = budgets.map((b, index) => (
         <div key={index} className="row">
-            <div>{a.name}</div>
-            <div>{a.available}</div>
-            <div>{a.last_four}</div>
-            <div>{a.subtype}</div>
-            <div>{a.institution_name}</div>
+            <div>{b.month}</div>
+            <div>{b.budget_amount.toFixed(2)}</div>
+            <div>{b.balance.toFixed(2)}</div>
+            <div>{b.rollover.toFixed(2)}</div>
         </div>
     ));
 
     //            
 
-    const noAccounts = (
+    const noBudgets = (
         <div>
             <div>NONE!</div>
         </div>
@@ -37,28 +32,27 @@ const Budgets = () => {
 
     return (
         <div>
-            <h1 className="display-4">Transactions</h1>
-            <div className="table accts">
+            <h1 className="display-4">Budgets</h1>
+            <div className="table budgets">
                 
                 <div className='row'>
-                    <div>Name</div>
-                    <div>Available to Spend</div>
-                    <div>Account Number</div>
-                    <div>Type</div>
-                    <div>Institution</div>
+                    <div>Month</div>
+                    <div>Budgeted</div>
+                    <div>Current</div>
+                    <div>Rollover</div>
                 </div>
-                {accounts.length > 0 ? allAccounts : noAccounts}
+                {budgets.length > 0 ? allBudgets : noBudgets}
                 
                 <Link
-                    to="/transactions"
+                    to="/"
                     className="btn btn-lg custom-button"
                     role="button"
                 >
-                    View Transactions
+                    HOME
                 </Link>
             </div>
             </div>
           )
 };
 
-export default Accounts
+export default Budgets

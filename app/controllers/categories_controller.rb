@@ -4,6 +4,7 @@ class CategoriesController < ApplicationController
   # GET /categories or /categories.json
   def index
     @categories = Category.where(user_id: current_user.id).sort_by(&:name)
+    render json:@categories.to_json(:include => {:account => {only: [:name]}})
   end
 
   def budget_categories

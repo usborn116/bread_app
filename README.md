@@ -1,9 +1,14 @@
 # README
 
 Todos:
-- set budget current amount, budget total
-- if transaction is for monthly type, subtract the amount from the budget of the month of the transaction (e.g. if a July txn under "Eating Out", subtract the amount of the txn from July's "Eating Out" budget)
-- figure out React frontend for page
+- view month budget
+- view savings budgets
+- add plaid abilities on home page
+- view single transaction
+- view single account
+- view single category
+- view single budget
+- view all transactions under a budget
 
 
 Helpful things:

@@ -30,7 +30,7 @@ const Home= () => {
 
     return (
   <div className="vw-100 vh-100 primary-color d-flex align-items-center justify-content-center">
-        <h1 className="display-4">Plaid Credentials</h1>
+        <h1 className="display-4">Plaid Credentials!!</h1>
         <table>
             <thead>
                 <tr>
@@ -43,8 +43,10 @@ const Home= () => {
             </tbody>
         </table>
         
-        <Link to="/transactions_list" className="btn btn-lg custom-button" role="button">View Transactions</Link>
-        <Link to="/accounts_list" className="btn btn-lg custom-button" role="button">View Accounts</Link>
+        <Link to="/transactions_list" className="btn btn-lg custom-button" role="button">View Transactions</Link><br></br>
+        <Link to="/accounts_list" className="btn btn-lg custom-button" role="button">View Accounts</Link><br></br>
+        <Link to="/budgets_list" className="btn btn-lg custom-button" role="button">View Budgets</Link><br></br>
+        <Link to="/category_list" className="btn btn-lg custom-button" role="button">View Categories</Link><br></br>
   </div>
     )
 };

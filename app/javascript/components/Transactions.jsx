@@ -48,11 +48,11 @@ const Transactions = () => {
                 {transactions.length > 0 ? allTransactions : noTransactions}
                 
                 <Link
-                    to="/transactions"
+                    to="/"
                     className="btn btn-lg custom-button"
                     role="button"
                 >
-                    View Transactions
+                    HOME
                 </Link>
             </div>
             </div>
