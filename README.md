@@ -51,5 +51,7 @@ https://www.freecodecamp.org/news/git-revert-commit-how-to-undo-the-last-commit/
 
 https://ryanbigg.com/2023/06/rails-7-react-typescript-setup
 
+reverting commits: https://stackoverflow.com/questions/4114095/how-do-i-revert-a-git-repository-to-a-previous-commit
+
 
 
