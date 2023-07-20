@@ -9,10 +9,12 @@ class CategoriesController < ApplicationController
 
   def budget_categories
     @budgets = Category.where(category_type: 'monthly')
+    render json: @budgets#.to_json(:include => {:account => {only: [:name]}})
   end
 
   def fund_categories
-    @savings = @budgets = Category.where(category_type: 'fund')
+    @budgets = Category.where(category_type: 'fund')
+    render json: @budgets#.to_json(:include => {:account => {only: [:name]}})
   end
 
   # GET /categories/1 or /categories/1.json

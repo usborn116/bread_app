@@ -13,7 +13,8 @@ export default (
       <Route path="/transactions_list" element={<Transactions />} />
       <Route path="/accounts_list" element={<Accounts />} />
       <Route path="/budgets_list" element={<Budgets />} />
-      <Route path="/category_list" element={<Categories />} />
+      <Route path="/monthly_categories" element={<Categories type='monthly' />} />
+      <Route path="/savings_funds" element={<Categories type='fund' />} />
     </Routes>
   </Router>
 );

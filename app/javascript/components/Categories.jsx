@@ -1,14 +1,16 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { getData, load } from "./helpers/api_helpers";
+import PropTypes from 'prop-types';
 
-const Categories = () => {
+const Categories = ({type}) => {
     const navigate = useNavigate();
     const [categories, setCategories] = useState([])
     const [loading, setLoading] = useState(true)
 
     useEffect(() => {
-        const url = "/categories";
+        const url = `/categories/${type == 'monthly' ? "budget_categories" : "fund_categories"}`
+        console.log(url)
         getData(url, setCategories, navigate)
         load(setLoading, categories)
     }, [loading]);
@@ -54,5 +56,9 @@ const Categories = () => {
             </div>
           )
 };
+
+Categories.propTypes = {
+    type: PropTypes.string.isRequired,
+  };
 
 export default Categories

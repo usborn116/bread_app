@@ -1,8 +1,6 @@
 # README
 
 Todos:
-- view month budget
-- view savings budgets
 - add plaid abilities on home page
 - view single transaction
 - view single account
