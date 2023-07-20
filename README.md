@@ -1,12 +1,14 @@
 # README
 
 Todos:
-- add plaid abilities on home page
 - view single transaction
 - view single account
 - view single category
 - view single budget
 - view all transactions under a budget
+- view account name on transactions
+- create loading component
+- create error component
 
 
 Helpful things:
@@ -51,5 +53,7 @@ https://ryanbigg.com/2023/06/rails-7-react-typescript-setup
 
 reverting commits: https://stackoverflow.com/questions/4114095/how-do-i-revert-a-git-repository-to-a-previous-commit
 
+Link component: https://plaid.com/docs/quickstart/#create-your-first-item
 
+Link: https://plaid.com/docs/link/web/#create
 

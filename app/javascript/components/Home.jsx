@@ -1,12 +1,41 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { getData, load } from "./helpers/api_helpers";
+import {usePlaidLink} from 'react-plaid-link';
 
 const Home= () => {
     
     const navigate = useNavigate();
     const [items, setItems] = useState([]);
     const [loading, setLoading] = useState(true)
+    const [linkToken, setLinkToken] = useState(null)
+
+    const generateToken = async () => {
+        const response = await fetch('/create_link_token', { method: 'post'});
+        const data = await response.json();
+        await setLinkToken(data.link_token)
+    };
+
+    useEffect(() => {
+        generateToken();
+      }, []);
+
+    const onSuccess = React.useCallback(async (public_token, metadata) => {
+        // send public_token to server
+        metadata
+        const response = await fetch(`/exchange_public_token/${public_token}`, {method: 'POST'});
+        setLoading(true)
+        load(setLoading, items)
+        return response
+    })
+
+    const config = {
+        token: linkToken,
+   //     receivedRedirectUri: window.location.href,
+        onSuccess
+    };
+
+    const { open } = usePlaidLink(config);
     
     useEffect(() => {
         const url = "/plaid_credentials";
@@ -42,6 +71,8 @@ const Home= () => {
             {items.length > 0 ? allItems : noItems}
             </tbody>
         </table>
+
+        <button onClick={() => open()} id='linkButton'> Add New Financial Institution </button><br></br>
         
         <Link to="/transactions_list" className="btn btn-lg custom-button" role="button">View Transactions</Link><br></br>
         <Link to="/accounts_list" className="btn btn-lg custom-button" role="button">View Accounts</Link><br></br>
@@ -51,5 +82,6 @@ const Home= () => {
   </div>
     )
 };
+
 
 export default Home

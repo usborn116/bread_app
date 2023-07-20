@@ -207,6 +207,7 @@ __metadata:
     prop-types: ^15.8.1
     react: ^18.2.0
     react-dom: ^18.2.0
+    react-plaid-link: ^3.4.0
     react-router-dom: ^6.14.2
   languageName: unknown
   linkType: soft
@@ -313,7 +314,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"prop-types@npm:^15.8.1":
+"prop-types@npm:^15.7.2, prop-types@npm:^15.8.1":
   version: 15.8.1
   resolution: "prop-types@npm:15.8.1"
   dependencies:
@@ -343,6 +344,19 @@ __metadata:
   languageName: node
   linkType: hard
 
+"react-plaid-link@npm:^3.4.0":
+  version: 3.4.0
+  resolution: "react-plaid-link@npm:3.4.0"
+  dependencies:
+    prop-types: ^15.7.2
+    react-script-hook: ^1.6.0
+  peerDependencies:
+    react: ^16.8.0 || ^17.0.0 || ^18.0.0
+    react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
+  checksum: f375c78f7e9b64a61ffbf62d79420ba5a26eb8bb8ef1a246abded8d3f24f093e3d30199d6eaa5fbafd137d0390d6248f238b8fe0ad7e763075fc0f2faa52c123
+  languageName: node
+  linkType: hard
+
 "react-router-dom@npm:^6.14.2":
   version: 6.14.2
   resolution: "react-router-dom@npm:6.14.2"
@@ -364,6 +378,16 @@ __metadata:
   peerDependencies:
     react: ">=16.8"
   checksum: 7507bf5732b3a8ddbd901c2061216eebca73e194449bff58acc1445171e22bdda36b455b8af066e467748ebfb5875b3c0a565941c46af65c6f653a6ed0dc4fe4
+  languageName: node
+  linkType: hard
+
+"react-script-hook@npm:^1.6.0":
+  version: 1.7.2
+  resolution: "react-script-hook@npm:1.7.2"
+  peerDependencies:
+    react: ^16.8.6 || 17 - 18
+    react-dom: ^16.8.6 || 17 - 18
+  checksum: 74fb5ec2e6ec7eccad64a7a3b7e0d16e01e487d0880e7f123ad7433975707cfed47be604ce5cfd0d5c43d89be3f1a4fad46eba7d0bacd41f810705f30d958fa5
   languageName: node
   linkType: hard
 

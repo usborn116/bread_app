@@ -2,7 +2,7 @@ class PlaidCredentialsController < ApplicationController
     before_action :find_credential, except: %i[create_link_token exchange_public_token sync_transactions get_balances index]
     before_action :create_config, only: %i[ create_link_token exchange_public_token sync_transactions get_balances get_institution_id get_institution_name ]
     require 'plaid'
-    require 'dotenv'
+    require 'dotenv/load'
 
     def index
         @user_id = current_user.id
