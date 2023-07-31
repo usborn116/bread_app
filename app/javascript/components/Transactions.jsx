@@ -13,13 +13,9 @@ const Transactions = () => {
         load(setLoading, transactions)
     }, [loading]);
 
-    const allTransactions = transactions.map((t, index) => (
-        <div key={index} className="row">
-            <div>{t.date}</div>
-            <div>{t.name}</div>
-            <div>{t.amount}</div>
-            <div>{t.group ? t.group.name : 'None'}</div>
-            <div>{t.merchant}</div>
+    const allTransactions = transactions.map(t => (
+        <div className="row">
+        <Link to={"" + t.id} className="btn btn-lg custom-button" role="button">{t.name}</Link>
         </div>
     ));
 
@@ -35,16 +31,7 @@ const Transactions = () => {
         <div>
             <h1 className="display-4">Transactions</h1>
             <div className="table txn">
-                
-                <div className='row'>
-                    <div>Date</div>
-                    <div>Name</div>
-                    <div>Amount</div>
-                    <div>Budget/Fund</div>
-                    <div>Merchant</div>
-                    <div>Account</div>
-                    <div>Institution</div>
-                </div>
+    
                 {transactions.length > 0 ? allTransactions : noTransactions}
                 
                 <Link

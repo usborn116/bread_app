@@ -13,6 +13,7 @@ class TransactionsController < ApplicationController
 
   # GET /transactions/1 or /transactions/1.json
   def show
+    render json: @transaction.to_json(:include => {:group => {only: [:name]}})
   end
 
   # GET /transactions/new

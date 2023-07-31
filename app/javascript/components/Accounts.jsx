@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { getData, load } from "./helpers/api_helpers";
+import Account from "./Account";
 
 const Accounts = () => {
     const navigate = useNavigate();
@@ -13,17 +14,12 @@ const Accounts = () => {
         load(setLoading, accounts)
     }, [loading]);
 
-    const allAccounts = accounts.map((a, index) => (
-        <div key={index} className="row">
-            <div>{a.name}</div>
-            <div>{a.available}</div>
-            <div>{a.last_four}</div>
-            <div>{a.subtype}</div>
-            <div>{a.institution_name}</div>
+    const allAccounts = accounts.map(a => (
+        <div className="row">
+       
+        <Link to={"" + a.id} className="btn btn-lg custom-button" role="button">{a.name}</Link>
         </div>
-    ));
-
-    //            
+    ));       
 
     const noAccounts = (
         <div>
@@ -33,16 +29,8 @@ const Accounts = () => {
 
     return (
         <div>
-            <h1 className="display-4">Transactions</h1>
+            <h1 className="display-4">Accounts</h1>
             <div className="table accts">
-                
-                <div className='row'>
-                    <div>Name</div>
-                    <div>Available to Spend</div>
-                    <div>Account Number</div>
-                    <div>Type</div>
-                    <div>Institution</div>
-                </div>
                 {accounts.length > 0 ? allAccounts : noAccounts}
                 
                 <Link

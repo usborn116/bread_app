@@ -1,8 +1,6 @@
 # README
 
 Todos:
-- view single transaction
-- view single account
 - view single category
 - view single budget
 - view all transactions under a budget
