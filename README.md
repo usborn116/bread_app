@@ -1,12 +1,13 @@
 # README
 
 Todos:
-- view single category
-- view single budget
 - view all transactions under a budget
 - view account name on transactions
 - create loading component
 - create error component
+- edit single category/budget/transaction/account
+- create category/budget/transaction/account
+- delete category/budget/transaction/account
 
 
 Helpful things:

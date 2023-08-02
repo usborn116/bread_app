@@ -15,10 +15,7 @@ const Budgets = () => {
 
     const allBudgets = budgets.map((b, index) => (
         <div key={index} className="row">
-            <div>{b.month}</div>
-            <div>{b.budget_amount.toFixed(2)}</div>
-            <div>{b.balance.toFixed(2)}</div>
-            <div>{b.rollover.toFixed(2)}</div>
+            <Link to={"" + b.id} className="btn btn-lg custom-button" role="button">{b.month}</Link>
         </div>
     ));
 
@@ -34,13 +31,6 @@ const Budgets = () => {
         <div>
             <h1 className="display-4">Budgets</h1>
             <div className="table budgets">
-                
-                <div className='row'>
-                    <div>Month</div>
-                    <div>Budgeted</div>
-                    <div>Current</div>
-                    <div>Rollover</div>
-                </div>
                 {budgets.length > 0 ? allBudgets : noBudgets}
                 
                 <Link

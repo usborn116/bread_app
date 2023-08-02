@@ -7,6 +7,8 @@ import Budgets from "../components/Budgets";
 import Categories from "../components/Categories";
 import Account from "../components/Account";
 import Transaction from "../components/Transaction";
+import Category from "../components/Category";
+import Budget from "../components/Budget";
 
 export default (
   <Router>
@@ -19,6 +21,9 @@ export default (
       <Route path="/savings_funds" element={<Categories type='fund' />} />
       <Route path="/accounts_list/:id" element={<Account />} />
       <Route path="/transactions_list/:id" element={<Transaction />} />
+      <Route path="/monthly_categories/:id" element={<Category />} />
+      <Route path="/savings_funds/:id" element={<Category />} />
+      <Route path="/budgets_list/:id" element={<Budget />} />
     </Routes>
   </Router>
 );

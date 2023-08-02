@@ -17,10 +17,7 @@ const Categories = ({type}) => {
 
     const allCategories = categories.map((c, index) => (
         <div key={index} className="row">
-            <div>{c.name}</div>
-            <div>{c.category_type}</div>
-            <div>{c.account ? c.account.name : 'None'}</div>
-            <div>{c.current.toFixed(2)}</div>
+            <Link to={"" + c.id} className="btn btn-lg custom-button" role="button">{c.name}</Link>
         </div>
     ));
 
@@ -37,12 +34,6 @@ const Categories = ({type}) => {
             <h1 className="display-4">Categories</h1>
             <div className="table budgets">
                 
-                <div className='row'>
-                    <div>Name</div>
-                    <div>Budget Type</div>
-                    <div>Account</div>
-                    <div>Current</div>
-                </div>
                 {categories.length > 0 ? allCategories : noCategories}
                 
                 <Link

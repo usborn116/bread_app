@@ -19,6 +19,7 @@ class CategoriesController < ApplicationController
 
   # GET /categories/1 or /categories/1.json
   def show
+    render json: @category.to_json(:include => {:account => {only: [:name]}})
   end
 
   # GET /categories/new
