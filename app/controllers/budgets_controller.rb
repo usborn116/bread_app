@@ -10,7 +10,7 @@ class BudgetsController < ApplicationController
 
   # GET /budgets/1 or /budgets/1.json
   def show
-    render json: @budget.to_json(:include => {:categories => {only: [:name, :current, :budget_amt, :status, :budget_type]}})
+    render :json => @budget.to_json(include: {categories: {only: [:name, :current, :budget_amt], include: :transactions}})
   end
 
   # GET /budgets/new

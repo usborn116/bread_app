@@ -15,4 +15,5 @@ class Budget < ApplicationRecord
         self.update(budget_amount: self.categories.map(&:budget_amt).sum, balance: self.categories.map(&:current).sum)
         self.update(rollover: self.balance)
     end
+
 end

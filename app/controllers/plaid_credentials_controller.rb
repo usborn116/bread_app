@@ -72,7 +72,6 @@ class PlaidCredentialsController < ApplicationController
                     institution_name: c.institution_name,
                     account_id: t.account_id,
                     amount: t.amount,
-                    category_id: t.category_id,
                     date: t.date,
                     category: "#{t.personal_finance_category.primary}, #{t.personal_finance_category.detailed}",
                     name: t.name,

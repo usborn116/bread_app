@@ -7,4 +7,5 @@ class Category < ApplicationRecord
   def name_with_month
     "#{self.name} - #{self.budget_month}"
   end
+  
 end

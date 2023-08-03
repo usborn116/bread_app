@@ -1,13 +1,24 @@
 # README
 
 Todos:
-- view all transactions under a budget
 - view account name on transactions
 - create loading component
 - create error component
-- edit single category/budget/transaction/account
-- create category/budget/transaction/account
-- delete category/budget/transaction/account
+- apply error component to non-matching routes and any errors that come from API pulls
+- edit single category
+- edit single budget
+- edit single transaction
+- edit single account
+- create single category
+- create single budget
+- create single transaction
+- create single account
+- delete single category
+- delete single budget
+- delete single transaction
+- delete single account
+- refactor API requests into custom hook
+- refactor loading state into App component (to be used in all components)
 
 
 Helpful things:

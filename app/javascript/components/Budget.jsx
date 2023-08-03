@@ -13,7 +13,7 @@ const Budget = () => {
         const url = `/budgets/${id}`;
         getData(url, setBudget, navigate)
         load(setLoading, budget)
-      }, [loading]);  
+      }, [id]);  
     
     const bdgt =
         <div className="row">
@@ -26,10 +26,22 @@ const Budget = () => {
     const items = budget.categories ? budget.categories.map((c, i) => (
         <div key={i} className="row">
             <div>{c.name}</div>
-            <div>{c.budget_amt}</div>
+            <div>{c.budget_amt.toFixed(2)}</div>
             <div>{c.current}</div>
         </div>
     )) : null;
+
+    const txns = budget.categories ? budget.categories.map((c, i) => (
+        c.transactions ? c.transactions.map((t,i) => (
+            <div key={i} className="row">
+                <div>{t.name}</div>
+                <div>{t.amount.toFixed(2)}</div>
+                <div>{t.date}</div>
+                <div>{c.name}</div>
+            </div>
+        )) : null
+    )) : null;
+    
 
     console.log('Items!', items)
 
@@ -53,6 +65,18 @@ const Budget = () => {
                 </div>
                 {items}
             </div>
+            <br></br>
+            <br></br>
+            <div className="table accts">
+                <div className='row'>
+                    <div>Transaction</div>
+                    <div>Cost</div>
+                    <div>Date</div>
+                    <div>Category</div>
+                </div>
+                {txns}
+            </div>
+            {}
         </>
           )
 };
