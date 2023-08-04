@@ -45,9 +45,10 @@ class PlaidCredentialsController < ApplicationController
         @access_token
     end
 
-    def sync_transactions(credentials = PlaidCredential.all)
+    def sync_transactions(credentials = PlaidCredential.where.not(access_token: nil))
 
         credentials.each do |c|
+            p c
             added = []
             removed = []
         
@@ -73,7 +74,7 @@ class PlaidCredentialsController < ApplicationController
                     account_id: t.account_id,
                     amount: t.amount,
                     date: t.date,
-                    category: "#{t.personal_finance_category.primary}, #{t.personal_finance_category.detailed}",
+                    plaid_category: "#{t.personal_finance_category.primary}, #{t.personal_finance_category.detailed}",
                     name: t.name,
                     merchant: t.merchant_name,
                     description: t.original_description,

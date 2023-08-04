@@ -10,6 +10,12 @@ const Home= () => {
     const [loading, setLoading] = useState(true)
     const [linkToken, setLinkToken] = useState(null)
 
+    useEffect(() => {
+        const url = "/plaid_credentials";
+        getData(url, setItems, navigate)
+        load(setLoading, items)
+    }, [loading]);
+
     const generateToken = async () => {
         const response = await fetch('/create_link_token', { method: 'post'});
         const data = await response.json();
@@ -37,11 +43,18 @@ const Home= () => {
 
     const { open } = usePlaidLink(config);
     
-    useEffect(() => {
-        const url = "/plaid_credentials";
-        getData(url, setItems, navigate)
-        load(setLoading, items)
-    }, [loading]);
+    
+
+    const getTransactions = async function (){
+        setLoading(false)
+        const things = await fetch('/sync_transactions', {
+            headers: {
+                "content-type": "application/json"
+            },
+            method: "get"
+        })
+        setLoading(true)
+    }
 
     const allItems = items.map((cred, index) => (
         <tr key={index}>
@@ -59,6 +72,7 @@ const Home= () => {
 
     return (
   <div className="vw-100 vh-100 primary-color d-flex align-items-center justify-content-center">
+    <button onClick={() => getTransactions()} id='linkButton'> Sync Transactions </button><br></br>
         <h1 className="display-4">Plaid Credentials!!</h1>
         <table>
             <thead>

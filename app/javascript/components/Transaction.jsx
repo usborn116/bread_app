@@ -14,18 +14,24 @@ const Transaction = () => {
         getData(url, setTransaction, navigate)
         load(setLoading, transaction)
       }, [loading]);  
+
+    
     
     const txn =
     <div className="row">
         <div>{transaction.date}</div>
         <div>{transaction.name}</div>
-        <div>{transaction.amount}</div>
-        <div>{transaction.group ? transaction.group.name : 'None'}</div>
+        <div>{transaction.amount ? transaction.amount.toFixed(2) : null}</div>
+        <div>{transaction.category ? transaction.category.name : 'None'}</div>
         <div>{transaction.merchant}</div>
+        <div>{transaction.bank}</div>
+        <div>{transaction.institution_name || 'Cash'}</div>
     </div>
     ;
 
     return (
+        <>
+        
         <div className="table accts">
             <div className='row'>
                 <div>Date</div>
@@ -45,6 +51,7 @@ const Transaction = () => {
                     TRANSACTIONS
                 </Link>
         </div>
+        </>
           )
 };
 

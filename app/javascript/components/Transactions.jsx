@@ -28,6 +28,8 @@ const Transactions = () => {
     )
 
     return (
+        <>
+            
         <div>
             <h1 className="display-4">Transactions</h1>
             <div className="table txn">
@@ -43,6 +45,7 @@ const Transactions = () => {
                 </Link>
             </div>
             </div>
+            </>
           )
 };
 

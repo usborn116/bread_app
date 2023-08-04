@@ -7,13 +7,15 @@ class TransactionsController < ApplicationController
   # GET /transactions or /transactions.json
   def index
     #@pagy, @transactions = pagy((Transaction.where(user_id: current_user.id).order('date DESC')))
-    @transactions = Transaction.where(user_id: current_user.id).sort_by{|t| [t.date, t.updated_at]}.reverse.first(25)
-    render json: @transactions.to_json(:include => {:group => {only: [:name]}})
+    @transactions = Transaction.where(user_id: current_user.id).includes(:account).sort_by{|t| [t.date, t.updated_at]}.reverse.first(25)
+    @transactions = @transactions.map {|t| t.bank_account_name}
+    render json: @transactions.to_json
   end
 
   # GET /transactions/1 or /transactions/1.json
   def show
-    render json: @transaction.to_json(:include => {:group => {only: [:name]}})
+    @transaction = @transaction.bank_account_name
+    render json: @transaction.to_json
   end
 
   # GET /transactions/new
