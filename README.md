@@ -16,7 +16,6 @@ Todos:
 - delete single transaction
 - delete single account
 - refactor API requests into custom hook
-- refactor loading state into App component (to be used in all components)
 
 
 Helpful things:
