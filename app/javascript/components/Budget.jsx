@@ -1,15 +1,18 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { getData, load } from "./helpers/api_helpers";
 import {useParams} from "react-router-dom";
+import { LoadContext } from "./contexts/LoadContext";
+import Loading from "./Loading";
 
 const Budget = () => {
     const {id} = useParams();
     const navigate = useNavigate();
     const [budget, setBudget] = useState([])
-    const [loading, setLoading] = useState(true)
+    const {loading, setLoading} = useContext(LoadContext)
 
     useEffect(() => {
+        setLoading(true)
         const url = `/budgets/${id}`;
         getData(url, setBudget, navigate)
         load(setLoading, budget)
@@ -47,6 +50,8 @@ const Budget = () => {
 
     return (
         <>
+        {loading ? <Loading/> : 
+            <>
             <Link to="/budgets_list" className="btn btn-lg custom-button" role="button">BUDGETS</Link>
             <div className="table accts">
                 <div className='row'>
@@ -76,7 +81,8 @@ const Budget = () => {
                 </div>
                 {txns}
             </div>
-            {}
+            </>
+        }
         </>
           )
 };

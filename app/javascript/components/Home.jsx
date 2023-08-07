@@ -1,20 +1,22 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { getData, load } from "./helpers/api_helpers";
 import {usePlaidLink} from 'react-plaid-link';
+import { LoadContext } from "./contexts/LoadContext";
+import Loading from "./Loading";
 
 const Home= () => {
-    
     const navigate = useNavigate();
     const [items, setItems] = useState([]);
-    const [loading, setLoading] = useState(true)
+    const {loading, setLoading} = useContext(LoadContext)
     const [linkToken, setLinkToken] = useState(null)
 
     useEffect(() => {
+        setLoading(true)
         const url = "/plaid_credentials";
         getData(url, setItems, navigate)
         load(setLoading, items)
-    }, [loading]);
+    }, []);
 
     const generateToken = async () => {
         const response = await fetch('/create_link_token', { method: 'post'});
@@ -71,29 +73,33 @@ const Home= () => {
     )
 
     return (
-  <div className="vw-100 vh-100 primary-color d-flex align-items-center justify-content-center">
-    <button onClick={() => getTransactions()} id='linkButton'> Sync Transactions </button><br></br>
-        <h1 className="display-4">Plaid Credentials!!</h1>
-        <table>
-            <thead>
-                <tr>
-                    <td>Institution Name</td>
-                    <td>Institution ID</td>
-                </tr>
-            </thead>
-            <tbody>
-            {items.length > 0 ? allItems : noItems}
-            </tbody>
-        </table>
+        <>
+        {loading ? <Loading/> : 
+        <div className="vw-100 vh-100 primary-color d-flex align-items-center justify-content-center">
+            <button onClick={() => getTransactions()} id='linkButton'> Sync Transactions </button><br></br>
+                <h1 className="display-4">Plaid Credentials!!</h1>
+                <table>
+                    <thead>
+                        <tr>
+                            <td>Institution Name</td>
+                            <td>Institution ID</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {items.length > 0 ? allItems : noItems}
+                    </tbody>
+                </table>
 
-        <button onClick={() => open()} id='linkButton'> Add New Financial Institution </button><br></br>
-        
-        <Link to="/transactions_list" className="btn btn-lg custom-button" role="button">View Transactions</Link><br></br>
-        <Link to="/accounts_list" className="btn btn-lg custom-button" role="button">View Accounts</Link><br></br>
-        <Link to="/budgets_list" className="btn btn-lg custom-button" role="button">View Budgets</Link><br></br>
-        <Link to="/monthly_categories" className="btn btn-lg custom-button" role="button">View Monthly Categories</Link><br></br>
-        <Link to="/savings_funds" className="btn btn-lg custom-button" role="button">View Savings Funds</Link><br></br>
-  </div>
+                <button onClick={() => open()} id='linkButton'> Add New Financial Institution </button><br></br>
+                
+                <Link to="/transactions_list" className="btn btn-lg custom-button" role="button">View Transactions</Link><br></br>
+                <Link to="/accounts_list" className="btn btn-lg custom-button" role="button">View Accounts</Link><br></br>
+                <Link to="/budgets_list" className="btn btn-lg custom-button" role="button">View Budgets</Link><br></br>
+                <Link to="/monthly_categories" className="btn btn-lg custom-button" role="button">View Monthly Categories</Link><br></br>
+                <Link to="/savings_funds" className="btn btn-lg custom-button" role="button">View Savings Funds</Link><br></br>
+        </div>
+        }
+        </>
     )
 };
 

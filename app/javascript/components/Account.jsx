@@ -1,19 +1,23 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { getData, load } from "./helpers/api_helpers";
 import {useParams} from "react-router-dom";
+import Loading from "./Loading";
+import { LoadContext } from "./contexts/LoadContext";
 
 const Account = () => {
     const {id} = useParams();
     const navigate = useNavigate();
     const [account, setAccount] = useState([])
-    const [loading, setLoading] = useState(true)
+    //const [loading, setLoading] = useState(true)
+    const {loading, setLoading} = useContext(LoadContext)
 
     useEffect(() => {
+        //setLoading(true)
         const url = `/accounts/${id}`;
-        getData(url, setAccount, navigate)
-        load(setLoading, account)
-      }, [loading]);  
+        getData(url, setAccount, navigate, setLoading)
+        //load(setLoading, account)
+      }, []);  
     
     const acct =
         <div className="row">
@@ -26,6 +30,8 @@ const Account = () => {
     ;
 
     return (
+        <>
+        {loading ? <Loading /> : 
         <div className="table accts">
             <div className='row'>
                     <div>Name</div>
@@ -42,7 +48,8 @@ const Account = () => {
                 >
                     ACCOUNTS
                 </Link>
-        </div>
+        </div> }
+        </>
           )
 };
 

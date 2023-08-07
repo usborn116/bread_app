@@ -1,12 +1,11 @@
-export const load = (setter, items) => {
+export const load = (setter) => {
     setTimeout(() => {
         setter(false)
-        },500
+        },300
     )
-    console.log(items)
 }
 
-export const getData= async (endpoint, setter, navigate)=>{
+export const getData= async (endpoint, setter, navigate, loader)=>{
     try {
         const response=await fetch(`${endpoint}`)
         const data=await response.json()

@@ -1,17 +1,20 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { getData, load } from "./helpers/api_helpers";
+import { LoadContext } from "./contexts/LoadContext";
+import Loading from "./Loading";
 
 const Budgets = () => {
     const navigate = useNavigate();
     const [budgets, setBudgets] = useState([])
-    const [loading, setLoading] = useState(true)
+    const {loading, setLoading} = useContext(LoadContext)
 
     useEffect(() => {
+        setLoading(true)
         const url = "/budgets";
         getData(url, setBudgets, navigate)
         load(setLoading, budgets)
-    }, [loading]);
+    }, []);
 
     const allBudgets = budgets.map((b, index) => (
         <div key={index} className="row">
@@ -28,6 +31,8 @@ const Budgets = () => {
     )
 
     return (
+        <>
+        {loading ? <Loading /> : 
         <div>
             <h1 className="display-4">Budgets</h1>
             <div className="table budgets">
@@ -41,7 +46,9 @@ const Budgets = () => {
                     HOME
                 </Link>
             </div>
-            </div>
+        </div>
+        }
+        </>
           )
 };
 

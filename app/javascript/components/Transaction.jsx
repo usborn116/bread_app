@@ -1,19 +1,22 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { getData, load } from "./helpers/api_helpers";
 import {useParams} from "react-router-dom";
+import { LoadContext } from "./contexts/LoadContext";
+import Loading from "./Loading";
 
 const Transaction = () => {
     const {id} = useParams();
     const navigate = useNavigate();
     const [transaction, setTransaction] = useState([])
-    const [loading, setLoading] = useState(true)
+    const {loading, setLoading} = useContext(LoadContext)
 
     useEffect(() => {
+        setLoading(true)
         const url = `/transactions/${id}`;
         getData(url, setTransaction, navigate)
         load(setLoading, transaction)
-      }, [loading]);  
+      }, []);  
 
     
     
@@ -31,7 +34,7 @@ const Transaction = () => {
 
     return (
         <>
-        
+        {loading ? <Loading/> : 
         <div className="table accts">
             <div className='row'>
                 <div>Date</div>
@@ -51,6 +54,7 @@ const Transaction = () => {
                     TRANSACTIONS
                 </Link>
         </div>
+        }
         </>
           )
 };

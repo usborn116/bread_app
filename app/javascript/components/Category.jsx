@@ -1,19 +1,22 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { getData, load } from "./helpers/api_helpers";
 import {useParams} from "react-router-dom";
+import { LoadContext } from "./contexts/LoadContext";
+import Loading from "./Loading";
 
 const Category = () => {
     const {id} = useParams();
     const navigate = useNavigate();
     const [category, setCategory] = useState([])
-    const [loading, setLoading] = useState(true)
+    const {loading, setLoading} = useContext(LoadContext)
 
     useEffect(() => {
+        setLoading(true)
         const url = `/categories/${id}`;
         getData(url, setCategory, navigate)
         load(setLoading, category)
-      }, [loading]);  
+      }, []);  
     
     const cat =
         <div className="row">
@@ -26,6 +29,8 @@ const Category = () => {
     ;
 
     return (
+        <>
+        {loading ? <Loading/> : 
         <div className="table accts">
               <div className='row'>
                     <div>Name</div>
@@ -37,6 +42,8 @@ const Category = () => {
             <Link to="/savings_funds" className="btn btn-lg custom-button" role="button">SAVINGS FUNDS</Link><br></br>
             <Link to="/monthly_categories" className="btn btn-lg custom-button" role="button">BUDGET CATEGORIES</Link>
         </div>
+        }
+        </>
           )
 };
 

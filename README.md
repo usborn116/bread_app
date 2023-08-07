@@ -1,7 +1,6 @@
 # README
 
 Todos:
-- create loading component
 - create error component
 - apply error component to non-matching routes and any errors that come from API pulls
 - edit single category
@@ -18,7 +17,6 @@ Todos:
 - delete single account
 - refactor API requests into custom hook
 - refactor loading state into App component (to be used in all components)
-- context for Loading state?
 
 
 Helpful things:
