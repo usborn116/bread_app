@@ -2,21 +2,20 @@ import React, { useState, useEffect, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { getData, load } from "./helpers/api_helpers";
 import {useParams} from "react-router-dom";
-import Loading from "./Loading";
+import Error from "./Error";
 import { LoadContext } from "./contexts/LoadContext";
 
 const Account = () => {
     const {id} = useParams();
     const navigate = useNavigate();
     const [account, setAccount] = useState([])
-    //const [loading, setLoading] = useState(true)
     const {loading, setLoading} = useContext(LoadContext)
+    const [error, setError] = useState(null)
 
     useEffect(() => {
-        //setLoading(true)
         const url = `/accounts/${id}`;
-        getData(url, setAccount, navigate, setLoading)
-        //load(setLoading, account)
+        getData(url, setAccount, navigate, setLoading, setError)
+        load(setLoading, account)
       }, []);  
     
     const acct =
@@ -28,6 +27,8 @@ const Account = () => {
             <div>{account.institution_name}</div>
         </div>
     ;
+
+    if (error) return <Error message={error}/>
 
     return (
         <>

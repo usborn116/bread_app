@@ -1,22 +1,25 @@
 export const load = (setter) => {
     setTimeout(() => {
-        setter(false)
+        setter(() => false)
         },300
     )
 }
 
-export const getData= async (endpoint, setter, navigate, loader)=>{
-    loader(true)
+export const getData= async (endpoint, setter, navigate, loader, errorSetter)=>{
     try {
         const response=await fetch(`${endpoint}`)
+        if (response.status > 400){
+            throw new Error(`${response.status}: ${response.statusText}`)
+        }
         const data=await response.json()
-        console.log('DATA!', data)
+        console.log('data',data)
         setter(() => data)
-        loader(false)
     }
     catch(error){
         console.log(error)
         setter([])
-        navigate('/')
+        if (errorSetter && error.message.match(/is not valid JSON/)) {return errorSetter(`${endpoint} not found`)};
+        if (errorSetter) {errorSetter(error.message)};
+        //navigate('/')
     }
 }

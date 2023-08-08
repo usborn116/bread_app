@@ -4,12 +4,15 @@ import { getData, load } from "./helpers/api_helpers";
 import {usePlaidLink} from 'react-plaid-link';
 import { LoadContext } from "./contexts/LoadContext";
 import Loading from "./Loading";
+import Error from "./Error";
 
 const Home= () => {
     const navigate = useNavigate();
     const [items, setItems] = useState([]);
     const {loading, setLoading} = useContext(LoadContext)
     const [linkToken, setLinkToken] = useState(null)
+    const [error, setError] = useState(null)
+    
 
     useEffect(() => {
         setLoading(true)

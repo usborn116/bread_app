@@ -1,8 +1,6 @@
 # README
 
 Todos:
-- create error component
-- apply error component to non-matching routes and any errors that come from API pulls
 - edit single category
 - edit single budget
 - edit single transaction

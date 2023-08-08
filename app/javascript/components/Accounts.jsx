@@ -3,11 +3,13 @@ import { Link, useNavigate } from "react-router-dom";
 import { getData, load } from "./helpers/api_helpers";
 import { LoadContext } from "./contexts/LoadContext";
 import Loading from "./Loading";
+import Error from "./Error";
 
 const Accounts = () => {
     const navigate = useNavigate();
     const [accounts, setAccounts] = useState([])
     const {loading, setLoading} = useContext(LoadContext)
+    const [error, setError] = useState(null)
 
     useEffect(() => {
         setLoading(true)
@@ -28,6 +30,8 @@ const Accounts = () => {
             <div>NONE!</div>
         </div>
     )
+
+    if (error) return <Error message={error}/>
 
     return (
         <>

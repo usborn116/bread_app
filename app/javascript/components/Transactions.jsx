@@ -3,11 +3,13 @@ import { Link, useNavigate } from "react-router-dom";
 import { getData, load } from "./helpers/api_helpers";
 import { LoadContext } from "./contexts/LoadContext";
 import Loading from "./Loading";
+import Error from "./Error";
 
 const Transactions = () => {
     const navigate = useNavigate();
     const [transactions, setTransactions] = useState([])
     const {loading, setLoading} = useContext(LoadContext)
+    const [error, setError] = useState(null)
 
     useEffect(() => {
         setLoading(true)

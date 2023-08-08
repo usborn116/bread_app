@@ -4,12 +4,14 @@ import { getData, load } from "./helpers/api_helpers";
 import {useParams} from "react-router-dom";
 import { LoadContext } from "./contexts/LoadContext";
 import Loading from "./Loading";
+import Error from "./Error";
 
 const Transaction = () => {
     const {id} = useParams();
     const navigate = useNavigate();
     const [transaction, setTransaction] = useState([])
     const {loading, setLoading} = useContext(LoadContext)
+    const [error, setError] = useState(null)
 
     useEffect(() => {
         setLoading(true)

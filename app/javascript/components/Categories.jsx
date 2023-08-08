@@ -4,11 +4,13 @@ import { getData, load } from "./helpers/api_helpers";
 import PropTypes from 'prop-types';
 import { LoadContext } from "./contexts/LoadContext";
 import Loading from "./Loading";
+import Error from "./Error";
 
 const Categories = ({type}) => {
     const navigate = useNavigate();
     const [categories, setCategories] = useState([])
     const {loading, setLoading} = useContext(LoadContext)
+    const [error, setError] = useState(null)
 
     useEffect(() => {
         const url = `/categories/${type == 'monthly' ? "budget_categories" : "fund_categories"}`
@@ -30,6 +32,8 @@ const Categories = ({type}) => {
             <div>NONE!</div>
         </div>
     )
+
+    if (error) return <Error message={error}/>
 
     return (
         <>

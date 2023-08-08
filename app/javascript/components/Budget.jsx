@@ -4,12 +4,14 @@ import { getData, load } from "./helpers/api_helpers";
 import {useParams} from "react-router-dom";
 import { LoadContext } from "./contexts/LoadContext";
 import Loading from "./Loading";
+import Error from "./Error";
 
 const Budget = () => {
     const {id} = useParams();
     const navigate = useNavigate();
     const [budget, setBudget] = useState([])
     const {loading, setLoading} = useContext(LoadContext)
+    const [error, setError] = useState(null)
 
     useEffect(() => {
         setLoading(true)
@@ -46,7 +48,7 @@ const Budget = () => {
     )) : null;
     
 
-    console.log('Items!', items)
+    if (error) return <Error message={error}/>
 
     return (
         <>
