@@ -31,7 +31,7 @@ const Account = () => {
 
     return (
         <>
-        {loading ? <Loading /> : 
+        {loading ? '' : 
         <div className="table accts">
             <div className='row'>
                     <div>Name</div>
@@ -48,7 +48,8 @@ const Account = () => {
                 >
                     ACCOUNTS
                 </Link>
-        </div> }
+        </div> 
+        }
         </>
           )
 };

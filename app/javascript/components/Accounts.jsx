@@ -10,10 +10,10 @@ const Accounts = () => {
     const {loading, setLoading} = useContext(LoadContext)
 
     useEffect(() => {
-        //setLoading(true)
+        setLoading(true)
         const url = "/accounts";
         getData(url, setAccounts, navigate, setLoading)
-        //load(setLoading, accounts)
+        load(setLoading, accounts)
     }, []);
 
     const allAccounts = accounts.map(a => (
