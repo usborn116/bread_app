@@ -5,7 +5,9 @@ class Category < ApplicationRecord
   belongs_to :budget, optional: true
 
   def name_with_month
-    "#{self.name} - #{self.budget_month}"
+    result = self.as_json
+    result['month_name'] = "#{self.name} - #{self.budget_month}"
+    result
   end
   
 end

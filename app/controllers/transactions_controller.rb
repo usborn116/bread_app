@@ -15,7 +15,8 @@ class TransactionsController < ApplicationController
   # GET /transactions/1 or /transactions/1.json
   def show
     @transaction = @transaction.bank_account_name
-    render json: @transaction.to_json
+    render json: {transaction: @transaction, accounts: Account.where(user_id: current_user.id).order(:name),
+      categories: Category.where(user_id:current_user.id).order(:name).map{|c| c.name_with_month}}
   end
 
   # GET /transactions/new
@@ -45,15 +46,10 @@ class TransactionsController < ApplicationController
 
   # PATCH/PUT /transactions/1 or /transactions/1.json
   def update
-    respond_to do |format|
-      if @transaction.update(transaction_params)
-        @transaction.group.decrement(:current, @transaction.amount).save
-        format.html { redirect_to transaction_url(@transaction), notice: "Transaction was successfully updated." }
-        format.json { render :show, status: :ok, location: @transaction }
-      else
-        format.html { render :edit, status: :unprocessable_entity }
-        format.json { render json: @transaction.errors, status: :unprocessable_entity }
-      end
+    if @transaction.update(transaction_params)
+      render json: @transaction, location: transaction_path(@transaction)
+    else
+      render json: @transaction.errors, status: :unprocessable_entity
     end
   end
 
@@ -75,6 +71,6 @@ class TransactionsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def transaction_params
-      params.require(:transaction).permit(:account_id, :amount, :category_id, :date, :category, :name, :merchant, :description, :pending, :transaction_id, :transaction_type, :authorized_date, :user_id, :group_id)
+      params.require(:transaction).permit(:account_id, :amount, :date, :category, :name, :merchant, :description, :pending, :transaction_id, :transaction_type, :authorized_date, :user_id,  :category_id)
     end
 end

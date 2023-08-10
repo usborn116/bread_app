@@ -1,3 +1,9 @@
+const errorHandler = (errorSetter, error, endpoint) => {
+    console.log(error)
+    if (error.message.match(/is not valid JSON/)) {return errorSetter(`${endpoint} not found`)};
+    if (errorSetter) {errorSetter(error.message)};
+}
+
 export const load = (setter) => {
     setTimeout(() => {
         setter(() => false)
@@ -16,10 +22,59 @@ export const getData= async (endpoint, setter, navigate, loader, errorSetter)=>{
         setter(() => data)
     }
     catch(error){
-        console.log(error)
-        setter([])
-        if (errorSetter && error.message.match(/is not valid JSON/)) {return errorSetter(`${endpoint} not found`)};
-        if (errorSetter) {errorSetter(error.message)};
-        //navigate('/')
+        errorHandler(errorSetter, error, endpoint)
+    }
+}
+
+export const updateData = async (endpoint, setter, info, loader, errorSetter) => {
+    try{
+        const response=await fetch(`${endpoint}`, {
+            method: 'put',
+            headers: {
+                "content-type": 'application/json',
+                "accept": "application/json",
+            },
+            body: JSON.stringify(info)
+        }) 
+        const data=await response.json()
+        if(!response.ok) throw data.error
+        getData(endpoint, setter, 2, loader, errorSetter)
+    } catch (error){
+        errorHandler(errorSetter, error, endpoint)
+    }
+}
+
+export const deleteData = async (endpoint, id = 0, setter, state)=>{
+    let url = id === 0 ? `${endpoint}` : `${endpoint}/${id}`
+    try {
+        const response=await fetch(url,{
+            method: "delete",
+            headers: {
+                "content-type": "application/json",
+            },
+        })
+        const data=await response.json()
+        if(!response.ok) throw data.error
+        setter(state.filter(item => item.id !== id))
+    } catch (error) {
+        errorHandler(errorSetter, error, endpoint)
+    }
+}
+
+export const newData = async (endpoint, info, setter)=>{
+    try{
+        const response=await fetch(endpoint, {
+            method: 'post',
+            headers: {
+                "content-type": 'application/json',
+                "accept": "application/json",
+            },
+            body: JSON.stringify(info)
+        }) 
+        const data=await response.json()
+        if(!response.ok) throw data.error
+        setter(prevdata => [...prevdata, data])
+    } catch (error){
+        errorHandler(errorSetter, error, endpoint)
     }
 }
