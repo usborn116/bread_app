@@ -24,7 +24,7 @@ class BudgetsController < ApplicationController
 
   # POST /budgets or /budgets.json
   def create
-    @budget = Budget.new(budget_params)
+    @budget = current_user.budgets.build(budget_params)
 
     respond_to do |format|
       if @budget.save
@@ -40,15 +40,10 @@ class BudgetsController < ApplicationController
 
   # PATCH/PUT /budgets/1 or /budgets/1.json
   def update
-    respond_to do |format|
-      if @budget.update(budget_params)
-        @budget.update_categories
-        format.html { redirect_to budget_url(@budget), notice: "Budget was successfully updated." }
-        format.json { render :show, status: :ok, location: @budget }
-      else
-        format.html { render :edit, status: :unprocessable_entity }
-        format.json { render json: @budget.errors, status: :unprocessable_entity }
-      end
+    if @budget.update(budget_params)
+      render json: @budget, location: budget_path(@budget)
+    else
+      render json: @budget.errors.messages, status: :unprocessable_entity
     end
   end
 
@@ -71,6 +66,6 @@ class BudgetsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def budget_params
-      params.require(:budget).permit(:month, :year, :balance, :budget_amount, :start_date, :end_date, :rollover)
+      params.require(:budget).permit(:month, :year, :balance, :budget_amount, :start_date, :end_date, :rollover, :user_id)
     end
 end

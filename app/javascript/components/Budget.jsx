@@ -1,54 +1,70 @@
 import React, { useState, useEffect, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { getData, load } from "./helpers/api_helpers";
+import { getData, load, updateData } from "./helpers/api_helpers";
 import {useParams} from "react-router-dom";
 import { LoadContext } from "./contexts/LoadContext";
 import Loading from "./Loading";
 import Error from "./Error";
+import Form from "./Form";
+import Input from "./Input";
+import Submit from "./Submit";
 
 const Budget = () => {
     const {id} = useParams();
     const navigate = useNavigate();
-    const [budget, setBudget] = useState([])
+    const [data, setData] = useState([])
     const {loading, setLoading} = useContext(LoadContext)
     const [error, setError] = useState(null)
+    const [edit, setEdit] = useState(false)
 
     useEffect(() => {
         setLoading(true)
         const url = `/budgets/${id}`;
-        getData(url, setBudget, navigate)
-        load(setLoading, budget)
+        getData(url, setData, navigate)
+        load(setLoading, data)
       }, [id]);  
     
     const bdgt =
         <div className="row">
-            <div>{budget.month}</div>
-            <div>{budget.balance ? budget.balance.toFixed(2) : 0}</div>
-            <div>{budget.budget_amount}</div>
-            <div>{budget.rollover ? budget.rollover.toFixed(2) : 0}</div>
+            <div>{data.month}</div>
+            <div>{data?.balance?.toFixed(2) || 0}</div>
+            <div>{data.budget_amount}</div>
+            <div>{data?.rollover?.toFixed(2) || 0}</div>
         </div>
 
-    const items = budget.categories ? budget.categories.map((c, i) => (
+    const items = data?.categories?.map((c, i) => (
         <div key={i} className="row">
             <div>{c.name}</div>
-            <div>{c.budget_amt.toFixed(2)}</div>
+            <div>{c.budget_amt?.toFixed(2)}</div>
             <div>{c.current}</div>
         </div>
-    )) : null;
+    ));
 
-    const txns = budget.categories ? budget.categories.map((c, i) => (
-        c.transactions ? c.transactions.map((t,i) => (
+    const txns = data?.categories?.map((c, i) => (
+        c?.transactions.map((t,i) => (
             <div key={i} className="row">
                 <div>{t.name}</div>
-                <div>{t.amount.toFixed(2)}</div>
+                <div>{t.amount?.toFixed(2)}</div>
                 <div>{t.date}</div>
                 <div>{c.name}</div>
             </div>
-        )) : null
-    )) : null;
+        ))
+    ));
     
 
     if (error) return <Error message={error}/>
+
+    const theMonths = ["January", "February", "March", "April", "May",
+    "June", "July", "August", "September", "October", "November", "December"]
+    const months = theMonths.map((m, i) => i = {id: m, name: m})
+
+    if (edit) return (
+        <Form endpoint="budgets" item='budget' updater={updateData} id={id} setter={setData} setLoading={setLoading} setError={setError} setEdit={setEdit}>
+                <Input type="select" name="month" val={data.month} options={months}/>
+                <Input type="hidden" name="year" val={String(new Date().getFullYear())}/>
+                <Submit/>
+        </Form>
+    )
 
     return (
         <>
@@ -83,6 +99,7 @@ const Budget = () => {
                 </div>
                 {txns}
             </div>
+            <button onClick={() => setEdit(true)} value='Edit!'>EDIT</button>
             </>
         }
         </>
