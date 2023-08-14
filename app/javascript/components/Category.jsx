@@ -34,7 +34,7 @@ const Category = () => {
         </div>
     ;
 
-    const category_options = [{id: 'fund', name: 'Savings Fund'}, {id: 'budget', name: 'Monthly Budget'}]
+    const category_options = [{id: 'fund', name: 'Savings Fund'}, {id: 'monthly', name: 'Monthly Budget'}]
 
     if (error) return <Error message={error}/>
 

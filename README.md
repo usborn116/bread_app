@@ -1,7 +1,6 @@
 # README
 
 Todos:
-- create single category
 - create single budget
 - create single transaction
 - create single account

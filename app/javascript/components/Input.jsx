@@ -4,7 +4,7 @@ const Input = ({type, name, placeHolder, val = '', options = null}) => {
 
     if (type == 'select') return (
         <select name={name}>
-            {options.map(op => <option value={op.id}>{op.month_name || op.name}</option> )}
+            {options.map(op => <option key={op.id} value={op.id}>{op.month_name || op.name}</option> )}
         </select>
 
     )

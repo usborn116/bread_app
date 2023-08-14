@@ -4,7 +4,7 @@ const Form = ({endpoint, item, updater, id, setter, setLoading, setError, setEdi
 
     const formRef = useRef()
 
-    const onSubmit = (e) =>{
+    const onSubmit = async (e) =>{
         e.preventDefault()
         const formData=new FormData(formRef.current)
         const data=Object.fromEntries(formData)
@@ -16,7 +16,7 @@ const Form = ({endpoint, item, updater, id, setter, setLoading, setError, setEdi
         if(item == 'budget'){info[item] = {month: data.month, year: data.year}}
         if(item == 'category'){info[item] = {category_type: data.category_type, name: data.name, current: data.current,
         budget_amt: data.budget_amt, user_id: data.user_id, account_id: data.account_id}}
-        updater(`/${endpoint}/${id}`, setter, info, setLoading, setError)
+        await updater(`/${endpoint}${id ? `/${id}` : ''}`, setter, info, setLoading, setError)
         setEdit(false)
     }
 

@@ -61,9 +61,9 @@ export const deleteData = async (endpoint, id = 0, setter, state)=>{
     }
 }
 
-export const newData = async (endpoint, info, setter)=>{
+export const newData = async (endpoint, setter, info, loader, errorSetter)=>{
     try{
-        const response=await fetch(endpoint, {
+        const response=await fetch(`${endpoint}`, {
             method: 'post',
             headers: {
                 "content-type": 'application/json',
@@ -73,7 +73,6 @@ export const newData = async (endpoint, info, setter)=>{
         }) 
         const data=await response.json()
         if(!response.ok) throw data.error
-        setter(prevdata => [...prevdata, data])
     } catch (error){
         errorHandler(errorSetter, error, endpoint)
     }
