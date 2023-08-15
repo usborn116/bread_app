@@ -44,19 +44,19 @@ export const updateData = async (endpoint, setter, info, loader, errorSetter) =>
     }
 }
 
-export const deleteData = async (endpoint, id = 0, setter, state)=>{
-    let url = id === 0 ? `${endpoint}` : `${endpoint}/${id}`
-    try {
-        const response=await fetch(url,{
-            method: "delete",
+export const deleteData = async (endpoint, setter, loader, errorSetter)=>{
+    try{
+        const response=await fetch(`${endpoint}`, {
+            method: 'delete',
             headers: {
-                "content-type": "application/json",
+                "content-type": 'application/json',
+                "accept": "application/json",
             },
-        })
+        }) 
         const data=await response.json()
         if(!response.ok) throw data.error
-        setter(state.filter(item => item.id !== id))
-    } catch (error) {
+        getData(endpoint, setter, 2, loader, errorSetter)
+    } catch (error){
         errorHandler(errorSetter, error, endpoint)
     }
 }

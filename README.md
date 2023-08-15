@@ -1,16 +1,15 @@
 # README
 
 Todos:
-- create single transaction
 - delete single category
 - delete single budget
 - delete single transaction
 - delete single account
-- refactor API requests into custom hook
-- pre-select current value for select fields
-- refactor!!
-- pagination for transactions?
+- refactor API requests into custom hook (https://react.dev/learn/reusing-logic-with-custom-hooks)
+- pre-select current value for select fields (https://react.dev/reference/react-dom/components/select#providing-an-initially-selected-option)
+- pagination for transactions? (https://www.npmjs.com/package/react-paginate)
 - styling
+- refactor!!
 
 
 Helpful things:
