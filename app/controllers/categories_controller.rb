@@ -38,7 +38,7 @@ class CategoriesController < ApplicationController
     @category = current_user.categories.build(category_params)
 
     if @category.save
-        render json: @category, status: :created, location: category_path(@category)
+      render json: @category, status: :created, location: category_path(@category)
     else
       render json: @category.errors, status: :unprocessable_entity
     end

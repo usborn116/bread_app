@@ -26,7 +26,7 @@ const Budget = () => {
     
     const bdgt =
         <div className="row">
-            <div>{data.month}</div>
+            <div>{`${data.month} ${data.year}`}</div>
             <div>{data?.balance?.toFixed(2) || 0}</div>
             <div>{data.budget_amount}</div>
             <div>{data?.rollover?.toFixed(2) || 0}</div>

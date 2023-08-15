@@ -3,7 +3,7 @@ class BudgetsController < ApplicationController
 
   # GET /budgets or /budgets.json
   def index
-    @budgets = Budget.all
+    @budgets = Budget.where(user_id: current_user.id).order(:created_at)
     render json: @budgets.to_json(:include => {:categories => {only: [:name, :current, :budget_amt]}})
 
   end
@@ -26,15 +26,11 @@ class BudgetsController < ApplicationController
   def create
     @budget = current_user.budgets.build(budget_params)
 
-    respond_to do |format|
-      if @budget.save
-        @budget.update_categories
-        format.html { redirect_to budget_url(@budget), notice: "Budget was successfully created." }
-        format.json { render :show, status: :created, location: @budget }
-      else
-        format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @budget.errors, status: :unprocessable_entity }
-      end
+    if @budget.save
+      @budget.update_categories
+      render json: @budget, status: :created, location: budget_path(@budget)
+    else
+      render json: @budget.errors, status: :unprocessable_entity
     end
   end
 

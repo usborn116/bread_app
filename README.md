@@ -11,6 +11,7 @@ Todos:
 - refactor API requests into custom hook
 - pre-select current value for select fields
 - refactor!!
+- styling
 
 
 Helpful things:
