@@ -1,37 +1,47 @@
 import React, { useState, useEffect, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { getData, load } from "./helpers/api_helpers";
+import { getData, load, newData } from "./helpers/api_helpers";
 import { LoadContext } from "./contexts/LoadContext";
 import Loading from "./Loading";
 import Error from "./Error";
+import Input from "./Input";
+import Submit from "./Submit";
+import Form from "./Form";
 
 const Accounts = () => {
     const navigate = useNavigate();
-    const [accounts, setAccounts] = useState([])
+    const [data, setData] = useState([])
     const {loading, setLoading} = useContext(LoadContext)
     const [error, setError] = useState(null)
+    const [create, setCreate] = useState(false)
 
     useEffect(() => {
         setLoading(true)
         const url = "/accounts";
-        getData(url, setAccounts, navigate, setLoading)
-        load(setLoading, accounts)
-    }, []);
+        getData(url, setData, navigate, setLoading)
+        load(setLoading, data)
+    }, [create]);
 
-    const allAccounts = accounts.map(a => (
+    const allAccounts = data.map(a => (
         <div className="row" key={a.id}>
        
         <Link to={"" + a.id} className="btn btn-lg custom-button" role="button">{a.name}</Link>
         </div>
     ));       
 
-    const noAccounts = (
-        <div>
-            <div>NONE!</div>
-        </div>
-    )
-
     if (error) return <Error message={error}/>
+
+    if (create) return (
+        <Form endpoint="accounts" item='account' updater={newData} setter={setData} setLoading={setLoading} setError={setError} setEdit={setCreate}>
+                <Input type="text" name="name" placeHolder='Name of account'/>
+                <Input type="text" name="available" placeHolder='Amount available'/>
+                <Input type="hidden" name="account_id" val={String(data.length)} />
+                <Input type="hidden" name="account_type" val='depository'/>
+                <Input type="hidden" name="subtype" val='cash' />
+                <Input type="hidden" name="institution_name" val='Cash'/>
+                <Submit/>
+        </Form>
+    )
 
     return (
         <>
@@ -39,8 +49,8 @@ const Accounts = () => {
         <div>
             <h1 className="display-4">Accounts</h1>
             <div className="table accts">
-                {accounts.length > 0 ? allAccounts : noAccounts}
-                
+                {allAccounts}
+                <button onClick={() => setCreate(true)}>CREATE NEW CASH ACCOUNT</button>
                 <Link
                     to="/"
                     className="btn btn-lg custom-button"

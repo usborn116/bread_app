@@ -9,7 +9,8 @@ const Form = ({endpoint, item, updater, id, setter, setLoading, setError, setEdi
         const formData=new FormData(formRef.current)
         const data=Object.fromEntries(formData)
         const info = {}
-        if(item == 'account'){info[item] = { name: data.name, available: data.available}}
+        if(item == 'account'){info[item] = { name: data.name, available: data.available, account_type: data.account_type, subtype: data.subtype,
+            institution_name: data.institution_name, account_id: data.account_id}}
         if(item == 'transaction'){info[item] = {account_id: data.account_id, amount: data.amount, date: data.date, name: data.name, 
             merchant: data.merchant, description: data.description, user_id: data.user_id,
             transaction_type: data.transaction_type, transaction_id: data.transaction_id, category_id: data.category_id}}

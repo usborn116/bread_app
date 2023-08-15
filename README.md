@@ -1,7 +1,6 @@
 # README
 
 Todos:
-- create single budget
 - create single transaction
 - create single account
 - delete single category
@@ -11,6 +10,7 @@ Todos:
 - refactor API requests into custom hook
 - pre-select current value for select fields
 - refactor!!
+- pagination for transactions?
 - styling
 
 
