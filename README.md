@@ -2,7 +2,6 @@
 
 Todos:
 - create single transaction
-- create single account
 - delete single category
 - delete single budget
 - delete single transaction

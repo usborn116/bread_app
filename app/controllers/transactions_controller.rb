@@ -9,13 +9,15 @@ class TransactionsController < ApplicationController
     #@pagy, @transactions = pagy((Transaction.where(user_id: current_user.id).order('date DESC')))
     @transactions = Transaction.where(user_id: current_user.id).includes(:account).sort_by{|t| [t.date, t.updated_at]}.reverse.first(25)
     @transactions = @transactions.map {|t| t.bank_account_name}
-    render json: @transactions.to_json
+    @categories = current_user.categories.where(category_type: 'fund').or(current_user.categories.where(budget_month: Date::MONTHNAMES[Date.today.month]))
+                .order(:name).map{|c| c.name_with_month}
+    render json: {transactions: @transactions, accounts: current_user.accounts.where(subtype: 'cash').order(:name), categories: @categories}
   end
 
   # GET /transactions/1 or /transactions/1.json
   def show
     @transaction = @transaction.bank_account_name
-    render json: {transaction: @transaction, accounts: Account.where(user_id: current_user.id).order(:name),
+    render json: {transaction: @transaction, accounts: current_user.accounts.order(:name),
       categories: Category.where(user_id:current_user.id).order(:name).map{|c| c.name_with_month}}
   end
 
@@ -30,17 +32,13 @@ class TransactionsController < ApplicationController
 
   # POST /transactions or /transactions.json
   def create
-    @transaction = Transaction.new(transaction_params)
+    @transaction = current_user.transactions.build(transaction_params)
 
-    respond_to do |format|
-      if @transaction.save
-        Account.find_by(id: @transaction.account_id.to_i).decrement(:available, @transaction.amount).save
-        format.html { redirect_to transaction_url(@transaction), notice: "Transaction was successfully created." }
-        format.json { render :show, status: :created, location: @transaction }
-      else
-        format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @transaction.errors, status: :unprocessable_entity }
-      end
+    if @transaction.save
+      Account.find_by(id: @transaction.account_id.to_i).decrement(:available, @transaction.amount).save
+      render json: @transaction, status: :created, location: transaction_path(@transaction)
+    else
+      render json: @transaction.errors, status: :unprocessable_entity
     end
   end
 
