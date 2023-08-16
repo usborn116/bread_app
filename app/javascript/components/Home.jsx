@@ -68,13 +68,6 @@ const Home= () => {
         </tr>
       ));
 
-    const noItems = (
-        <tr>
-            <td>NO BANK</td>
-            <td>YET</td>
-        </tr>
-    )
-
     return (
         <>
         {loading ? <Loading/> : 
@@ -89,7 +82,7 @@ const Home= () => {
                         </tr>
                     </thead>
                     <tbody>
-                    {items.length > 0 ? allItems : noItems}
+                    {items.length > 0 ? allItems : ''}
                     </tbody>
                 </table>
 

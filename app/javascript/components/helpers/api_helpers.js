@@ -55,7 +55,7 @@ export const deleteData = async (endpoint, setter, loader, errorSetter)=>{
         }) 
         const data=await response.json()
         if(!response.ok) throw data.error
-        getData(endpoint, setter, 2, loader, errorSetter)
+        //getData(endpoint, setter, 2, loader, errorSetter)
     } catch (error){
         errorHandler(errorSetter, error, endpoint)
     }

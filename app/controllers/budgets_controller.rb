@@ -48,10 +48,7 @@ class BudgetsController < ApplicationController
     @budget.categories.each{|c| c.destroy}
     @budget.destroy
 
-    respond_to do |format|
-      format.html { redirect_to budgets_url, notice: "Budget was successfully destroyed." }
-      format.json { head :no_content }
-    end
+    render json: { message: 'Deleted!' }
   end
 
   private

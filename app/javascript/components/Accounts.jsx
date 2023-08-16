@@ -7,6 +7,7 @@ import Error from "./Error";
 import Input from "./Input";
 import Submit from "./Submit";
 import Form from "./Form";
+import Delete from "./Delete";
 
 const Accounts = () => {
     const navigate = useNavigate();
@@ -14,18 +15,20 @@ const Accounts = () => {
     const {loading, setLoading} = useContext(LoadContext)
     const [error, setError] = useState(null)
     const [create, setCreate] = useState(false)
+    const [deleting, setDeleting] = useState(false)
 
     useEffect(() => {
         setLoading(true)
         const url = "/accounts";
         getData(url, setData, navigate, setLoading)
         load(setLoading, data)
-    }, [create]);
+    }, [create, deleting]);
 
     const allAccounts = data.map(a => (
         <div className="row" key={a.id}>
        
         <Link to={"" + a.id} className="btn btn-lg custom-button" role="button">{a.name}</Link>
+        <Delete setDeleting={setDeleting} endpoint='accounts' id={a.id} setter={setData} setLoading={setLoading} setError={setError} />
         </div>
     ));       
 
@@ -51,13 +54,7 @@ const Accounts = () => {
             <div className="table accts">
                 {allAccounts}
                 <button onClick={() => setCreate(true)}>CREATE NEW CASH ACCOUNT</button>
-                <Link
-                    to="/"
-                    className="btn btn-lg custom-button"
-                    role="button"
-                >
-                    HOME
-                </Link>
+                <Link to="/" className="btn btn-lg custom-button" role="button">HOME</Link>
             </div>
         </div>
         }

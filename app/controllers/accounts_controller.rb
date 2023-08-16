@@ -48,10 +48,7 @@ class AccountsController < ApplicationController
     @account.destroy
     Transaction.where(account_id: n).each{|t| t.destroy}
 
-    respond_to do |format|
-      format.html { redirect_to accounts_url, notice: "Account was successfully destroyed." }
-      format.json { head :no_content }
-    end
+    render json: {message: 'Deleted!'}
   end
 
   private
@@ -63,6 +60,6 @@ class AccountsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def account_params
-      params.require(:account).permit(:account_id, :available, :current, :limit, :last_four, :name, :official_name, :account_type, :subtype, :user_id, :instutition_name)
+      params.require(:account).permit(:account_id, :available, :current, :limit, :last_four, :name, :official_name, :account_type, :subtype, :user_id, :institution_name)
     end
 end

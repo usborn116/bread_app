@@ -10,7 +10,7 @@ class TransactionsController < ApplicationController
     @transactions = Transaction.where(user_id: current_user.id).includes(:account).sort_by{|t| [t.date, t.updated_at]}.reverse.first(25)
     @transactions = @transactions.map {|t| t.bank_account_name}
     @categories = current_user.categories.where(category_type: 'fund').or(current_user.categories.where(budget_month: Date::MONTHNAMES[Date.today.month]))
-                .order(:name).map{|c| c.name_with_month}
+                .order(:name)
     render json: {transactions: @transactions, accounts: current_user.accounts.where(subtype: 'cash').order(:name), categories: @categories}
   end
 
@@ -55,10 +55,7 @@ class TransactionsController < ApplicationController
   def destroy
     @transaction.destroy
 
-    respond_to do |format|
-      format.html { redirect_to transactions_url, notice: "Transaction was successfully destroyed." }
-      format.json { head :no_content }
-    end
+    render json: {message: 'Deleted!'}
   end
 
   private

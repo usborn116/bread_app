@@ -7,6 +7,7 @@ import Error from "./Error";
 import Form from "./Form";
 import Input from "./Input";
 import Submit from "./Submit";
+import Delete from "./Delete";
 
 const Budgets = () => {
     const navigate = useNavigate();
@@ -14,17 +15,19 @@ const Budgets = () => {
     const {loading, setLoading} = useContext(LoadContext)
     const [error, setError] = useState(null)
     const [create, setCreate] = useState(false)
+    const [deleting, setDeleting] = useState(false)
 
     useEffect(() => {
         setLoading(true)
         const url = "/budgets";
         getData(url, setData, navigate)
         load(setLoading, data)
-    }, [create]);
+    }, [create, deleting]);
 
     const allBudgets = data.map((b, index) => (
         <div key={index} className="row">
             <Link to={"" + b.id} className="btn btn-lg custom-button" role="button">{b.month}</Link>
+            <Delete setDeleting={setDeleting} endpoint='budgets' id={b.id} setter={setData} setLoading={setLoading} setError={setError} />
         </div>
     ));
 

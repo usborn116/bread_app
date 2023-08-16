@@ -7,6 +7,7 @@ import Error from "./Error";
 import Input from "./Input";
 import Submit from "./Submit";
 import Form from "./Form";
+import Delete from "./Delete";
 
 const Transactions = () => {
     const navigate = useNavigate();
@@ -14,31 +15,33 @@ const Transactions = () => {
     const {loading, setLoading} = useContext(LoadContext)
     const [error, setError] = useState(null)
     const [create, setCreate] = useState(false)
+    const [deleting, setDeleting] = useState(false)
 
     useEffect(() => {
         setLoading(true)
         const url = "/transactions";
         getData(url, setData, navigate)
         load(setLoading, data)
-    }, [create]);
+    }, [create, deleting]);
 
     const allTransactions = data?.transactions?.map(t => (
         <div key={t.id} className="row">
         <Link to={"" + t.id} className="btn btn-lg custom-button" role="button">{t.name}</Link>
+        <Delete setDeleting={setDeleting} endpoint='transactions' id={t.id} setter={setData} setLoading={setLoading} setError={setError} />
         </div>
     ));
 
     if (create) return (
         <Form endpoint="transactions" item='transaction' updater={newData} setter={setData} setLoading={setLoading} setError={setError} setEdit={setCreate}>
                 <Input type="select" name="account_id" options={data.accounts}/>
-                <Input type="text" name="amount" placeHolder='Transaction Name' />
-                <Input type="date" name="date" val={new Date()}/>
                 <Input type="text" name="name" placeHolder='name'/>
+                <Input type="text" name="amount" placeHolder='Transaction Amount' />
+                <Input type="date" name="date" val={new Date()}/>
                 <Input type="text" name="merchant" placeHolder='Merchant Name' />
                 <Input type="text" name="description" placeHolder='Description'/>
                 <Input type="select" name="category_id" options={data.categories}/>
                 <Input type="hidden" name="transaction_type" val='special'/>
-                <Input type="hidden" name="transaction_id" val={`cash#${data.transactions.length}`}/>
+                <Input type="hidden" name="transaction_id" val={`cash#${Date.now()}`}/>
                 <Submit/>
         </Form>
     )

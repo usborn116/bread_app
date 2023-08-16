@@ -1,15 +1,13 @@
 # README
 
 Todos:
-- delete single category
-- delete single budget
-- delete single transaction
-- delete single account
-- refactor API requests into custom hook (https://react.dev/learn/reusing-logic-with-custom-hooks)
 - pre-select current value for select fields (https://react.dev/reference/react-dom/components/select#providing-an-initially-selected-option)
+- refactor API requests into custom hook (https://react.dev/learn/reusing-logic-with-custom-hooks)
 - pagination for transactions? (https://www.npmjs.com/package/react-paginate)
 - styling
 - refactor!!
+- "the login details of this item have changed (credentials, MFA, or required user action) and a user login is required to update this information. use Link's update mode to restore the item to a good state" (https://plaid.com/docs/link/update-mode/)
+- handle loading page when adding new financial institution
 
 
 Helpful things:

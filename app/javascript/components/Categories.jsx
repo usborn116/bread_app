@@ -8,6 +8,7 @@ import Error from "./Error";
 import Form from "./Form";
 import Input from "./Input";
 import Submit from "./Submit";
+import Delete from "./Delete";
 
 const Categories = ({type}) => {
     const navigate = useNavigate();
@@ -15,17 +16,19 @@ const Categories = ({type}) => {
     const {loading, setLoading} = useContext(LoadContext)
     const [error, setError] = useState(null)
     const [create, setCreate] = useState(false)
+    const [deleting, setDeleting] = useState(false)
 
     useEffect(() => {
         const url = `/categories/${type == 'monthly' ? "budget_categories" : "fund_categories"}`
         setLoading(true)
         getData(url, setData, navigate)
         load(setLoading, data)
-    }, [create]);
+    }, [create, deleting]);
 
     const allCategories = data?.budgets?.map((d, index) => (
         <div key={index} className="row">
             <Link to={"" + d.id} className="btn btn-lg custom-button" role="button">{d.name}</Link>
+            <Delete setDeleting={setDeleting} endpoint='categories' id={d.id} setter={setData} setLoading={setLoading} setError={setError} />
         </div>
     ));
 
