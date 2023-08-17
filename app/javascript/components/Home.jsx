@@ -4,7 +4,6 @@ import { getData, load } from "./helpers/api_helpers";
 import {usePlaidLink} from 'react-plaid-link';
 import { LoadContext } from "./contexts/LoadContext";
 import Loading from "./Loading";
-import Error from "./Error";
 
 const Home= () => {
     const navigate = useNavigate();
@@ -81,9 +80,7 @@ const Home= () => {
                             <td>Institution ID</td>
                         </tr>
                     </thead>
-                    <tbody>
-                    {items.length > 0 ? allItems : ''}
-                    </tbody>
+                    <tbody>{items.length > 0 ? allItems : ''}</tbody>
                 </table>
 
                 <button onClick={() => open()} id='linkButton'> Add New Financial Institution </button><br></br>

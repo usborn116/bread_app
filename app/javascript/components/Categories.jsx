@@ -1,8 +1,8 @@
-import React, { useState, useEffect, useContext } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { getData, load, newData } from "./helpers/api_helpers";
+import React from "react";
+import { Link } from "react-router-dom";
+import { newData } from "./helpers/api_helpers";
+import { useDataGetter } from "./helpers/useDataGetter";
 import PropTypes from 'prop-types';
-import { LoadContext } from "./contexts/LoadContext";
 import Loading from "./Loading";
 import Error from "./Error";
 import Form from "./Form";
@@ -11,19 +11,9 @@ import Submit from "./Submit";
 import Delete from "./Delete";
 
 const Categories = ({type}) => {
-    const navigate = useNavigate();
-    const [data, setData] = useState([])
-    const {loading, setLoading} = useContext(LoadContext)
-    const [error, setError] = useState(null)
-    const [create, setCreate] = useState(false)
-    const [deleting, setDeleting] = useState(false)
+    const endpoint = `/categories/${type == 'monthly' ? "budget_categories" : "fund_categories"}`
 
-    useEffect(() => {
-        const url = `/categories/${type == 'monthly' ? "budget_categories" : "fund_categories"}`
-        setLoading(true)
-        getData(url, setData, navigate)
-        load(setLoading, data)
-    }, [create, deleting]);
+    const {data, loading, error, setData, setError, setLoading, create, setDeleting, setCreate} = useDataGetter({endpoint: endpoint})
 
     const allCategories = data?.budgets?.map((d, index) => (
         <div key={index} className="row">

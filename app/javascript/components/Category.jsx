@@ -1,32 +1,21 @@
-import React, { useState, useEffect, useContext } from "react";
+import React from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { getData, load, updateData } from "./helpers/api_helpers";
+import { updateData } from "./helpers/api_helpers";
 import {useParams} from "react-router-dom";
-import { LoadContext } from "./contexts/LoadContext";
 import Loading from "./Loading";
 import Error from "./Error";
 import Form from "./Form";
 import Input from "./Input";
 import Submit from "./Submit";
+import { useDataGetter } from "./helpers/useDataGetter";
 
 const Category = () => {
     const {id} = useParams();
-    const navigate = useNavigate();
-    const [data, setData] = useState([])
-    const {loading, setLoading} = useContext(LoadContext)
-    const [error, setError] = useState(null)
-    const [edit, setEdit] = useState(false)
 
-    useEffect(() => {
-        setLoading(true)
-        const url = `/categories/${id}`;
-        getData(url, setData, navigate)
-        load(setLoading, data)
-      }, []);  
+    const {data, loading, error, setData, setError, setLoading, create, setDeleting, setCreate} = useDataGetter({endpoint: '/categories', id: id})
     
     const cat =
         <div className="row">
-            
             <div>{data?.name} {data?.budget_month || ''}</div>
             <div>{data?.category_type}</div>
             <div>{data?.account?.name || 'None'}</div>
@@ -38,8 +27,8 @@ const Category = () => {
 
     if (error) return <Error message={error}/>
 
-    if (edit) return (
-        <Form endpoint="categories" item='category' updater={updateData} id={id} setter={setData} setLoading={setLoading} setError={setError} setEdit={setEdit}>
+    if (create) return (
+        <Form endpoint="categories" item='category' updater={updateData} id={id} setter={setData} setLoading={setLoading} setError={setError} setEdit={setCreate}>
                 <Input type="select" name="category_type" val={data.category_type} options={category_options}/>
                 <Input type="text" name="name" val={data.name} />
                 <Input type="text" name="current" val={data.current}/>
@@ -61,7 +50,7 @@ const Category = () => {
                     <div>Current</div>
                 </div>
             {cat}
-            <button onClick={() => setEdit(true)} value='Edit!'>EDIT</button>
+            <button onClick={() => setCreate(true)} value='Edit!'>EDIT</button>
             <Link to="/savings_funds" className="btn btn-lg custom-button" role="button">SAVINGS FUNDS</Link><br></br>
             <Link to="/monthly_categories" className="btn btn-lg custom-button" role="button">BUDGET CATEGORIES</Link>
         </div>

@@ -1,8 +1,8 @@
-import React, { useState, useEffect, useContext } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { getData, load, updateData } from "./helpers/api_helpers";
+import React from "react";
+import { Link } from "react-router-dom";
+import { updateData } from "./helpers/api_helpers";
+import { useDataGetter } from "./helpers/useDataGetter";
 import {useParams} from "react-router-dom";
-import { LoadContext } from "./contexts/LoadContext";
 import Loading from "./Loading";
 import Error from "./Error";
 import Form from "./Form";
@@ -11,18 +11,8 @@ import Submit from "./Submit";
 
 const Budget = () => {
     const {id} = useParams();
-    const navigate = useNavigate();
-    const [data, setData] = useState([])
-    const {loading, setLoading} = useContext(LoadContext)
-    const [error, setError] = useState(null)
-    const [edit, setEdit] = useState(false)
 
-    useEffect(() => {
-        setLoading(true)
-        const url = `/budgets/${id}`;
-        getData(url, setData, navigate)
-        load(setLoading, data)
-      }, [id]);  
+    const {data, loading, error, setData, setError, setLoading, create, setDeleting, setCreate} = useDataGetter({endpoint: '/budgets', id: id})
     
     const bdgt =
         <div className="row">
@@ -58,8 +48,8 @@ const Budget = () => {
     "June", "July", "August", "September", "October", "November", "December"]
     const months = theMonths.map((m, i) => i = {id: m, name: m})
 
-    if (edit) return (
-        <Form endpoint="budgets" item='budget' updater={updateData} id={id} setter={setData} setLoading={setLoading} setError={setError} setEdit={setEdit}>
+    if (create) return (
+        <Form endpoint="budgets" item='budget' updater={updateData} id={id} setter={setData} setLoading={setLoading} setError={setError} setEdit={setCreate}>
                 <Input type="select" name="month" val={data.month} options={months}/>
                 <Input type="hidden" name="year" val={String(new Date().getFullYear())}/>
                 <Submit/>
@@ -99,7 +89,7 @@ const Budget = () => {
                 </div>
                 {txns}
             </div>
-            <button onClick={() => setEdit(true)} value='Edit!'>EDIT</button>
+            <button onClick={() => setCreate(true)} value='Edit!'>EDIT</button>
             </>
         }
         </>

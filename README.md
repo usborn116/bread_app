@@ -1,11 +1,11 @@
 # README
 
 Todos:
-- pre-select current value for select fields (https://react.dev/reference/react-dom/components/select#providing-an-initially-selected-option)
-- refactor API requests into custom hook (https://react.dev/learn/reusing-logic-with-custom-hooks)
 - pagination for transactions? (https://www.npmjs.com/package/react-paginate)
 - styling
-- refactor!!
+- move edit button into own component
+- move tables of data into own component
+- move "allAccounts" maps into own component
 - "the login details of this item have changed (credentials, MFA, or required user action) and a user login is required to update this information. use Link's update mode to restore the item to a good state" (https://plaid.com/docs/link/update-mode/)
 - handle loading page when adding new financial institution
 

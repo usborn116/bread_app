@@ -1,8 +1,8 @@
-import React, { useState, useEffect, useContext } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { getData, load, updateData } from "./helpers/api_helpers";
+import React from "react";
+import { Link } from "react-router-dom";
+import { updateData } from "./helpers/api_helpers";
+import { useDataGetter } from "./helpers/useDataGetter";
 import {useParams} from "react-router-dom";
-import { LoadContext } from "./contexts/LoadContext";
 import Loading from "./Loading";
 import Error from "./Error";
 import Input from "./Input";
@@ -11,36 +11,24 @@ import Form from "./Form";
 
 const Transaction = () => {
     const {id} = useParams();
-    const navigate = useNavigate();
-    const [data, setData] = useState([])
-    const {loading, setLoading} = useContext(LoadContext)
-    const [error, setError] = useState(null)
-    const [edit, setEdit] = useState(false)
+    
+    const {data, loading, error, setData, setError, setLoading, create, setDeleting, setCreate} = useDataGetter({endpoint: '/transactions', id: id})
 
-    useEffect(() => {
-        setLoading(true)
-        const url = `/transactions/${id}`;
-        getData(url, setData, navigate)
-        load(setLoading, data)
-      }, []); 
-      
-      const txn =
-      <div className="row">
-          <div>{data?.transaction?.date}</div>
-          <div>{data?.transaction?.name}</div>
-          <div>{data?.transaction?.amount ? data.transaction?.amount.toFixed(2) : null}</div>
-          <div>{data?.transaction?.category ? data.transaction?.category.name : 'None'}</div>
-          <div>{data?.transaction?.merchant}</div>
-          <div>{data?.transaction?.bank}</div>
-          <div>{data?.transaction?.institution_name || 'Cash'}</div>
-      </div>
-      ;
+    const txn =
+    <div className="row">
+        <div>{data?.transaction?.date}</div>
+        <div>{data?.transaction?.name}</div>
+        <div>{data?.transaction?.amount ? data.transaction?.amount.toFixed(2) : null}</div>
+        <div>{data?.transaction?.category ? data.transaction?.category.name : 'None'}</div>
+        <div>{data?.transaction?.merchant}</div>
+        <div>{data?.transaction?.bank}</div>
+        <div>{data?.transaction?.institution_name || 'Cash'}</div>
+    </div>
   
-
     if (error) return <Error message={error}/>
     
-    if (edit) return (
-        <Form endpoint="transactions" item='transaction' updater={updateData} id={id} setter={setData} setLoading={setLoading} setError={setError} setEdit={setEdit}>
+    if (create) return (
+        <Form endpoint="transactions" item='transaction' updater={updateData} id={id} setter={setData} setLoading={setLoading} setError={setError} setEdit={setCreate}>
                 <Input type="select" name="account_id" val={data.transaction.account_id} options={data.accounts}/>
                 <Input type="text" name="amount" val={data.transaction.amount} />
                 <Input type="date" name="date" val={data.transaction.date}/>
@@ -54,7 +42,6 @@ const Transaction = () => {
                 <Submit/>
         </Form>
     )
-
 
     return (
         <>
@@ -70,18 +57,12 @@ const Transaction = () => {
                 <div>Institution</div>
             </div>
             {txn}
-            <button onClick={() => setEdit(true)} value='Edit!'>EDIT</button>
-            <Link
-                    to="/transactions_list"
-                    className="btn btn-lg custom-button"
-                    role="button"
-                >
-                    TRANSACTIONS
-                </Link>
+            <button onClick={() => setCreate(true)} value='Edit!'>EDIT</button>
+            <Link to="/transactions_list" className="btn btn-lg custom-button" role="button">TRANSACTIONS</Link>
         </div>
         }
         </>
-          )
+    )
 };
 
 export default Transaction

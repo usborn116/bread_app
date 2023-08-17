@@ -1,17 +1,10 @@
 const errorHandler = (errorSetter, error, endpoint) => {
     console.log(error)
-    if (error.message.match(/is not valid JSON/)) {return errorSetter(`${endpoint} not found`)};
-    if (errorSetter) {errorSetter(error.message)};
+    if (error?.message?.match(/is not valid JSON/)) {return errorSetter(`${endpoint} not found`)};
+    if (errorSetter) {errorSetter(error.message ? error.message : error)};
 }
 
-export const load = (setter) => {
-    setTimeout(() => {
-        setter(() => false)
-        },300
-    )
-}
-
-export const getData= async (endpoint, setter, navigate, loader, errorSetter)=>{
+export const getData= async (endpoint, setter, errorSetter)=>{
     try {
         const response=await fetch(`${endpoint}`)
         if (response.status > 400){
@@ -24,6 +17,13 @@ export const getData= async (endpoint, setter, navigate, loader, errorSetter)=>{
     catch(error){
         errorHandler(errorSetter, error, endpoint)
     }
+}
+
+export const load = (setter) => {
+    setTimeout(() => {
+        setter(() => false)
+        },300
+    )
 }
 
 export const updateData = async (endpoint, setter, info, loader, errorSetter) => {

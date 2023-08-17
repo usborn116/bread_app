@@ -1,28 +1,16 @@
-import React, { useState, useEffect, useContext } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { getData, load, newData } from "./helpers/api_helpers";
-import { LoadContext } from "./contexts/LoadContext";
+import React from "react";
+import { Link } from "react-router-dom";
+import { newData } from "./helpers/api_helpers";
 import Loading from "./Loading";
 import Error from "./Error";
 import Input from "./Input";
 import Submit from "./Submit";
 import Form from "./Form";
 import Delete from "./Delete";
+import { useDataGetter } from "./helpers/useDataGetter";
 
 const Accounts = () => {
-    const navigate = useNavigate();
-    const [data, setData] = useState([])
-    const {loading, setLoading} = useContext(LoadContext)
-    const [error, setError] = useState(null)
-    const [create, setCreate] = useState(false)
-    const [deleting, setDeleting] = useState(false)
-
-    useEffect(() => {
-        setLoading(true)
-        const url = "/accounts";
-        getData(url, setData, navigate, setLoading)
-        load(setLoading, data)
-    }, [create, deleting]);
+    const {data, loading, error, setData, setError, setLoading, create, setDeleting, setCreate} = useDataGetter({endpoint: 'accounts'})
 
     const allAccounts = data.map(a => (
         <div className="row" key={a.id}>

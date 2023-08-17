@@ -1,7 +1,7 @@
-import React, { useState, useEffect, useContext } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { getData, load, newData } from "./helpers/api_helpers";
-import { LoadContext } from "./contexts/LoadContext";
+import React from "react";
+import { Link } from "react-router-dom";
+import { newData } from "./helpers/api_helpers";
+import { useDataGetter } from "./helpers/useDataGetter";
 import Loading from "./Loading";
 import Error from "./Error";
 import Input from "./Input";
@@ -10,19 +10,7 @@ import Form from "./Form";
 import Delete from "./Delete";
 
 const Transactions = () => {
-    const navigate = useNavigate();
-    const [data, setData] = useState([])
-    const {loading, setLoading} = useContext(LoadContext)
-    const [error, setError] = useState(null)
-    const [create, setCreate] = useState(false)
-    const [deleting, setDeleting] = useState(false)
-
-    useEffect(() => {
-        setLoading(true)
-        const url = "/transactions";
-        getData(url, setData, navigate)
-        load(setLoading, data)
-    }, [create, deleting]);
+    const {data, loading, error, setData, setError, setLoading, create, setDeleting, setCreate} = useDataGetter({endpoint: 'transactions'})
 
     const allTransactions = data?.transactions?.map(t => (
         <div key={t.id} className="row">
@@ -30,6 +18,8 @@ const Transactions = () => {
         <Delete setDeleting={setDeleting} endpoint='transactions' id={t.id} setter={setData} setLoading={setLoading} setError={setError} />
         </div>
     ));
+
+    if (error) return <Error message={error}/>
 
     if (create) return (
         <Form endpoint="transactions" item='transaction' updater={newData} setter={setData} setLoading={setLoading} setError={setError} setEdit={setCreate}>
@@ -53,11 +43,11 @@ const Transactions = () => {
         <div>
             <h1 className="display-4">Transactions</h1>
             <div className="table txn">
-            {allTransactions}
-            <button onClick={() => setCreate(true)}>CREATE NEW CASH TRANSACTION</button>
-            <Link to="/" className="btn btn-lg custom-button" role="button">HOME</Link>
+                {allTransactions}
+                <button onClick={() => setCreate(true)}>CREATE NEW CASH TRANSACTION</button>
+                <Link to="/" className="btn btn-lg custom-button" role="button">HOME</Link>
             </div>
-            </div>
+        </div>
         }
         </>
           )
