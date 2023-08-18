@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_08_04_223501) do
+ActiveRecord::Schema[7.0].define(version: 2023_08_18_211928) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -74,6 +74,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_04_223501) do
     t.datetime "updated_at", null: false
     t.string "institution_name"
     t.string "institution_id"
+    t.string "notice"
     t.index ["user_id"], name: "index_plaid_credentials_on_user_id"
   end
 

@@ -13,7 +13,7 @@ export function useDataGetter({endpoint, id = null}) {
         const url = `${endpoint}${id ? `/${id}` : ''}`;
         getData(url, setData, setError)
         setLoading(false)
-      }, [create, deleting]); 
+      }, [create, deleting, loading]); 
     
     const response = {data: data, loading: loading, error: error, create: create, deleting: deleting, setData: setData, setLoading: setLoading,
         setError: setError, setCreate: setCreate, setDeleting: setDeleting }
