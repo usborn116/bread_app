@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import { Link } from "react-router-dom";
 import { newData } from "./helpers/api_helpers";
 import { useDataGetter } from "./helpers/useDataGetter";
@@ -8,11 +8,27 @@ import Input from "./Input";
 import Submit from "./Submit";
 import Form from "./Form";
 import Delete from "./Delete";
+import ReactPaginate from "react-paginate";
 
 const Transactions = () => {
+    const [itemOffset, setItemOffset] = useState(0);
+
     const {data, loading, error, setData, setError, setLoading, create, setDeleting, setCreate} = useDataGetter({endpoint: 'transactions'})
 
-    const allTransactions = data?.transactions?.map(t => (
+    const items = data?.transactions
+
+    const endOffset = itemOffset + 25;
+    console.log(`Loading items from ${itemOffset} to ${endOffset}`);
+    const currentItems = data?.transactions?.slice(itemOffset, endOffset);
+    const pageCount = Math.ceil(data?.transactions?.length / 25);
+
+    const handlePageClick = (event) => {
+        const newOffset = (event.selected * 25) % items.length;
+        console.log(`User requested page number ${event.selected}, which is offset ${newOffset}`);
+        setItemOffset(newOffset);
+    };
+
+    const allTransactions = currentItems?.map(t => (
         <div key={t.id} className="row">
         <Link to={"" + t.id} className="btn btn-lg custom-button" role="button">{t.name}</Link>
         <Delete setDeleting={setDeleting} endpoint='transactions' id={t.id} setter={setData} setLoading={setLoading} setError={setError} />
@@ -39,15 +55,25 @@ const Transactions = () => {
     return (
         <>
         {loading ? <Loading/> :
-            
-        <div>
-            <h1 className="display-4">Transactions</h1>
-            <div className="table txn">
-                {allTransactions}
+        <>
+            <div className="page">
                 <button onClick={() => setCreate(true)}>CREATE NEW CASH TRANSACTION</button>
                 <Link to="/" className="btn btn-lg custom-button" role="button">HOME</Link>
+                <h1 className="display-4">Transactions!!!</h1>
+                <div className="table txn">
+                    {allTransactions}
+                </div>
             </div>
-        </div>
+            <ReactPaginate className="bar"
+                breakLabel="..."
+                nextLabel="next >"
+                onPageChange={handlePageClick}
+                pageRangeDisplayed={5}
+                pageCount={pageCount}
+                previousLabel="< previous"
+                renderOnZeroPageCount={null}
+            />
+        </>
         }
         </>
           )

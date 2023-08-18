@@ -1,16 +1,17 @@
 # README
 
 Todos:
-- pagination for transactions? (https://www.npmjs.com/package/react-paginate)
+- "the login details of this item have changed (credentials, MFA, or required user action) and a user login is required to update this information. use Link's update mode to restore the item to a good state" (https://plaid.com/docs/link/update-mode/)
 - styling
 - move edit button into own component
 - move tables of data into own component
 - move "allAccounts" maps into own component
-- "the login details of this item have changed (credentials, MFA, or required user action) and a user login is required to update this information. use Link's update mode to restore the item to a good state" (https://plaid.com/docs/link/update-mode/)
 - handle loading page when adding new financial institution
 
 
 Helpful things:
+
+pagination for transactions: (https://www.npmjs.com/package/react-paginate)
 
 Fetch api: https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch
 

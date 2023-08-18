@@ -15,10 +15,8 @@
  */
 body{
     color: blue;
-    display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: space-between;
 }
 
 .txn{
@@ -49,3 +47,15 @@ td{
     text-align: center;
 }
 
+.bar{
+    display: flex;
+    width: 100vw;
+    text-decoration: none;
+    gap: 10px;
+    list-style-type: none
+}
+
+.page{
+    width: 100vw;
+    margin-left: 5px;
+}

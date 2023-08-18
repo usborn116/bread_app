@@ -7,7 +7,7 @@ class TransactionsController < ApplicationController
   # GET /transactions or /transactions.json
   def index
     #@pagy, @transactions = pagy((Transaction.where(user_id: current_user.id).order('date DESC')))
-    @transactions = Transaction.where(user_id: current_user.id).includes(:account).sort_by{|t| [t.date, t.updated_at]}.reverse.first(25)
+    @transactions = Transaction.where(user_id: current_user.id).includes(:account).sort_by{|t| [t.date, t.updated_at]}.reverse
     @transactions = @transactions.map {|t| t.bank_account_name}
     @categories = current_user.categories.where(category_type: 'fund').or(current_user.categories.where(budget_month: Date::MONTHNAMES[Date.today.month]))
                 .order(:name)

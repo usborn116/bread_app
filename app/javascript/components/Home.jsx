@@ -2,13 +2,12 @@ import React, { useState, useEffect, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { getData, load } from "./helpers/api_helpers";
 import {usePlaidLink} from 'react-plaid-link';
-import { LoadContext } from "./contexts/LoadContext";
 import Loading from "./Loading";
 
 const Home= () => {
     const navigate = useNavigate();
     const [items, setItems] = useState([]);
-    const {loading, setLoading} = useContext(LoadContext)
+    const [loading, setLoading] = useState(false)
     const [linkToken, setLinkToken] = useState(null)
     const [error, setError] = useState(null)
     
@@ -46,8 +45,6 @@ const Home= () => {
     };
 
     const { open } = usePlaidLink(config);
-    
-    
 
     const getTransactions = async function (){
         setLoading(false)
