@@ -14,11 +14,12 @@ class PlaidCredentialsController < ApplicationController
     end
 
     def create_link_token
+        params[:access_token] ? product = [] : products = ['transactions']
         request = Plaid::LinkTokenCreateRequest.new(
             {
             user: { client_user_id: current_user.id.to_s },
             client_name: 'Usborn test app',
-            products: ['transactions'],
+            products: products,
             country_codes: ['US'],
             language: "en",
             redirect_uri: 'http://localhost:3000/',
@@ -26,7 +27,6 @@ class PlaidCredentialsController < ApplicationController
             }
         )
         response = @client.link_token_create(request)
-        p response
         render json: response
     end
 
@@ -43,7 +43,6 @@ class PlaidCredentialsController < ApplicationController
             }
         )
         response = @client.link_token_create(request)
-        p response
         render json: response
     end
 
@@ -77,13 +76,13 @@ class PlaidCredentialsController < ApplicationController
                     }
                 )
                 response = @client.transactions_sync(request)
-    
+
                 added += response.added
                 added += response.modified
                 removed += response.removed
                 has_more = response.has_more
                 c.update!(cursor: response.next_cursor)
-    
+
                 added.each do |t|
                     txn = Transaction.find_or_create_by(transaction_id: t.transaction_id)
                     txn.update!(
@@ -107,9 +106,11 @@ class PlaidCredentialsController < ApplicationController
                     txn = Transaction.find_by(transaction_id: t.transaction_id)
                     txn.destroy
                 end
+
                 c.update(notice: "Last synced: #{Date.today}")
                 
             rescue => exception
+                p exception
                 c.update(notice: "Failed to Sync")
             end
             
@@ -148,7 +149,6 @@ class PlaidCredentialsController < ApplicationController
         @credential.destroy
         Account.where(institution_name: n).each {|a| a.destroy}
         Transaction.where(institution_name: n).each {|t| t.destroy}
-    
         render json: {message: 'Deleted!'}
     end
 

@@ -8,6 +8,7 @@ import Error from "./Error";
 import Input from "./Input";
 import Submit from "./Submit";
 import Form from "./Form";
+import Edit from "./Edit";
 
 const Transaction = () => {
     const {id} = useParams();
@@ -57,7 +58,7 @@ const Transaction = () => {
                 <div>Institution</div>
             </div>
             {txn}
-            <button onClick={() => setCreate(true)} value='Edit!'>EDIT</button>
+            <Edit setCreate={setCreate} name={data?.transaction?.name}/>
             <Link to="/transactions_list" className="btn btn-lg custom-button" role="button">TRANSACTIONS</Link>
         </div>
         }

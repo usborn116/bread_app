@@ -8,6 +8,7 @@ import Error from "./Error";
 import Form from "./Form";
 import Input from "./Input";
 import Submit from "./Submit";
+import Edit from "./Edit";
 
 const Budget = () => {
     const {id} = useParams();
@@ -89,7 +90,7 @@ const Budget = () => {
                 </div>
                 {txns}
             </div>
-            <button onClick={() => setCreate(true)} value='Edit!'>EDIT</button>
+            <Edit setCreate={setCreate} name={`${data?.month} ${data?.year}`}/>
             </>
         }
         </>

@@ -18,13 +18,11 @@ const Transactions = () => {
     const items = data?.transactions
 
     const endOffset = itemOffset + 25;
-    console.log(`Loading items from ${itemOffset} to ${endOffset}`);
     const currentItems = data?.transactions?.slice(itemOffset, endOffset);
     const pageCount = Math.ceil(data?.transactions?.length / 25);
 
     const handlePageClick = (event) => {
         const newOffset = (event.selected * 25) % items.length;
-        console.log(`User requested page number ${event.selected}, which is offset ${newOffset}`);
         setItemOffset(newOffset);
     };
 

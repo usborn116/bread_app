@@ -7,6 +7,7 @@ import Input from "./Input";
 import Submit from "./Submit";
 import Form from "./Form";
 import { useDataGetter } from "./helpers/useDataGetter";
+import Edit from "./Edit";
 
 const Account = () => {
     const {id} = useParams();
@@ -50,7 +51,7 @@ const Account = () => {
                     <div>Institution</div>
                 </div>
             {acct}
-            <button onClick={() => setCreate(true)} value='Edit!'>EDIT</button>
+            <Edit setCreate={setCreate} name={data?.name}/>
             <Link to="/accounts_list" className="btn btn-lg custom-button" role="button">ACCOUNTS</Link>
         </div> 
         }

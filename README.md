@@ -1,12 +1,13 @@
 # README
 
 Todos:
-- move edit button into own component
 - move tables of data into own component
 - move "allAccounts" maps into own component
-- handle loading page when adding new financial institution
+- move Insitutions into own component
+- reload page after sync_transactions/adding new financial institution
+- delete Institution
 - styling
-- "the login details of this item have changed (credentials, MFA, or required user action) and a user login is required to update this information. use Link's update mode to restore the item to a good state" (https://plaid.com/docs/link/update-mode/)
+
 
 
 Helpful things:

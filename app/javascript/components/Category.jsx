@@ -8,6 +8,7 @@ import Form from "./Form";
 import Input from "./Input";
 import Submit from "./Submit";
 import { useDataGetter } from "./helpers/useDataGetter";
+import Edit from "./Edit";
 
 const Category = () => {
     const {id} = useParams();
@@ -50,7 +51,7 @@ const Category = () => {
                     <div>Current</div>
                 </div>
             {cat}
-            <button onClick={() => setCreate(true)} value='Edit!'>EDIT</button>
+            <Edit setCreate={setCreate} name={data?.name}/>
             <Link to="/savings_funds" className="btn btn-lg custom-button" role="button">SAVINGS FUNDS</Link><br></br>
             <Link to="/monthly_categories" className="btn btn-lg custom-button" role="button">BUDGET CATEGORIES</Link>
         </div>
