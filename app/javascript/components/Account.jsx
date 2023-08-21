@@ -8,11 +8,17 @@ import Submit from "./Submit";
 import Form from "./Form";
 import { useDataGetter } from "./helpers/useDataGetter";
 import Edit from "./Edit";
+import Single from "./Single";
 
 const Account = () => {
     const {id} = useParams();
 
     const {data, loading, error, setData, setError, setLoading, create, setDeleting, setCreate} = useDataGetter({endpoint: '/accounts', id: id}) 
+
+    const available = data.available ? 'available' : 'current'
+
+    const headers = ['Name', 'Available to Spend/Current Balance', 'Account Number', 'Type', 'Institution']
+    const columns = ['name', {available}, 'last_four', 'subtype', 'institution_name']
     
     const acct =
         <div className="row">
@@ -39,10 +45,8 @@ const Account = () => {
         </Form>
     )
 
-    return (
-        <>
-        {loading ? '' : 
-        <div className="table accts">
+    /*
+    <div className="table accts">
             <div className='row'>
                     <div>Name</div>
                     <div>Available to Spend/Current Balance</div>
@@ -54,6 +58,12 @@ const Account = () => {
             <Edit setCreate={setCreate} name={data?.name}/>
             <Link to="/accounts_list" className="btn btn-lg custom-button" role="button">ACCOUNTS</Link>
         </div> 
+    */
+
+    return (
+        <>
+        {loading ? '' : 
+        <Single headers={headers} columns={columns} data={data}/>
         }
         </>
           )

@@ -1,24 +1,15 @@
 import React from "react";
-import { Link } from "react-router-dom";
 import { newData } from "./helpers/api_helpers";
 import Loading from "./Loading";
 import Error from "./Error";
 import Input from "./Input";
 import Submit from "./Submit";
 import Form from "./Form";
-import Delete from "./Delete";
 import { useDataGetter } from "./helpers/useDataGetter";
+import List from "./List";
 
 const Accounts = () => {
-    const {data, loading, error, setData, setError, setLoading, create, setDeleting, setCreate} = useDataGetter({endpoint: 'accounts'})
-
-    const allAccounts = data.map(a => (
-        <div className="row" key={a.id}>
-       
-        <Link to={"" + a.id} className="btn btn-lg custom-button" role="button">{a.name}</Link>
-        <Delete setDeleting={setDeleting} endpoint='accounts' id={a.id} setter={setData} setLoading={setLoading} setError={setError} />
-        </div>
-    ));       
+    const {data, loading, error, setData, setError, setLoading, create, setDeleting, setCreate} = useDataGetter({endpoint: 'accounts'})     
 
     if (error) return <Error message={error}/>
 
@@ -37,15 +28,8 @@ const Accounts = () => {
     return (
         <>
         {loading ? <Loading/> : 
-        <div>
-            <h1 className="display-4">Accounts</h1>
-            <div className="table accts">
-                {allAccounts}
-                <button onClick={() => setCreate(true)}>CREATE NEW CASH ACCOUNT</button>
-                <Link to="/" className="btn btn-lg custom-button" role="button">HOME</Link>
-            </div>
-        </div>
-        }
+        <List data={data} tablename='Accounts' setCreate={setCreate} setDeleting={setDeleting} setData={setData} setLoading={setLoading} setError={setError}/>
+    }
         </>
           )
 };

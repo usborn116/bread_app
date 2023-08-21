@@ -1,5 +1,4 @@
 import React, {useState} from "react";
-import { Link } from "react-router-dom";
 import { newData } from "./helpers/api_helpers";
 import { useDataGetter } from "./helpers/useDataGetter";
 import Loading from "./Loading";
@@ -7,8 +6,8 @@ import Error from "./Error";
 import Input from "./Input";
 import Submit from "./Submit";
 import Form from "./Form";
-import Delete from "./Delete";
 import ReactPaginate from "react-paginate";
+import List from "./List";
 
 const Transactions = () => {
     const [itemOffset, setItemOffset] = useState(0);
@@ -25,13 +24,6 @@ const Transactions = () => {
         const newOffset = (event.selected * 25) % items.length;
         setItemOffset(newOffset);
     };
-
-    const allTransactions = currentItems?.map(t => (
-        <div key={t.id} className="row">
-        <Link to={"" + t.id} className="btn btn-lg custom-button" role="button">{t.name}</Link>
-        <Delete setDeleting={setDeleting} endpoint='transactions' id={t.id} setter={setData} setLoading={setLoading} setError={setError} />
-        </div>
-    ));
 
     if (error) return <Error message={error}/>
 
@@ -54,14 +46,7 @@ const Transactions = () => {
         <>
         {loading ? <Loading/> :
         <>
-            <div className="page">
-                <button onClick={() => setCreate(true)}>CREATE NEW CASH TRANSACTION</button>
-                <Link to="/" className="btn btn-lg custom-button" role="button">HOME</Link>
-                <h1 className="display-4">Transactions!!!</h1>
-                <div className="table txn">
-                    {allTransactions}
-                </div>
-            </div>
+            <List data={currentItems} tablename='Transactions' setCreate={setCreate} setDeleting={setDeleting} setData={setData} setLoading={setLoading} setError={setError}/>
             <ReactPaginate className="bar"
                 breakLabel="..."
                 nextLabel="next >"
