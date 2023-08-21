@@ -1,11 +1,12 @@
 import React from "react";
-import { Link} from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Edit from "./Edit";
 
-const Single = ({headers, columns, data}) => {
+const Single = ({headers, columns, name, setCreate}) => {
+    const navigate = useNavigate()
     const row =
         <div className="row">
-            {columns.map(c => <div>{data?.c}</div>)}
+            {columns.map(c => <div>{c}</div>)}
         </div>
     ;
 
@@ -15,8 +16,8 @@ const Single = ({headers, columns, data}) => {
                 {headers.map(m => <div>{m}</div>)}
             </div>
             {row}
-            <Edit setCreate={setCreate} name={data?.name}/>
-            <Link to="/accounts_list" className="btn btn-lg custom-button" role="button">ACCOUNTS</Link>
+            <Edit setCreate={setCreate} name={name}/>
+            <button onClick={() => navigate(-1)} className="btn btn-lg custom-button" role="button">BACK</button>
         </div> 
           )
 };

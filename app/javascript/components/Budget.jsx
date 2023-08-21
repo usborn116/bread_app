@@ -9,6 +9,7 @@ import Form from "./Form";
 import Input from "./Input";
 import Submit from "./Submit";
 import Edit from "./Edit";
+import Single from "./Single";
 
 const Budget = () => {
     const {id} = useParams();

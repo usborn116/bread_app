@@ -1,5 +1,4 @@
 import React from "react";
-import { Link} from "react-router-dom";
 import { updateData } from "./helpers/api_helpers";
 import {useParams} from "react-router-dom";
 import Error from "./Error";
@@ -7,7 +6,6 @@ import Input from "./Input";
 import Submit from "./Submit";
 import Form from "./Form";
 import { useDataGetter } from "./helpers/useDataGetter";
-import Edit from "./Edit";
 import Single from "./Single";
 
 const Account = () => {
@@ -15,20 +13,10 @@ const Account = () => {
 
     const {data, loading, error, setData, setError, setLoading, create, setDeleting, setCreate} = useDataGetter({endpoint: '/accounts', id: id}) 
 
-    const available = data.available ? 'available' : 'current'
+    const available = data.available ? data.available : data.current
 
     const headers = ['Name', 'Available to Spend/Current Balance', 'Account Number', 'Type', 'Institution']
-    const columns = ['name', {available}, 'last_four', 'subtype', 'institution_name']
-    
-    const acct =
-        <div className="row">
-            <div>{data.name}</div>
-            <div>{data.available ? data.available : data.current}</div>
-            <div>{data.last_four}</div>
-            <div>{data.subtype}</div>
-            <div>{data.institution_name}</div>
-        </div>
-    ;
+    const columns = [data.name, available, data.last_four, data.subtype, data.institution_name]
 
     if (error) return <Error message={error}/>
 
@@ -45,25 +33,10 @@ const Account = () => {
         </Form>
     )
 
-    /*
-    <div className="table accts">
-            <div className='row'>
-                    <div>Name</div>
-                    <div>Available to Spend/Current Balance</div>
-                    <div>Account Number</div>
-                    <div>Type</div>
-                    <div>Institution</div>
-                </div>
-            {acct}
-            <Edit setCreate={setCreate} name={data?.name}/>
-            <Link to="/accounts_list" className="btn btn-lg custom-button" role="button">ACCOUNTS</Link>
-        </div> 
-    */
-
     return (
         <>
         {loading ? '' : 
-        <Single headers={headers} columns={columns} data={data}/>
+        <Single headers={headers} columns={columns} name={data.name} setCreate={setCreate}/>
         }
         </>
           )
