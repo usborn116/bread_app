@@ -1,5 +1,4 @@
 import React from "react";
-import { Link } from "react-router-dom";
 import { updateData } from "./helpers/api_helpers";
 import { useDataGetter } from "./helpers/useDataGetter";
 import {useParams} from "react-router-dom";
@@ -8,39 +7,24 @@ import Error from "./Error";
 import Form from "./Form";
 import Input from "./Input";
 import Submit from "./Submit";
-import Edit from "./Edit";
 import Single from "./Single";
 
 const Budget = () => {
     const {id} = useParams();
 
     const {data, loading, error, setData, setError, setLoading, create, setDeleting, setCreate} = useDataGetter({endpoint: '/budgets', id: id})
-    
-    const bdgt =
-        <div className="row">
-            <div>{`${data.month} ${data.year}`}</div>
-            <div>{data?.balance?.toFixed(2) || 0}</div>
-            <div>{data.budget_amount}</div>
-            <div>{data?.rollover?.toFixed(2) || 0}</div>
-        </div>
 
-    const items = data?.categories?.map((c, i) => (
-        <div key={i} className="row">
-            <div>{c.name}</div>
-            <div>{c.budget_amt?.toFixed(2)}</div>
-            <div>{c.current}</div>
-        </div>
-    ));
+    const headers1 = ['Budget Month', 'Budget Balance', 'Budgeted Amount', 'Rollover Amount']
+    const columns1 = [`${data?.month} ${data?.year}`, data?.balance?.toFixed(2) || 0, data?.budget_amount, data?.rollover?.toFixed(2) || 0 ]
+    
+    const headers2 = ['Budget Item', 'Budget Amount', 'Current Balance']
+
+    const items = data?.categories?.map((c, i) => <Single columns={[c.name, c.budget_amt?.toFixed(2), c.current]}/> );
+
+    const headers3 = ['Transaction', 'Cost', 'Date', 'Category']
 
     const txns = data?.categories?.map((c, i) => (
-        c?.transactions.map((t,i) => (
-            <div key={i} className="row">
-                <div>{t.name}</div>
-                <div>{t.amount?.toFixed(2)}</div>
-                <div>{t.date}</div>
-                <div>{c.name}</div>
-            </div>
-        ))
+        c?.transactions.map((t,i) => <Single columns={[t.name, t.amount?.toFixed(2), t.date, c.name]}/>)
     ));
     
 
@@ -58,40 +42,19 @@ const Budget = () => {
         </Form>
     )
 
+   
+
     return (
         <>
         {loading ? <Loading/> : 
             <>
-            <Link to="/budgets_list" className="btn btn-lg custom-button" role="button">BUDGETS</Link>
-            <div className="table accts">
-                <div className='row'>
-                    <div>Budget Month</div>
-                    <div>Budget Balance</div>
-                    <div>Budgeted Amount</div>
-                    <div>Rollover Amount</div>
-                </div>
-                {bdgt}
-            </div>
-            <div className="table accts">
-                <div className='row'>
-                    <div>Budget Item</div>
-                    <div>Budget Amount</div>
-                    <div>Current Balance</div>
-                </div>
-                {items}
-            </div>
-            <br></br>
-            <br></br>
-            <div className="table accts">
-                <div className='row'>
-                    <div>Transaction</div>
-                    <div>Cost</div>
-                    <div>Date</div>
-                    <div>Category</div>
-                </div>
-                {txns}
-            </div>
-            <Edit setCreate={setCreate} name={`${data?.month} ${data?.year}`}/>
+            <Single headers={headers1} columns={columns1} name={`${data?.month} ${data?.year}`} setCreate={setCreate}/>
+            <br></br><br></br>
+            <Single headers={headers2}/>
+            {items}
+            <br></br><br></br>
+            <Single headers={headers3}/>
+            {txns}
             </>
         }
         </>

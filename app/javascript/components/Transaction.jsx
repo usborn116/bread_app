@@ -1,5 +1,4 @@
 import React from "react";
-import { Link } from "react-router-dom";
 import { updateData } from "./helpers/api_helpers";
 import { useDataGetter } from "./helpers/useDataGetter";
 import {useParams} from "react-router-dom";
@@ -8,23 +7,16 @@ import Error from "./Error";
 import Input from "./Input";
 import Submit from "./Submit";
 import Form from "./Form";
-import Edit from "./Edit";
+import Single from "./Single";
 
 const Transaction = () => {
     const {id} = useParams();
     
     const {data, loading, error, setData, setError, setLoading, create, setDeleting, setCreate} = useDataGetter({endpoint: '/transactions', id: id})
 
-    const txn =
-    <div className="row">
-        <div>{data?.transaction?.date}</div>
-        <div>{data?.transaction?.name}</div>
-        <div>{data?.transaction?.amount ? data.transaction?.amount.toFixed(2) : null}</div>
-        <div>{data?.transaction?.category ? data.transaction?.category.name : 'None'}</div>
-        <div>{data?.transaction?.merchant}</div>
-        <div>{data?.transaction?.bank}</div>
-        <div>{data?.transaction?.institution_name || 'Cash'}</div>
-    </div>
+    const headers = ['Date', 'Name', 'Amount', 'Budget/Fund', 'Merchant', 'Account', 'Institution']
+    const columns = [data?.transaction?.date, data?.transaction?.name, data?.transaction?.amount?.toFixed(2), data?.transaction?.category?.name,
+                    data?.transaction?.merchant, data?.transaction?.bank, `${data?.transaction?.institution_name || 'Cash'}`]
   
     if (error) return <Error message={error}/>
     
@@ -47,20 +39,7 @@ const Transaction = () => {
     return (
         <>
         {loading ? <Loading/> : 
-        <div className="table accts">
-            <div className='row'>
-                <div>Date</div>
-                <div>Name</div>
-                <div>Amount</div>
-                <div>Budget/Fund</div>
-                <div>Merchant</div>
-                <div>Account</div>
-                <div>Institution</div>
-            </div>
-            {txn}
-            <Edit setCreate={setCreate} name={data?.transaction?.name}/>
-            <Link to="/transactions_list" className="btn btn-lg custom-button" role="button">TRANSACTIONS</Link>
-        </div>
+        <Single headers={headers} columns={columns} setCreate={setCreate} name={data?.transaction?.name} />
         }
         </>
     )

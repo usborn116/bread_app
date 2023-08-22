@@ -1,7 +1,6 @@
 # README
 
 Todos:
-- move single individual listings into own component
 - move Institutions into own component, delete Institution
 - reload page after sync_transactions/adding new financial institution
 - styling
