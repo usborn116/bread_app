@@ -14,7 +14,7 @@ const Home= () => {
         <div key={cred.id} className="row">
             <div><Link to={"/institutions/" + cred.id} className="btn btn-lg custom-button" role="button">{cred.institution_name}</Link></div>
             <div>{cred.institution_id}</div>
-            <div>{cred?.notice?.split(' ')[0] == 'Failed' ? <LinkHandler id={cred.id} access_token={cred.access_token}/> : `${cred.notice}`} </div>
+            <div>{cred?.notice?.split(' ')[0] == 'Failed' ? <LinkHandler id={cred.id} setLoading={setLoading} access_token={cred.access_token}/> : `${cred.notice}`} </div>
             <Delete setDeleting={setDeleting} endpoint={'plaid_credentials'} id={cred.id} setter={setData} setLoading={setLoading} setError={setError} />
         </div>
       ));
@@ -32,7 +32,7 @@ const Home= () => {
                     {allItems}
                 </div>
             </div>
-            <LinkHandler /><br></br>
+            <LinkHandler setLoading={setLoading}/><br></br>
             <Link to="/transactions_list" className="btn btn-lg custom-button" role="button">View Transactions</Link><br></br>
             <Link to="/accounts_list" className="btn btn-lg custom-button" role="button">View Accounts</Link><br></br>
             <Link to="/budgets_list" className="btn btn-lg custom-button" role="button">View Budgets</Link><br></br>

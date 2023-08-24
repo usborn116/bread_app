@@ -57,8 +57,7 @@ class PlaidCredentialsController < ApplicationController
         @credential.save
         request = Plaid::ItemPublicTokenExchangeRequest.new({public_token: params[:public_token]})
         response = @client.item_public_token_exchange(request)
-        @credential.update!(access_token: response.access_token)
-        @credential.update!(item_id: response.item_id)
+        @credential.update!(access_token: response.access_token,item_id: response.item_id)
         get_institution_id
         get_institution_name
         create_cash_acct

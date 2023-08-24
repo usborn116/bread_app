@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import {usePlaidLink} from 'react-plaid-link';
 
-const LinkHandler = ({id = null, access_token = null}) => {
+const LinkHandler = ({id = null, access_token = null, setLoading = null}) => {
 
     const [linkToken, setLinkToken] = useState(null)
 
@@ -17,8 +17,11 @@ const LinkHandler = ({id = null, access_token = null}) => {
 
     const onSuccess = React.useCallback(async (public_token, metadata) => {
         if (!id){
+            setLoading(true)
             const response = await fetch(`/exchange_public_token/${public_token}`, {method: 'POST'});
+            setLoading(false)
             return response
+            
         }
     })
 

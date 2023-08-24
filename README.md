@@ -1,10 +1,7 @@
 # README
 
 Todos:
-- reload page after sync_transactions/adding new financial institution
-- styling
-
-
+- styling!!
 
 Helpful things:
 
