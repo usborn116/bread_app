@@ -2,6 +2,14 @@
 
 Todos:
 - styling!!
+    - tables for each page
+    - loading screen
+    - error page
+    - all buttons
+    - forms
+    - navbar for links?
+    - links
+    - titles
 
 Helpful things:
 
