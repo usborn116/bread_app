@@ -77,3 +77,14 @@ export const newData = async (endpoint, setter, info, loader, errorSetter)=>{
         errorHandler(errorSetter, error, endpoint)
     }
 }
+
+export const getTransactions = async function (setLoading){
+    setLoading(true)
+    await fetch('/sync_transactions', {
+        headers: {
+            "content-type": "application/json"
+        },
+        method: "get"
+    })
+    setLoading(false)
+}

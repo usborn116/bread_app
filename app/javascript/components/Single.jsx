@@ -6,16 +6,16 @@ const Single = ({headers = [], columns = [], name = null, setCreate = null}) => 
     const navigate = useNavigate()
     const row =
         <div className="row">
-            {columns.map(c => <div>{c}</div>)}
+            {columns.map((c, i) => <div key={i}>{c}</div>)}
         </div>
     ;
 
     return (
         <div className="table accts">
-            {name ? <Edit setCreate={setCreate} name={name}/> : ''}
-            {name ? <button onClick={() => navigate(-1)} className="btn btn-lg custom-button" role="button">BACK</button> : ''}
+            {setCreate ? <Edit setCreate={setCreate} name={name}/> : ''}
+            {setCreate ? <button onClick={() => navigate(-1)} className="btn btn-lg custom-button" role="button">BACK</button> : ''}
             <div className='row'>
-                {headers.map(m => <div>{m}</div>)}
+                {headers.map((m, i) => <div key={i}>{m}</div>)}
             </div>
             {row}
             

@@ -9,10 +9,8 @@ export function useDataGetter({endpoint, id = null}) {
     const [deleting, setDeleting] = useState(false)
 
     useEffect(() => {
-        setLoading(true)
         const url = `${endpoint}${id ? `/${id}` : ''}`;
         getData(url, setData, setError)
-        setLoading(false)
       }, [create, deleting, loading]); 
     
     const response = {data: data, loading: loading, error: error, create: create, deleting: deleting, setData: setData, setLoading: setLoading,

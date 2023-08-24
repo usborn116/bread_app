@@ -10,6 +10,7 @@ import Transaction from "../components/Transaction";
 import Category from "../components/Category";
 import Budget from "../components/Budget";
 import Error from "../components/Error";
+import Institution from "../components/Institution"
 
 export default (
   <Router>
@@ -25,6 +26,7 @@ export default (
       <Route path="/monthly_categories/:id" element={<Category />} />
       <Route path="/savings_funds/:id" element={<Category />} />
       <Route path="/budgets_list/:id" element={<Budget />} />
+      <Route path="/institutions/:id" element={<Institution />} />
       <Route path="/*" element={<Error message="There's nothing at this URL!" />} />
     </Routes>
   </Router>
