@@ -1,11 +1,7 @@
 import React from "react";
-import { updateData } from "./helpers/api_helpers";
-import {useParams} from "react-router-dom";
+import {useParams, useNavigate} from "react-router-dom";
 import Loading from "./Loading";
 import Error from "./Error";
-import Form from "./Form";
-import Input from "./Input";
-import Submit from "./Submit";
 import { useDataGetter } from "./helpers/useDataGetter";
 import Single from "./Single";
 
@@ -13,21 +9,38 @@ import Single from "./Single";
 const Institution = () => {
     const {id} = useParams();
 
-    const {data, loading, error, setData, setError, setLoading, create, setDeleting, setCreate} = useDataGetter({endpoint: '/categories', id: id})
+    const navigate = useNavigate()
 
-    const headers1 = ['Accounts']
+    const {data, loading, error, setData, setError, setLoading, create, setDeleting, setCreate} = useDataGetter({endpoint: '/plaid_credentials', id: id})
 
-    const headers2 = ['Transaction', 'Amount']
-    const columns = [`${data?.name} ${data?.budget_month || ''}`, data?.category_type, `${data?.account?.name || 'None'}`, `${data?.current?.toFixed(2) || 0.00}`]
+    const headers1 = ['Institution Name', 'Institution ID', 'Notices']
+    const columns1 = [data?.credential?.institution_name, data?.credential?.institution_id, data?.credential?.notice]
 
-    const category_options = [{id: 'fund', name: 'Savings Fund'}, {id: 'monthly', name: 'Monthly Budget'}]
+    const headers2 = ['Account Name', 'Available To Spend/Current Balance', 'Account Number', 'Type']
+
+    const accounts = data?.accounts?.map(a => <Single key={a.id} columns={[a.name, a?.available || a?.current, a.last_four, a.subtype]}/> );
+
+    const headers3 = ['Transaction', 'Cost', 'Date']
+
+    const txns = data?.transactions?.map(t => <Single key={t.id} columns={[t.name, t.amount?.toFixed(2), t.date]}/>).slice(0, 100);
+    
 
     if (error) return <Error message={error}/>
 
     return (
         <>
         {loading ? <Loading/> : 
-        <Single headers={headers1} columns={columns} name={data?.institution_name}/>
+            <>
+            {setCreate ? <button onClick={() => navigate(-1)} className="btn btn-lg custom-button" role="button">BACK</button> : ''}
+            <Single headers={headers1} columns={columns1} name={data?.credential?.institution_name}/>
+            <br></br><br></br>
+            <Single headers={headers2}/>
+            {accounts}
+            <br></br><br></br>
+            <h2>Last 100 Transactions</h2>
+            <Single headers={headers3}/>
+            {txns}
+            </>
         }
         </>
           )

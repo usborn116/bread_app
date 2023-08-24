@@ -1,9 +1,6 @@
 # README
 
 Todos:
-- create Institution component (show accounts and transactions)
-    - this will involve editing plaid credentials component to include a "show" method that includes the account and transactions associated with that institution
-    - Institution component should be modeled after Budget component
 - reload page after sync_transactions/adding new financial institution
 - styling
 
