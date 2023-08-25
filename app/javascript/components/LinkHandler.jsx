@@ -32,7 +32,7 @@ const LinkHandler = ({id = null, access_token = null, setLoading = null}) => {
 
     const { open } = usePlaidLink(config);
 
-    return <button onClick={() => open()} id='linkButton'>{id ? 'Last Sync Failed. ' : ''}Connect {id ? 'This' : 'A'} Bank</button>
+    return <button className="button" onClick={() => open()} id='linkButton'>{id ? 'Last Sync Failed. ' : ''}Connect {id ? 'This' : 'A'} Bank</button>
 };
 
 export default LinkHandler

@@ -1,0 +1,29 @@
+.button, a{
+    border-radius: 10px;
+    padding: 15px;
+    border: 0px solid;
+    width: fit-content;
+    font-size: 16px;
+}
+
+a{
+    text-decoration: none;
+}
+
+.button.create{
+    background-color: #a8d4ad;
+}
+
+.button.create:hover{
+    background-color: green;
+    color: white;
+}
+
+.button{
+    background-color: #f19c79;
+}
+
+.button:hover{
+    background-color: red;
+    color: white;
+}

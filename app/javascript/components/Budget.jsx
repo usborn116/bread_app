@@ -49,10 +49,8 @@ const Budget = () => {
         {loading ? <Loading/> : 
             <>
             <Single headers={headers1} columns={columns1} name={`${data?.month} ${data?.year}`} setCreate={setCreate}/>
-            <br></br><br></br>
             <Single headers={headers2}/>
             {items}
-            <br></br><br></br>
             <Single headers={headers3}/>
             {txns}
             </>

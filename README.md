@@ -5,11 +5,9 @@ Todos:
     - tables for each page
     - loading screen
     - error page
-    - all buttons
     - forms
-    - navbar for links?
-    - links
-    - titles
+    - footer
+- fix bug navigating between two types of categories (state change?)
 
 Helpful things:
 

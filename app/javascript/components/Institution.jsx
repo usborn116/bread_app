@@ -4,6 +4,7 @@ import Loading from "./Loading";
 import Error from "./Error";
 import { useDataGetter } from "./helpers/useDataGetter";
 import Single from "./Single";
+import Back from "./Back";
 
 
 const Institution = () => {
@@ -31,7 +32,7 @@ const Institution = () => {
         <>
         {loading ? <Loading/> : 
             <>
-            {setCreate ? <button onClick={() => navigate(-1)} className="btn btn-lg custom-button" role="button">BACK</button> : ''}
+            {setCreate ? <Back /> : ''}
             <Single headers={headers1} columns={columns1} name={data?.credential?.institution_name}/>
             <br></br><br></br>
             <Single headers={headers2}/>

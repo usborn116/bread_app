@@ -1,20 +1,23 @@
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Edit from "./Edit";
+import Back from "./Back";
 
 const Single = ({headers = [], columns = [], name = null, setCreate = null}) => {
     const navigate = useNavigate()
     const row =
-        <div className="row">
+        <div className="row" style={{gridTemplateColumns: `repeat(${columns.length}, 1fr)`}}>
             {columns.map((c, i) => <div key={i}>{c}</div>)}
         </div>
     ;
 
     return (
         <div className="table accts">
-            {setCreate ? <Edit setCreate={setCreate} name={name}/> : ''}
-            {setCreate ? <button onClick={() => navigate(-1)} className="btn btn-lg custom-button" role="button">BACK</button> : ''}
-            <div className='row'>
+            <div className="button-container">
+                {setCreate ? <Edit setCreate={setCreate} name={name}/> : ''}
+                {setCreate ? <Back/> : ''}
+            </div>
+            <div className='row headers' style={{gridTemplateColumns: `repeat(${headers.length}, 1fr)`}}>
                 {headers.map((m, i) => <div key={i}>{m}</div>)}
             </div>
             {row}

@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState, useEffect }from "react";
 import { newData } from "./helpers/api_helpers";
 import { useDataGetter } from "./helpers/useDataGetter";
 import Loading from "./Loading";
@@ -10,6 +10,14 @@ import List from "./List";
 
 const Categories = ({type}) => {
     const endpoint = `/categories/${type == 'monthly' ? "budget_categories" : "fund_categories"}`
+
+    const [ctype, setCType] = useState(type)
+
+    console.log(ctype)
+
+    useEffect(() => {
+        setCType(prev => type)
+    }, [type])
 
     const {data, loading, error, setData, setError, setLoading, create, setDeleting, setCreate} = useDataGetter({endpoint: endpoint})
 
