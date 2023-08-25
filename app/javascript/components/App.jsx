@@ -10,7 +10,7 @@ const props=() => {
     if (error) return <Error message={error}/>
 
     return (
-        <div>
+        <div className="bod">
             {Routes}
         </div>
         )

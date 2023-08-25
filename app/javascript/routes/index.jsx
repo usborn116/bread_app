@@ -12,6 +12,7 @@ import Budget from "../components/Budget";
 import Error from "../components/Error";
 import Institution from "../components/Institution"
 import NavBar from "../components/NavBar";
+import Footer from "../components/Footer";
 
 export default (
     <Router>
@@ -31,5 +32,6 @@ export default (
         <Route path="/institutions/:id" element={<Institution />} />
         <Route path="/*" element={<Error message="There's nothing at this URL!" />} />
       </Routes>
+      <Footer />
     </Router>
   );
