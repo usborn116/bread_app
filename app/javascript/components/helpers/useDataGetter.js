@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { getData } from './api_helpers';
 
-export function useDataGetter({endpoint, id = null}) {
+export function useDataGetter({endpoint, id = null, monthly = null}) {
     const [data, setData] = useState([])
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState(null)
@@ -11,7 +11,7 @@ export function useDataGetter({endpoint, id = null}) {
     useEffect(() => {
         const url = `${endpoint}${id ? `/${id}` : ''}`;
         getData(url, setData, setError)
-      }, [create, deleting, loading]); 
+      }, [create, deleting, loading, monthly]); 
     
     const response = {data: data, loading: loading, error: error, create: create, deleting: deleting, setData: setData, setLoading: setLoading,
         setError: setError, setCreate: setCreate, setDeleting: setDeleting }

@@ -22,12 +22,10 @@ export default (
         <Route path="/transactions_list" element={<Transactions />} />
         <Route path="/accounts_list" element={<Accounts />} />
         <Route path="/budgets_list" element={<Budgets />} />
-        <Route path="/monthly_categories" element={<Categories type='monthly' />} />
-        <Route path="/savings_funds" element={<Categories type='fund' />} />
+        <Route key="monthly" path="/categories_list" element={<Categories />} />
         <Route path="/accounts_list/:id" element={<Account />} />
         <Route path="/transactions_list/:id" element={<Transaction />} />
-        <Route path="/monthly_categories/:id" element={<Category />} />
-        <Route path="/savings_funds/:id" element={<Category />} />
+        <Route key="monthly" path="/categories_list/:id" element={<Category />} />
         <Route path="/budgets_list/:id" element={<Budget />} />
         <Route path="/institutions/:id" element={<Institution />} />
         <Route path="/*" element={<Error message="There's nothing at this URL!" />} />

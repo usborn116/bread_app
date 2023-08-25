@@ -6,7 +6,6 @@ Todos:
     - loading screen
     - error page
     - forms
-- fix bug navigating between two types of categories (state change?)
 
 Helpful things:
 

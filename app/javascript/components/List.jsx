@@ -2,8 +2,9 @@ import React from "react";
 import { Link } from "react-router-dom";
 import Delete from "./Delete";
 import Create from "./Create"
+import CategorySwitcher from "./CategorySwitcher";
 
-const List = ({data, tablename, setCreate, setDeleting, setData, setLoading, setError}) => {
+const List = ({data, tablename, setCreate, setDeleting, setData, setLoading, setError, monthly = null, setMonthly = null}) => {
 
     const allData = data?.map(d => (
         <div className="row" key={d.id} style={{gridTemplateColumns: 'repeat(2, 1fr)'}}>
@@ -18,6 +19,7 @@ const List = ({data, tablename, setCreate, setDeleting, setData, setLoading, set
             <div className="button-container">
                 <Create name='' setCreate={setCreate}/>
                 <Link to="/" className="button" role="button">HOME</Link>
+                { setMonthly ? <CategorySwitcher monthly={monthly} setMonthly={setMonthly}/> : ''}
             </div>
             <div className="table">
                 {allData}

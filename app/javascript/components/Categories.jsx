@@ -8,18 +8,11 @@ import Input from "./Input";
 import Submit from "./Submit";
 import List from "./List";
 
-const Categories = ({type}) => {
-    const endpoint = `/categories/${type == 'monthly' ? "budget_categories" : "fund_categories"}`
+const Categories = () => {
+    const [monthly, setMonthly] = useState(true)
+    const endpoint = `/categories/${monthly ? "budget_categories" : "fund_categories"}`
 
-    const [ctype, setCType] = useState(type)
-
-    console.log(ctype)
-
-    useEffect(() => {
-        setCType(prev => type)
-    }, [type])
-
-    const {data, loading, error, setData, setError, setLoading, create, setDeleting, setCreate} = useDataGetter({endpoint: endpoint})
+    const {data, loading, error, setData, setError, setLoading, create, setDeleting, setCreate} = useDataGetter({endpoint: endpoint, monthly: monthly})
 
     const category_options = [{id: 'fund', name: 'Savings Fund'}, {id: 'monthly', name: 'Monthly Budget'}]
 
@@ -39,7 +32,7 @@ const Categories = ({type}) => {
     return (
         <>
         {loading ? <Loading/> : 
-        <List data={data?.budgets} tablename='Categories' setCreate={setCreate} setDeleting={setDeleting} setData={setData} setLoading={setLoading} setError={setError}/>
+        <List monthly={monthly} setMonthly={setMonthly} data={data?.budgets} tablename='Categories' setCreate={setCreate} setDeleting={setDeleting} setData={setData} setLoading={setLoading} setError={setError}/>
         }
         </>
           )
