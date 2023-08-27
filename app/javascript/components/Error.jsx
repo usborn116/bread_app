@@ -1,16 +1,16 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import Back from "./Back";
 
-const Error = ({message}) => {
+const Error = ({message = 'Unknown Error!'}) => {
     const navigate = useNavigate();
 
     return (
-        <>
+        <div className="table">
         <h1>ERROR!</h1>
-        <p>Details Below:</p>
         <h4>{message}</h4>
-        <button onClick={() => navigate(-1)}>Go Back!</button>
-        </>
+        <Back />
+        </div>
           )
 };
 

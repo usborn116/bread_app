@@ -44,7 +44,7 @@ const Transactions = () => {
 
     return (
         <>
-        {loading ? <Loading/> :
+        {!currentItems ? <Loading/> :
         <>
             <List data={currentItems} tablename='Transactions' setCreate={setCreate} setDeleting={setDeleting} setData={setData} setLoading={setLoading} setError={setError}/>
             <ReactPaginate className="bar"

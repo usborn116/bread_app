@@ -1,10 +1,10 @@
 import React from "react";
 
-const Loading = ({page}) => { 
+const Loading = () => { 
 
     return (
         <div className="load">
-            <h1>...Loading {page}...</h1>
+            <h2>Loading</h2>
         </div>
           )
 };

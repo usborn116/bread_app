@@ -98,6 +98,31 @@ a:hover{
     color: white;
 }
 
+.load{
+    height: 30vh;
+    width: 30vh;
+    border-radius: 50%;
+    align-self: center;
+    border: 7px solid;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    animation: 1s infinite alternate load;
+}
+
+@keyframes load {
+    from {
+        width: 30vh;
+        height: 30vh;
+        border: 7px solid #383b53;
+    }
+    to {
+        width: 40vh;
+        height: 40vh;
+        border: 7px solid #a594f9;
+    }
+}
+
 .footer{
     display: flex;
     justify-content: flex-end;

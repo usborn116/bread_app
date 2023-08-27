@@ -3,9 +3,10 @@
 Todos:
 - styling!!
     - tables for each page
-    - loading screen
     - error page
     - forms
+- clickable categories in budgets
+- when creating new budget, set each category's available back to the budget amount
 
 Helpful things:
 

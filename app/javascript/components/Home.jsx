@@ -6,7 +6,6 @@ import LinkHandler from "./LinkHandler";
 import Single from "./Single";
 import { getTransactions } from "./helpers/api_helpers";
 import Delete from "./Delete";
-import NavBar from "./NavBar";
 
 const Home= () => {
     const {data, loading, setLoading, setDeleting, setData, setError} = useDataGetter({endpoint: '/plaid_credentials'})
@@ -24,7 +23,7 @@ const Home= () => {
 
     return (
         <>
-        {loading ? <Loading/> : 
+        {!data ? <Loading/> : 
         <>
             <div>
                 <h1 className="display-4">Plaid Credentials</h1>
