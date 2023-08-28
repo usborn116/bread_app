@@ -7,15 +7,29 @@ form{
 
 input{
     font-family: 'Ubuntu', sans-serif;
-    padding-top: 10px;
-    padding-bottom: 10px;
     border-radius: 10px;
-    border: 1px solid gray
+    border: 1px solid gray;
+    width: 100%;
+    padding: 10px;
+    padding-right: 0;
+    margin-bottom: 2vh;
 }
 
 select{
-    width: fit-content;
+    width: 90%;
     padding: 10px;
     margin-bottom: 2vh;
     border-radius: 10px;
+}
+
+.input{
+    display: flex;
+    width: 90%;
+    height: fit-content;
+}
+
+input[type=hidden]{
+    height: 0;
+    margin: 0;
+    padding: 0;
 }

@@ -26,8 +26,8 @@ const Transaction = () => {
                 <Input type="text" name="amount" val={data.transaction.amount} />
                 <Input type="date" name="date" val={data.transaction.date}/>
                 <Input type="text" name="name" val={data.transaction.name}/>
-                <Input type="text" name="merchant" val={data.transaction.merchant} />
-                <Input type="text" name="description" val={data.transaction.description}/>
+                <Input type="text" name="merchant" val={data.transaction.merchant} placeHolder='merchant'/>
+                <Input type="text" name="description" val={data.transaction.description} placeHolder='description'/>
                 <Input type="hidden" name="user_id" val={data.transaction.user_id}/>
                 <Input type="hidden" name="transaction_type" val={data.transaction.transaction_type}/>
                 <Input type="hidden" name="transaction_id" val={data.transaction.transaction_id}/>

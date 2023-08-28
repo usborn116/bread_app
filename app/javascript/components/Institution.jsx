@@ -32,13 +32,15 @@ const Institution = () => {
         <>
         {loading ? <Loading/> : 
             <>
-            {setCreate ? <Back /> : ''}
+            <div className="button-container">
+                {setCreate ? <Back /> : ''}
+                <h1>Institution Information</h1>
+            </div>
             <Single headers={headers1} columns={columns1} name={data?.credential?.institution_name}/>
-            <br></br><br></br>
+            <h2 className="table">Accounts</h2>
             <Single headers={headers2}/>
             {accounts}
-            <br></br><br></br>
-            <h2>Last 100 Transactions</h2>
+            <h2 className="table">Last 100 Transactions</h2>
             <Single headers={headers3}/>
             {txns}
             </>

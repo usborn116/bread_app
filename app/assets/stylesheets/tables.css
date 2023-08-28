@@ -5,6 +5,11 @@
     margin-left: 5%;
     margin-right: 5%;
     margin-top: 0px;
+    width: 90vw;
+}
+
+h2.table{
+    margin-top: 2vh;
 }
 
 .row{
@@ -22,4 +27,8 @@
     margin-top: 0;
     width: 100%;
     margin-bottom: 10px;
+}
+
+.row-span{
+    display: flex;
 }

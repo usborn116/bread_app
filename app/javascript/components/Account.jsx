@@ -24,7 +24,7 @@ const Account = () => {
         <Form endpoint="accounts" item='account' updater={updateData} id={id} setter={setData} setLoading={setLoading} setError={setError} setEdit={setCreate}>
                 <Input type="text" name="name" val={data.name}/>
                 <Input type="hidden" name="account_id" val={data.account_id} />
-                <Input type="text" name="available" val={data.available}/>
+                <Input type="text" name="available" val={data.available} placeHolder='Available'/>
                 <Input type="hidden" name="account_type" val={data.account_type}/>
                 <Input type="hidden" name="subtype" val={data.subtype} />
                 <Input type="hidden" name="user_id" val={data.user_id}/>

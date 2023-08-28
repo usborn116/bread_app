@@ -25,9 +25,9 @@ const Category = () => {
     if (create) return (
         <Form endpoint="categories" item='category' updater={updateData} id={id} setter={setData} setLoading={setLoading} setError={setError} setEdit={setCreate}>
                 <Input type="select" name="category_type" val={data.category_type} options={category_options}/>
-                <Input type="text" name="name" val={data.name} />
-                <Input type="text" name="current" val={data.current}/>
-                <Input type="text" name="budget_amt" val={data?.budget_amt}/>
+                <Input type="text" name="name" val={data.name} placeHolder='name' />
+                <Input type="text" name="current" val={data.current} placeHolder='current amount'/>
+                <Input type="text" name="budget_amt" val={data?.budget_amt} placeHolder='budgeted amount'/>
                 <Input type="hidden" name="user_id" val={data.user_id} />
                 <Input type="hidden" name="account_id" val={data.account_id}/>
                 <Submit/>

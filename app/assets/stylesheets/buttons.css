@@ -27,3 +27,21 @@ a{
     background-color: red;
     color: white;
 }
+
+.back.button{
+    height: fit-content;
+}
+
+
+.button-container{
+    display: flex;
+    gap: 20px;
+    margin-bottom: 8px;
+    justify-content: center;
+    margin-top: 8px;
+    align-items: center;
+}
+.button-container-vert{
+    display: flex;
+    flex-direction: column;
+}

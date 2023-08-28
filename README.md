@@ -1,10 +1,7 @@
 # README
 
 Todos:
-- styling!!
-    - tables for each page
-    - error page
-    - forms
+- styling: reconfigure tables for each page
 - clickable categories in budgets
 - when creating new budget, set each category's available back to the budget amount
 
