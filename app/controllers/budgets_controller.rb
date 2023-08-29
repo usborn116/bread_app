@@ -11,7 +11,7 @@ class BudgetsController < ApplicationController
   # GET /budgets/1 or /budgets/1.json
   def show
     @budget.categories.each{|c| c.update_self}
-    render :json => @budget.to_json(include: {categories: {only: [:name, :current, :budget_amt], include: :transactions}})
+    render :json => @budget.to_json(include: {categories: {only: [:id, :name, :current, :budget_amt], include: :transactions}})
   end
 
   # GET /budgets/new

@@ -19,12 +19,12 @@ const Budget = () => {
     
     const headers2 = ['Budget Item', 'Budget Amount', 'Current Balance']
 
-    const items = data?.categories?.map((c, i) => <Single id={c?.id} columns={[c.name, c.budget_amt?.toFixed(2), c.current]}/> );
+    const items = data?.categories?.map((c, i) => <Single id={c.id} endpoint='categories_list/' columns={[c.name, c.budget_amt?.toFixed(2), c.current]}/> );
 
     const headers3 = ['Transaction', 'Cost', 'Date', 'Category']
 
     const txns = data?.categories?.map((c, i) => (
-        c?.transactions.map((t,i) => <Single columns={[t.name, t.amount?.toFixed(2), t.date, c.name]}/>)
+        c?.transactions.map((t,i) => <Single id={t.id} endpoint='transactions_list/' columns={[t.name, t.amount?.toFixed(2), t.date, c.name]}/>)
     ));
     
 

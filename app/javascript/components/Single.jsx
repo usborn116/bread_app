@@ -4,11 +4,11 @@ import Edit from "./Edit";
 import Back from "./Back";
 import Delete from "./Delete";
 
-const Single = ({id = null, headers = [], columns = [], name = null, setCreate = null}) => {
-    const navigate = useNavigate()
+const Single = ({id = null, endpoint = null, headers = [], columns = [], name = null, setCreate = null}) => {
     const row =
         <div className="row" style={{gridTemplateColumns: `repeat(${columns.length}, 1fr)`}}>
-            {columns.map((c, i) => <div key={i}>{c}</div>)}
+            <div><Link to={'/' + endpoint + id} className="custom-button" role="button">{columns[0]}</Link></div>
+            {columns.slice(1).map((c, i) => <div key={i}>{c}</div>)}
         </div>
     ;
 

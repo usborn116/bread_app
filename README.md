@@ -2,7 +2,6 @@
 
 Todos:
 - styling: reconfigure tables for each page
-- clickable categories in budgets
 
 Helpful things:
 
