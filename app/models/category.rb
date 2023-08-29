@@ -9,5 +9,9 @@ class Category < ApplicationRecord
     result['month_name'] = "#{self.name} - #{self.budget_month}"
     result
   end
+
+  def update_self
+    self.update(current: self.budget_amt - self.transactions.map(&:amount).sum)
+  end
   
 end

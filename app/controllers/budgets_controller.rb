@@ -10,6 +10,7 @@ class BudgetsController < ApplicationController
 
   # GET /budgets/1 or /budgets/1.json
   def show
+    @budget.categories.each{|c| c.update_self}
     render :json => @budget.to_json(include: {categories: {only: [:name, :current, :budget_amt], include: :transactions}})
   end
 
@@ -37,6 +38,7 @@ class BudgetsController < ApplicationController
   # PATCH/PUT /budgets/1 or /budgets/1.json
   def update
     if @budget.update(budget_params)
+      @budget.update_budget_amt
       render json: @budget, location: budget_path(@budget)
     else
       render json: @budget.errors.messages, status: :unprocessable_entity

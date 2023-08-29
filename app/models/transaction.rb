@@ -11,4 +11,9 @@ class Transaction < ApplicationRecord
         r['bank'] = a ? a.name : nil
         r
     end
+
+    def update_category
+        c = self&.category
+        c.update(current: c.current -= self.amount)
+    end
 end

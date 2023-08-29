@@ -35,6 +35,7 @@ class TransactionsController < ApplicationController
     @transaction = current_user.transactions.build(transaction_params)
 
     if @transaction.save
+      @transaction.update_category
       Account.find_by(id: @transaction.account_id.to_i).decrement(:available, @transaction.amount).save
       render json: @transaction, status: :created, location: transaction_path(@transaction)
     else
@@ -45,6 +46,7 @@ class TransactionsController < ApplicationController
   # PATCH/PUT /transactions/1 or /transactions/1.json
   def update
     if @transaction.update(transaction_params)
+      @transaction.update_category
       render json: @transaction, location: transaction_path(@transaction)
     else
       render json: @transaction.errors, status: :unprocessable_entity

@@ -15,11 +15,11 @@ const Budget = () => {
     const {data, loading, error, setData, setError, setLoading, create, setDeleting, setCreate} = useDataGetter({endpoint: '/budgets', id: id})
 
     const headers1 = ['Budget Month', 'Budget Balance', 'Budgeted Amount', 'Rollover Amount']
-    const columns1 = [`${data?.month} ${data?.year}`, data?.balance?.toFixed(2) || 0, data?.budget_amount, data?.rollover?.toFixed(2) || 0 ]
+    const columns1 = [`${data?.month} ${data?.year}`, data?.balance?.toFixed(2) || 0, data?.budget_amount?.toFixed(2), data?.rollover?.toFixed(2) || 0 ]
     
     const headers2 = ['Budget Item', 'Budget Amount', 'Current Balance']
 
-    const items = data?.categories?.map((c, i) => <Single columns={[c.name, c.budget_amt?.toFixed(2), c.current]}/> );
+    const items = data?.categories?.map((c, i) => <Single id={c?.id} columns={[c.name, c.budget_amt?.toFixed(2), c.current]}/> );
 
     const headers3 = ['Transaction', 'Cost', 'Date', 'Category']
 

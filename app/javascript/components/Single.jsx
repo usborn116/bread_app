@@ -4,7 +4,7 @@ import Edit from "./Edit";
 import Back from "./Back";
 import Delete from "./Delete";
 
-const Single = ({headers = [], columns = [], name = null, setCreate = null}) => {
+const Single = ({id = null, headers = [], columns = [], name = null, setCreate = null}) => {
     const navigate = useNavigate()
     const row =
         <div className="row" style={{gridTemplateColumns: `repeat(${columns.length}, 1fr)`}}>
