@@ -16,6 +16,8 @@ const Categories = () => {
 
     const category_options = [{id: 'fund', name: 'Savings Fund'}, {id: 'monthly', name: 'Monthly Budget'}]
 
+    const headers = ['Name', 'Budget Type', 'Account', 'Current']
+
     if (error) return <Error message={error}/>
 
     if (create) return (
@@ -32,7 +34,7 @@ const Categories = () => {
     return (
         <>
         {loading ? <Loading/> : 
-        <List monthly={monthly} setMonthly={setMonthly} data={data?.budgets} tablename='Categories' setCreate={setCreate} setDeleting={setDeleting} setData={setData} setLoading={setLoading} setError={setError}/>
+        <List headers={headers} data={data?.budgets} tablename='Categories' setCreate={setCreate} setDeleting={setDeleting} setData={setData} setLoading={setLoading} setError={setError}/>
         }
         </>
           )

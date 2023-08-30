@@ -11,6 +11,8 @@ import List from "./List";
 const Accounts = () => {
     const {data, loading, error, setData, setError, setLoading, create, setDeleting, setCreate} = useDataGetter({endpoint: 'accounts'})     
 
+    const headers = ['Name', 'Available to Spend/Current Balance', 'Account Number', 'Type', 'Institution']
+
     if (error) return <Error message={error}/>
 
     if (create) return (
@@ -28,7 +30,7 @@ const Accounts = () => {
     return (
         <>
         {loading ? <Loading/> : 
-        <List data={data} tablename='Accounts' setCreate={setCreate} setDeleting={setDeleting} setData={setData} setLoading={setLoading} setError={setError}/>
+        <List headers={headers} data={data} tablename='Accounts' setCreate={setCreate} setDeleting={setDeleting} setData={setData} setLoading={setLoading} setError={setError}/>
     }
         </>
           )

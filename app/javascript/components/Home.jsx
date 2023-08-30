@@ -32,7 +32,7 @@ const Home= () => {
                     <LinkHandler setLoading={setLoading}/><br></br>
                 </div>
                 <Single headers={['Institution Name', 'Institution ID', 'Notices', ' ']}/>
-                    {allItems}
+                {allItems}
             </div>
         </>
         }

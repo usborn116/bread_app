@@ -14,6 +14,10 @@ const Budgets = () => {
     const theMonths = ["January", "February", "March", "April", "May",
     "June", "July", "August", "September", "October", "November", "December"]
     const months = theMonths.map((m, i) => i = {id: m, name: m})
+
+    const headers1 = ['Budget Month', 'Budget Balance', 'Budgeted Amount', 'Rollover Amount']
+    const headers2 = ['Budget Item', 'Budget Amount', 'Current Balance']
+    const headers3 = ['Transaction', 'Cost', 'Date', 'Category']
     
     if (error) return <Error message={error}/>
 
@@ -28,7 +32,9 @@ const Budgets = () => {
     return (
         <>
         {loading ? <Loading /> : 
-        <List data={data} tablename='Budgets' setCreate={setCreate} setDeleting={setDeleting} setData={setData} setLoading={setLoading} setError={setError}/>
+        <>
+        <List headers={headers1} data={data} tablename='Budgets' setCreate={setCreate} setDeleting={setDeleting} setData={setData} setLoading={setLoading} setError={setError}/>
+        </>
         }
         </>
           )

@@ -8,7 +8,6 @@ import Submit from "./Submit";
 import Form from "./Form";
 import ReactPaginate from "react-paginate";
 import List from "./List";
-import Single from "./Single";
 
 const Transactions = () => {
     const [itemOffset, setItemOffset] = useState(0);
@@ -21,7 +20,7 @@ const Transactions = () => {
     const currentItems = data?.transactions?.slice(itemOffset, endOffset);
     const pageCount = Math.ceil(data?.transactions?.length / 25);
 
-    const headers = ['Date', 'Name', 'Amount', 'Budget/Fund', 'Merchant', 'Account', 'Institution', '']
+    const headers = ['Name', 'Date', 'Amount', 'Budget/Fund', 'Merchant', 'Account', 'Institution', '']
 
     const handlePageClick = (event) => {
         const newOffset = (event.selected * 25) % items.length;

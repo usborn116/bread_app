@@ -1,7 +1,7 @@
 # README
 
 Todos:
-- styling: reconfigure tables for each page
+- styling: reconfigure single items for each item type
 
 Helpful things:
 

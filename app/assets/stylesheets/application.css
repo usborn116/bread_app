@@ -68,7 +68,11 @@ a:visited{
 a:hover{
     text-decoration: none;
     color:  #a8d4ad;
-    background-color: #383b53;
+}
+
+.header-button:hover{
+    text-decoration: none;
+    color:#a8d4ad;
 }
 
 .page{
