@@ -1,7 +1,6 @@
 # README
 
-Todos:
-- styling: reconfigure single items for each item type
+Frontend components can be found in app/javascript/components! Currently this app uses shakapacker to handle assets
 
 Helpful things:
 
