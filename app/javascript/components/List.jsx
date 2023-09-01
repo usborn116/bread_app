@@ -16,7 +16,7 @@ const List = ({headers, data, tablename, setCreate, setDeleting, setData, setLoa
                 break;
             case 'Accounts':
                 const available = d.available ? d.available : d.current
-                columns = [d?.name, available.toFixed(2), d?.subtype, d?.institution_name]
+                columns = [d?.name, available.toFixed(2), d?.last_four, d?.subtype, d?.institution_name]
                 break;
             case 'Budgets':
                 columns = [`${d?.month} ${d?.year}`, d?.balance?.toFixed(2) || 0, d?.budget_amount?.toFixed(2), d?.rollover?.toFixed(2) || 0 ]
@@ -45,7 +45,7 @@ const List = ({headers, data, tablename, setCreate, setDeleting, setData, setLoa
                 { setMonthly ? <CategorySwitcher monthly={monthly} setMonthly={setMonthly}/> : ''}
             </div>
             <div className="table">
-                <div className="row headers" style={{gridTemplateColumns: `repeat(${headers.length}, 1fr)`}}>
+                <div className="row headers" style={{gridTemplateColumns: `repeat(${headers.length + 1}, 1fr)`}}>
                     {headers.map((m, i) => <div key={i}>{m}</div>)}
                 </div>
                 {allData}

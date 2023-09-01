@@ -31,7 +31,7 @@ const Home= () => {
                     <button className="button" onClick={() => getTransactions(setLoading)} id='linkButton'> Sync Transactions </button>
                     <LinkHandler setLoading={setLoading}/><br></br>
                 </div>
-                <Single headers={['Institution Name', 'Institution ID', 'Notices', ' ']}/>
+                <Single headers={['Institution Name', 'Institution ID', 'Notices']}/>
                 {allItems}
             </div>
         </>

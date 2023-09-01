@@ -37,12 +37,16 @@ const Institution = () => {
                 <h1>Institution Information</h1>
             </div>
             <Single headers={headers1} columns={columns1} name={data?.credential?.institution_name}/>
-            <h2 className="table">Accounts</h2>
-            <Single headers={headers2}/>
-            {accounts}
-            <h2 className="table">Last 100 Transactions</h2>
-            <Single headers={headers3}/>
-            {txns}
+            <div className="table">
+                <h2>Accounts</h2>
+                <Single headers={headers2}/>
+                {accounts}
+            </div>
+            <div className="table">
+                <h2>Last 100 Transactions</h2>
+                <Single headers={headers3}/>
+                {txns}
+            </div>
             </>
         }
         </>
