@@ -1,7 +1,7 @@
 # README
 
 Handle login:
-- create login component/form (/users/sign_in)
+- create login component/form (/users/sign_in) -- use 'user' endpoint to get either user's ID or get "false"
 - create signup component/form (/users/sign_up)
 
 Frontend components can be found in app/javascript/components! Currently this app uses shakapacker to handle assets

@@ -24,7 +24,7 @@ const Logout = ({setError, setUser}) => {
         e.preventDefault()
         await logout(setError)
         alert(`Logged Out!`)
-        setUser(null)
+        setUser(false)
         navigate('/sign_in')
     }
 

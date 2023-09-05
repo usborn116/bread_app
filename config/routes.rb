@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
   root to: 'homepage#index'
+  get 'user', to: 'homepage#user'
   resources :budgets
   resources :categories do
     collection do

@@ -7,10 +7,9 @@ const Login = ({setUser}) => {
 
     const handleClick = async (e) =>{
         e.preventDefault()
-        setDeleting(true)
         await deleteData(`/${endpoint}${id ? `/${id}` : ''}`, setter, setLoading, setError)
-        alert(`${endpoint.toUpperCase().slice(0, endpoint.length - 1)} deleted!`)
-        setDeleting(false)
+        setUser(true)
+        alert(`Logged In!`)
     }
 
     return (
