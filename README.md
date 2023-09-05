@@ -1,5 +1,9 @@
 # README
 
+Handle login:
+- create login component/form (/users/sign_in)
+- create signup component/form (/users/sign_up)
+
 Frontend components can be found in app/javascript/components! Currently this app uses shakapacker to handle assets
 
 Helpful things:

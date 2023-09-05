@@ -11,7 +11,7 @@ const Home= () => {
     const {data, loading, setLoading, setDeleting, setData, setError} = useDataGetter({endpoint: '/plaid_credentials'})
 
     const allItems = data?.map((cred) => (
-        <div className="table">
+        <div key={cred.id} className="table">
         <div key={cred.id} className="row" style={{gridTemplateColumns: 'repeat(4, 1fr)'}}>
             <div><Link to={"/institutions/" + cred.id} className="btn btn-lg custom-button" role="button">{cred.institution_name}</Link></div>
             <div>{cred.institution_id}</div>

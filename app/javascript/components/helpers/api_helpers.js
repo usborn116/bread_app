@@ -61,6 +61,7 @@ export const deleteData = async (endpoint, setter, loader, errorSetter)=>{
     }
 }
 
+
 export const newData = async (endpoint, setter, info, loader, errorSetter)=>{
     try{
         const response=await fetch(`${endpoint}`, {

@@ -6,7 +6,6 @@ const Error = ({message = 'Unknown Error!'}) => {
         <div className="table">
           <h1>ERROR!</h1>
           <h3>{message}</h3>
-          <Back />
         </div>
           )
 };
