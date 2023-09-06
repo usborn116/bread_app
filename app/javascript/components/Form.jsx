@@ -1,6 +1,7 @@
 import React, {useRef} from "react";
+import { getUser } from "./helpers/api_helpers";
 
-const Form = ({endpoint, item, updater, id, setter, setLoading, setError, setEdit, children}) => {
+const Form = ({endpoint, item, updater, id, setter = null, setLoading = null, setError, setEdit, children, setUser}) => {
 
     const formRef = useRef()
 
@@ -17,8 +18,9 @@ const Form = ({endpoint, item, updater, id, setter, setLoading, setError, setEdi
         if(item == 'budget'){info[item] = {month: data.month, year: data.year}}
         if(item == 'category'){info[item] = {category_type: data.category_type, name: data.name, current: data.current,
         budget_amt: data.budget_amt, user_id: data.user_id, account_id: data.account_id}}
+        if(item == 'login'){info['user'] = { email: data.email, password: data.password }}
         await updater(`/${endpoint}${id ? `/${id}` : ''}`, setter, info, setLoading, setError)
-        setEdit(false)
+        setEdit ? setEdit(false) : null
     }
 
     return (

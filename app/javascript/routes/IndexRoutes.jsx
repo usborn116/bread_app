@@ -16,7 +16,7 @@ import Footer from "../components/Footer";
 import Loading from "../components/Loading";
 import Login from "../components/Login";
 
-const IndexRoutes = ({setError, setUser}) => {
+const IndexRoutes = ({setError, setUser, user}) => {
 
   return (
   <Router>
@@ -33,7 +33,7 @@ const IndexRoutes = ({setError, setUser}) => {
       <Route path="/budgets_list/:id" element={<Budget />} />
       <Route path="/institutions/:id" element={<Institution />} />
       <Route path="/load" element={<Loading />} />
-      <Route path="/sign_in" element={<Login setUser={setUser} />} />
+      <Route path="/sign_in" element={<Login setUser={setUser} setError={setError} user={user}/>} />
       <Route path="/*" element={<Error message="There's nothing at this URL!" />} />
     </Routes>
   <Footer />

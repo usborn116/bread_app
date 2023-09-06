@@ -79,6 +79,32 @@ export const newData = async (endpoint, setter, info, loader, errorSetter)=>{
     }
 }
 
+export const logIn = async(endpoint, setter, info, loader, errorSetter) => {
+    try{
+        const response=await fetch(`${endpoint}`, {
+            method: 'post',
+            headers: {
+                "content-type": 'application/json',
+                "accept": "application/json",
+            },
+            body: JSON.stringify(info) 
+        }) 
+        const data=await response.json()
+        setter(() => data)
+        if(!response.ok) throw data.error
+
+    } catch (error){
+        console.log(error)
+        errorSetter(error)
+    }
+}
+
+export const getUser = async () => {
+    const response = await fetch('/user')
+    const data=await response.json()
+    return data
+}
+
 export const getTransactions = async function (setLoading){
     setLoading(true)
     await fetch('/sync_transactions', {

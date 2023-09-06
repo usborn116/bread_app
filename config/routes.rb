@@ -16,7 +16,11 @@ Rails.application.routes.draw do
   resources :accounts
   resources :transactions
   resources :plaid_credentials
-  devise_for :users
+  devise_for :users,
+    controllers: {
+      sessions: 'users/sessions'
+
+    }
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
   get "plaid_credentials/index"
   get '/*path' => 'homepage#index'

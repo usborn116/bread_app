@@ -25,7 +25,7 @@ const Logout = ({setError, setUser}) => {
         await logout(setError)
         alert(`Logged Out!`)
         setUser(false)
-        navigate('/sign_in')
+        navigate('/')
     }
 
     return <button className="button" onClick={handleClick}>Log Out</button>
