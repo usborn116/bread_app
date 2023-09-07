@@ -3,18 +3,18 @@ class CategoriesController < ApplicationController
 
   # GET /categories or /categories.json
   def index
-    @categories = Category.where(user_id: current_user.id).sort_by(&:name)
+    @categories = current_user.categories.sort_by(&:name)
     render json:@categories.to_json(:include => {:account => {only: [:name]}})
   end
 
   def budget_categories
-    @budgets = Category.where(category_type: 'monthly')
+    @budgets = current_user.categories.where(category_type: 'monthly')
     @accounts = Account.where(user_id: current_user.id)
     render json: {budgets: @budgets, accounts: @accounts}
   end
 
   def fund_categories
-    @budgets = Category.where(category_type: 'fund')
+    @budgets = current_user.categories.where(category_type: 'fund')
     @accounts = Account.where(user_id: current_user.id)
     render json: {budgets: @budgets, accounts: @accounts}
   end

@@ -1,7 +1,7 @@
 # README
 
-Handle login:
-- create signup component/form (/users/sign_up) -- this will need overwriting of the registrations controller
+DOCUMENT THIS APP!
+
 
 Frontend components can be found in app/javascript/components! Currently this app uses shakapacker to handle assets
 

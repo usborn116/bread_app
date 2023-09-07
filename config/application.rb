@@ -10,10 +10,6 @@ if ['development', 'test'].include? ENV['RAILS_ENV']
   Dotenv::Railtie.load
 end
 
-config.to_prepare do
-  DeviseController.respond_to :html, :json
-end
-
 HOSTNAME = ENV['HOSTNAME']
 
 module BreadApp
