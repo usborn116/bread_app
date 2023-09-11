@@ -18,7 +18,7 @@ class Budget < ApplicationRecord
     end
 
     def update_budget_amt
-      self.update(current: self.budget_amount) if !self.categories.transactions
+      self.update(current: self.budget_amount) if !self.categories.map{|c| c&.transactions}
     end
 
 end

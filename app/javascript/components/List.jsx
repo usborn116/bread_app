@@ -42,7 +42,7 @@ const List = ({headers, data, tablename, setCreate, setDeleting, setData, setLoa
                 <Create name='' setCreate={setCreate}/>
                 <Link to="/" className="button" role="button">HOME</Link>
                 <Back />
-                { setMonthly ? <CategorySwitcher monthly={monthly} setMonthly={setMonthly}/> : ''}
+                { tablename == 'Categories' ? <CategorySwitcher monthly={monthly} setMonthly={setMonthly}/> : ''}
             </div>
             <div className="table">
                 <div className="row headers" style={{gridTemplateColumns: `repeat(${headers.length + 1}, 1fr)`}}>
