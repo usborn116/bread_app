@@ -12,8 +12,10 @@
   <% end %>
 
   <div>
-    <%= form.label :account_id, style: "display: block" %>
-    <%= form.collection_select :account_id, Account.where(subtype: 'cash').order(:name), :id, :name, include_blank: true%>
+    <% if !transaction.transaction_id || transaction.transaction_id.match('cash')%>
+      <%= form.label :account_id, style: "display: block" %>
+      <%= form.collection_select :account_id, Account.where(subtype: 'cash').order(:name), :id, :name, include_blank: true%>
+    <%end%>
   </div>
 
   <div>
@@ -50,13 +52,13 @@
     <%= form.hidden_field :transaction_type, :value => 'special' %>
   </div>
 
-  <div>
-    <%= form.hidden_field :transaction_id, :value => "cash#{Transaction.all.size}" %>
-  </div>
+  <% if !transaction.transaction_id%>
+  <%= form.hidden_field :transaction_id, :value => "cash#{Transaction.all.size}" %>
+  <%end%>
 
   <div>
     <%= form.label :group_id, 'Budget/Fund', style: "display: block" %>
-    <%= form.collection_select :group_id, Category.order(:name).where(budget_month: Date::MONTHNAMES[Date.today.month]), :id, :name_with_month%>
+    <%= form.collection_select :group_id, Category.order(:name).where(budget_month: Date::MONTHNAMES[Date.today.month]), :id, :name_with_month, include_blank: true%>
   </div>
 
   <div>
