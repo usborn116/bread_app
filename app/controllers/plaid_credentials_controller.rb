@@ -15,12 +15,6 @@ class PlaidCredentialsController < ApplicationController
         render json: {credential: @credential, transactions: @txns, accounts: @accts}
     end
 
-    def show
-        @txns = Transaction.where(institution_name: @credential.institution_name).sort_by{|t| [t.date, t.updated_at]}.reverse
-        @accts = Account.where(institution_name: @credential.institution_name)
-        render json: {credential: @credential, transactions: @txns, accounts: @accts}
-    end
-
     def update
         find_credential.update!(plaid_credential_params)
     end

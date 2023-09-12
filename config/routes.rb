@@ -22,6 +22,7 @@ Rails.application.routes.draw do
       registrations: 'users/registrations'
     }
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
-  root to: "plaid_credentials#index"
+  get "plaid_credentials/index"
+  get '/*path' => 'homepage#index'
   
 end
