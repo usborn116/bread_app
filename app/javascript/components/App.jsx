@@ -1,7 +1,6 @@
 import React, {useState, useEffect} from "react";
 import IndexRoutes from "../routes/IndexRoutes";
 import Error from "./Error";
-import { useLocation } from "react-router";
 import Login from "./Login";
 import Footer from "./Footer";
 import { getUser } from "./helpers/api_helpers";
@@ -12,8 +11,6 @@ const props=() => {
     const [error, setError] = useState(null)
     const [user, setUser] = useState(null)
     const [existing, setExisting] = useState(true)
-
-    console.log('user!', user)
     
     useEffect(() => {
         getUser(setUser)

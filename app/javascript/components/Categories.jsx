@@ -1,4 +1,4 @@
-import React, {useState, useEffect }from "react";
+import React, {useState}from "react";
 import { newData } from "./helpers/api_helpers";
 import { useDataGetter } from "./helpers/useDataGetter";
 import Loading from "./Loading";

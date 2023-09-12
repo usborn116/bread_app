@@ -1,7 +1,6 @@
-import React, {useState} from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 import Logout from "./Logout";
-import Error from "./Error";
 
 const NavBar = ({setError, setUser}) => {
     

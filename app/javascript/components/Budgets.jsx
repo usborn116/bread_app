@@ -16,8 +16,6 @@ const Budgets = () => {
     const months = theMonths.map((m, i) => i = {id: m, name: m})
 
     const headers1 = ['Budget Month', 'Budget Balance', 'Budgeted Amount', 'Rollover Amount']
-    const headers2 = ['Budget Item', 'Budget Amount', 'Current Balance']
-    const headers3 = ['Transaction', 'Cost', 'Date', 'Category']
     
     if (error) return <Error message={error}/>
 

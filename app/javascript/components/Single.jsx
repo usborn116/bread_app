@@ -31,21 +31,6 @@ const Single = ({id = null, endpoint = null, headers = [], columns = [], name = 
         </div> }
         </>
     )
-
-    return (
-        
-        <div className="table accts">
-            <div className="button-container">
-                {setCreate ? <Edit setCreate={setCreate} name={name}/> : ''}
-                {setCreate ? <Back/> : ''}
-            </div>
-            <div className='row headers' style={{gridTemplateColumns: `repeat(${headers.length}, 1fr)`}}>
-                {headers.map((m, i) => <div key={i}>{m}</div>)}
-            </div>
-            
-            
-        </div> 
-          )
 };
 
 export default Single

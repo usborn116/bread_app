@@ -1,5 +1,4 @@
 import React from "react";
-import Back from "./Back";
 
 const Error = ({message = 'Unknown Error!'}) => {
     return (

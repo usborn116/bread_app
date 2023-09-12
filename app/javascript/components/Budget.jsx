@@ -42,8 +42,6 @@ const Budget = () => {
         </Form>
     )
 
-   
-
     return (
         <>
         {loading ? <Loading/> : 

@@ -1,5 +1,4 @@
 import React, {useRef} from "react";
-import { getUser } from "./helpers/api_helpers";
 
 const Form = ({endpoint, item, updater, id, setter = null, setLoading = null, setError, setEdit, children, setUser}) => {
 
