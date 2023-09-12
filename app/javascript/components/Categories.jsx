@@ -34,7 +34,7 @@ const Categories = () => {
     return (
         <>
         {loading ? <Loading/> : 
-        <List headers={headers} data={data?.budgets} tablename='Categories' setCreate={setCreate} setDeleting={setDeleting} setData={setData} setLoading={setLoading} setError={setError} monthly={monthly} setMonthly={setMonthly}/>
+        <List headers={headers} data={data?.budgets} tablename='Categories' setCreate={setCreate} setDeleting={setDeleting} setData={setData} setLoading={setLoading} setError={setError}/>
         }
         </>
           )
