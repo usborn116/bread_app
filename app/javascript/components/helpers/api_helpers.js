@@ -118,10 +118,10 @@ export const signup=async (endpoint, setter, info, loader, errorSetter)=>{
     }
 }
 
-export const getUser = async () => {
+export const getUser = async (setter) => {
     const response = await fetch('/user')
     const data=await response.json()
-    return data
+    await setter(data)
 }
 
 export const getTransactions = async function (setLoading){

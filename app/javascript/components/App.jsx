@@ -10,19 +10,17 @@ import Signup from "./Signup";
 const props=() => {
 
     const [error, setError] = useState(null)
-    const [user, setUser] = useState(() => getUser())
+    const [user, setUser] = useState(null)
     const [existing, setExisting] = useState(true)
 
     console.log('user!', user)
-    console.log(existing)
-
-    const clickHandler = (e) => {
-        e.preventDefault()
-        setExisting(true ? false : true)
-    }
+    
+    useEffect(() => {
+        getUser(setUser)
+    }, [])
 
 
-    if (error) return <Error message={error}/>
+    if (error && user) return <Error message={error}/>
 
     if (!user) return (
         <div className="bod">
