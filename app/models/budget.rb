@@ -3,7 +3,7 @@ class Budget < ApplicationRecord
     has_many :transactions
     has_many :categories
 
-    def update_categories
+    def add_categories
         categories = Category.where(category_type:'monthly').map(&:name).uniq
         self.update(start_date: Date.new(self.year.to_i, Date::MONTHNAMES.index(self.month), 1),
                      end_date: Date.new(self.year.to_i, Date::MONTHNAMES.index(self.month), -1))
