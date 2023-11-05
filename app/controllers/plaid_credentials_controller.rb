@@ -1,12 +1,19 @@
 class PlaidCredentialsController < ApplicationController
-    before_action :find_credential, except: %i[create_link_token exchange_public_token sync_transactions get_balances index]
-    before_action :create_config, only: %i[ create_link_token exchange_public_token sync_transactions get_balances get_institution_id get_institution_name ]
+    before_action :authenticate_user!
+    before_action :find_credential, except: %i[create_link_token_update create_link_token exchange_public_token sync_transactions get_balances index]
+    before_action :create_config, only: %i[ create_link_token create_link_token_update exchange_public_token sync_transactions get_balances get_institution_id get_institution_name ]
     require 'plaid'
-    require 'dotenv'
+    require 'dotenv/load'
 
     def index
-        @user_id = current_user.id
         @credentials = PlaidCredential.where(user_id: current_user.id)
+        render json: @credentials
+    end
+
+    def show
+        @txns = Transaction.where(institution_name: @credential.institution_name).sort_by{|t| [t.date, t.updated_at]}.reverse
+        @accts = Account.where(institution_name: @credential.institution_name)
+        render json: {credential: @credential, transactions: @txns, accounts: @accts}
     end
 
     def update
@@ -14,14 +21,31 @@ class PlaidCredentialsController < ApplicationController
     end
 
     def create_link_token
+        params[:access_token] ? product = [] : products = ['transactions']
         request = Plaid::LinkTokenCreateRequest.new(
             {
             user: { client_user_id: current_user.id.to_s },
             client_name: 'Usborn test app',
-            products: ['transactions'],
+            products: products,
             country_codes: ['US'],
             language: "en",
-            redirect_uri: nil,
+            redirect_uri: 'http://localhost:3000/',
+            webhook: 'https://webhook.example.com'
+            }
+        )
+        response = @client.link_token_create(request)
+        render json: response
+    end
+
+    def create_link_token_update
+        request = Plaid::LinkTokenCreateRequest.new(
+            {
+            user: { client_user_id: current_user.id.to_s },
+            client_name: 'Usborn test app',
+            access_token: params[:access_token],
+            country_codes: ['US'],
+            language: "en",
+            redirect_uri: 'http://localhost:3000/',
             webhook: 'https://webhook.example.com'
             }
         )
@@ -34,8 +58,7 @@ class PlaidCredentialsController < ApplicationController
         @credential.save
         request = Plaid::ItemPublicTokenExchangeRequest.new({public_token: params[:public_token]})
         response = @client.item_public_token_exchange(request)
-        @credential.update!(access_token: response.access_token)
-        @credential.update!(item_id: response.item_id)
+        @credential.update!(access_token: response.access_token,item_id: response.item_id)
         get_institution_id
         get_institution_name
         create_cash_acct
@@ -44,54 +67,60 @@ class PlaidCredentialsController < ApplicationController
         @access_token
     end
 
-    def sync_transactions(credentials = PlaidCredential.all.select{|c| c.institution_id != 'Cash account'})
-
+    def sync_transactions(credentials = PlaidCredential.where.not(access_token: nil))
+        
         credentials.each do |c|
             added = []
             removed = []
         
-            request = Plaid::TransactionsSyncRequest.new(
-                {access_token: c.access_token,
-                cursor: c.cursor,
-                options: {include_personal_finance_category: true},
-                count: 200
-                }
-            )
-            response = @client.transactions_sync(request)
-
-            added += response.added
-            added += response.modified
-            removed += response.removed
-            has_more = response.has_more
-            c.update!(cursor: response.next_cursor)
-
-            added.each do |t|
-                txn = Transaction.find_or_create_by(transaction_id: t.transaction_id)
-                txn.update!(
-                    institution_name: c.institution_name,
-                    account_id: t.account_id,
-                    amount: t.amount,
-                    category_id: t.category_id,
-                    date: t.date,
-                    category: "#{t.personal_finance_category.primary}, #{t.personal_finance_category.detailed}",
-                    name: t.name,
-                    merchant: t.merchant_name,
-                    description: t.original_description,
-                    pending: t.pending,
-                    transaction_id: t.transaction_id,
-                    transaction_type: t.transaction_type,
-                    authorized_date: t.authorized_date,
-                    user_id: current_user.id
+            begin
+                request = Plaid::TransactionsSyncRequest.new(
+                    {access_token: c.access_token,
+                    cursor: c.cursor,
+                    options: {include_personal_finance_category: true},
+                    count: 200
+                    }
                 )
-            end
+                response = @client.transactions_sync(request)
 
-            removed.each do |t| 
-                txn = Transaction.find_by(transaction_id: t.transaction_id)
-                txn.destroy
-            end
+                added += response.added
+                added += response.modified
+                removed += response.removed
+                has_more = response.has_more
+                c.update!(cursor: response.next_cursor)
 
+                added.each do |t|
+                    txn = Transaction.find_or_create_by(transaction_id: t.transaction_id)
+                    txn.update!(
+                        institution_name: c.institution_name,
+                        account_id: t.account_id,
+                        amount: t.amount,
+                        date: t.date,
+                        plaid_category: "#{t.personal_finance_category.primary}, #{t.personal_finance_category.detailed}",
+                        name: t.name,
+                        merchant: t.merchant_name,
+                        description: t.original_description,
+                        pending: t.pending,
+                        transaction_id: t.transaction_id,
+                        transaction_type: t.transaction_type,
+                        authorized_date: t.authorized_date,
+                        user_id: current_user.id
+                    )
+                end
+    
+                removed.each do |t| 
+                    txn = Transaction.find_by(transaction_id: t.transaction_id)
+                    txn.destroy
+                end
+
+                c.update(notice: "Last synced: #{Date.today}")
+                
+            rescue => exception
+                p exception
+                c.update(notice: "Failed to Sync")
+            end
+            
         end
-
     end
 
     def get_balances(credentials = PlaidCredential.all)
@@ -126,11 +155,7 @@ class PlaidCredentialsController < ApplicationController
         @credential.destroy
         Account.where(institution_name: n).each {|a| a.destroy}
         Transaction.where(institution_name: n).each {|t| t.destroy}
-    
-        respond_to do |format|
-          format.html { redirect_to root_url, notice: "Institution was successfully destroyed." }
-          format.json { head :no_content }
-        end
+        render json: {message: 'Deleted!'}
     end
 
     private
@@ -165,14 +190,11 @@ class PlaidCredentialsController < ApplicationController
     end
 
     def create_cash_acct
-        if Account.find_by(account_id: 'Cash')
-            return
-        else
-            Account.create(account_id: 'Cash', last_four: 'CASH', 
-                           name: 'Cash account', account_type: 'depository', 
-                           subtype: 'cash', user_id: current_user.id)
-            PlaidCredential.create(institution_name: 'Cash')
-        end
+        return if Account.find_by(account_id: 'Cash')
+        Account.create(account_id: 'Cash', last_four: 'CASH', 
+                    name: 'Cash account', account_type: 'depository', 
+                    subtype: 'cash', user_id: current_user.id)
+        PlaidCredential.create(institution_name: 'Cash')
     end
 
 end

@@ -4,10 +4,12 @@ class AccountsController < ApplicationController
   # GET /accounts or /accounts.json
   def index
     @accounts = Account.where(user_id: current_user.id).sort_by(&:subtype)
+    render json: @accounts
   end
 
   # GET /accounts/1 or /accounts/1.json
   def show
+    render json: @account
   end
 
   # GET /accounts/new
@@ -21,29 +23,21 @@ class AccountsController < ApplicationController
 
   # POST /accounts or /accounts.json
   def create
-    @account = Account.new(account_params)
+    @account = current_user.accounts.build(account_params)
 
-    respond_to do |format|
-      if @account.save
-        format.html { redirect_to account_url(@account), notice: "Account was successfully created." }
-        format.json { render :show, status: :created, location: @account }
-      else
-        format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @account.errors, status: :unprocessable_entity }
-      end
+    if @account.save
+      render json: @account, status: :created, location: account_path(@account)
+    else
+      render json: @account.errors, status: :unprocessable_entity
     end
   end
 
   # PATCH/PUT /accounts/1 or /accounts/1.json
   def update
-    respond_to do |format|
-      if @account.update(account_params)
-        format.html { redirect_to account_url(@account), notice: "Account was successfully updated." }
-        format.json { render :show, status: :ok, location: @account }
-      else
-        format.html { render :edit, status: :unprocessable_entity }
-        format.json { render json: @account.errors, status: :unprocessable_entity }
-      end
+    if @account.update(account_params)
+      render json: @account, location: account_path(@account)
+    else
+      render json: @account.errors, status: :unprocessable_entity
     end
   end
 
@@ -54,10 +48,7 @@ class AccountsController < ApplicationController
     @account.destroy
     Transaction.where(account_id: n).each{|t| t.destroy}
 
-    respond_to do |format|
-      format.html { redirect_to accounts_url, notice: "Account was successfully destroyed." }
-      format.json { head :no_content }
-    end
+    render json: {message: 'Deleted!'}
   end
 
   private
@@ -69,6 +60,6 @@ class AccountsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def account_params
-      params.require(:account).permit(:account_id, :available, :current, :limit, :last_four, :name, :official_name, :account_type, :subtype, :user_id, :instutition_name)
+      params.require(:account).permit(:account_id, :available, :current, :limit, :last_four, :name, :official_name, :account_type, :subtype, :user_id, :institution_name)
     end
 end

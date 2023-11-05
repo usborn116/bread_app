@@ -3,11 +3,15 @@ class BudgetsController < ApplicationController
 
   # GET /budgets or /budgets.json
   def index
-    @budgets = Budget.all
+    @budgets = Budget.where(user_id: current_user.id).order(:created_at)
+    render json: @budgets.to_json(:include => {:categories => {only: [:name, :current, :budget_amt]}})
+
   end
 
   # GET /budgets/1 or /budgets/1.json
   def show
+    @budget.categories.each{|c| c.update_self}
+    render :json => @budget.to_json(include: {categories: {only: [:id, :name, :current, :budget_amt], include: :transactions}})
   end
 
   # GET /budgets/new
@@ -21,31 +25,23 @@ class BudgetsController < ApplicationController
 
   # POST /budgets or /budgets.json
   def create
-    @budget = Budget.new(budget_params)
+    @budget = current_user.budgets.build(budget_params)
 
-    respond_to do |format|
-      if @budget.save
-        @budget.add_categories
-        format.html { redirect_to budget_url(@budget), notice: "Budget was successfully created." }
-        format.json { render :show, status: :created, location: @budget }
-      else
-        format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @budget.errors, status: :unprocessable_entity }
-      end
+    if @budget.save
+      @budget.update_categories
+      render json: @budget, status: :created, location: budget_path(@budget)
+    else
+      render json: @budget.errors, status: :unprocessable_entity
     end
   end
 
   # PATCH/PUT /budgets/1 or /budgets/1.json
   def update
-    respond_to do |format|
-      if @budget.update(budget_params)
-        @budget.update_categories
-        format.html { redirect_to budget_url(@budget), notice: "Budget was successfully updated." }
-        format.json { render :show, status: :ok, location: @budget }
-      else
-        format.html { render :edit, status: :unprocessable_entity }
-        format.json { render json: @budget.errors, status: :unprocessable_entity }
-      end
+    if @budget.update(budget_params)
+      @budget.update_budget_amt
+      render json: @budget, location: budget_path(@budget)
+    else
+      render json: @budget.errors.messages, status: :unprocessable_entity
     end
   end
 
@@ -54,10 +50,7 @@ class BudgetsController < ApplicationController
     @budget.categories.each{|c| c.destroy}
     @budget.destroy
 
-    respond_to do |format|
-      format.html { redirect_to budgets_url, notice: "Budget was successfully destroyed." }
-      format.json { head :no_content }
-    end
+    render json: { message: 'Deleted!' }
   end
 
   private
@@ -68,6 +61,6 @@ class BudgetsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def budget_params
-      params.require(:budget).permit(:month, :year, :balance, :budget_amount, :start_date, :end_date, :rollover)
+      params.require(:budget).permit(:month, :year, :balance, :budget_amount, :start_date, :end_date, :rollover, :user_id)
     end
 end

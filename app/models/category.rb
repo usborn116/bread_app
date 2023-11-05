@@ -5,10 +5,13 @@ class Category < ApplicationRecord
   belongs_to :budget, optional: true
 
   def name_with_month
-    "#{self.name} - #{self.budget_month}"
+    result = self.as_json
+    result['month_name'] = "#{self.name} - #{self.budget_month}"
+    result
   end
 
-  def update_current
-    self.budget_amt ? self.update(current: budget_amt - Transaction.where(group_id: self.id).map(&:amount).sum) : self.current
+  def update_self
+    self.update(current: self.budget_amt - self.transactions.map(&:amount).sum)
   end
+  
 end

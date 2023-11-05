@@ -6,12 +6,19 @@ class TransactionsController < ApplicationController
 
   # GET /transactions or /transactions.json
   def index
-    @pagy, @transactions = pagy((Transaction.where(user_id: current_user.id).order('date DESC')))
-    #@transactions = Transaction.where(user_id: current_user.id).sort_by{|t| [t.date, t.updated_at]}.reverse.last(25)
+    #@pagy, @transactions = pagy((Transaction.where(user_id: current_user.id).order('date DESC')))
+    @transactions = Transaction.where(user_id: current_user.id).includes(:account).sort_by{|t| [t.date, t.updated_at]}.reverse
+    @transactions = @transactions.map {|t| t.bank_account_name}
+    @categories = current_user.categories.where(category_type: 'fund').or(current_user.categories.where(budget_month: Date::MONTHNAMES[Date.today.month]))
+                .order(:name)
+    render json: {transactions: @transactions, accounts: current_user.accounts.where(subtype: 'cash').order(:name), categories: @categories}
   end
 
   # GET /transactions/1 or /transactions/1.json
   def show
+    @transaction = @transaction.bank_account_name
+    render json: {transaction: @transaction, accounts: current_user.accounts.order(:name),
+      categories: Category.where(user_id:current_user.id).order(:name).map{|c| c.name_with_month}}
   end
 
   # GET /transactions/new
@@ -25,31 +32,24 @@ class TransactionsController < ApplicationController
 
   # POST /transactions or /transactions.json
   def create
-    @transaction = Transaction.new(transaction_params)
+    @transaction = current_user.transactions.build(transaction_params)
 
-    respond_to do |format|
-      if @transaction.save
-        @transaction.update_accts_budget_category
-        format.html { redirect_to transaction_url(@transaction), notice: "Transaction was successfully created." }
-        format.json { render :show, status: :created, location: @transaction }
-      else
-        format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @transaction.errors, status: :unprocessable_entity }
-      end
+    if @transaction.save
+      @transaction.update_category
+      Account.find_by(id: @transaction.account_id.to_i).decrement(:available, @transaction.amount).save
+      render json: @transaction, status: :created, location: transaction_path(@transaction)
+    else
+      render json: @transaction.errors, status: :unprocessable_entity
     end
   end
 
   # PATCH/PUT /transactions/1 or /transactions/1.json
   def update
-    respond_to do |format|
-      if @transaction.update(transaction_params)
-        @transaction.update_accts_budget_category
-        format.html { redirect_to transaction_url(@transaction), notice: "Transaction was successfully updated." }
-        format.json { render :show, status: :ok, location: @transaction }
-      else
-        format.html { render :edit, status: :unprocessable_entity }
-        format.json { render json: @transaction.errors, status: :unprocessable_entity }
-      end
+    if @transaction.update(transaction_params)
+      @transaction.update_category
+      render json: @transaction, location: transaction_path(@transaction)
+    else
+      render json: @transaction.errors, status: :unprocessable_entity
     end
   end
 
@@ -57,10 +57,7 @@ class TransactionsController < ApplicationController
   def destroy
     @transaction.destroy
 
-    respond_to do |format|
-      format.html { redirect_to transactions_url, notice: "Transaction was successfully destroyed." }
-      format.json { head :no_content }
-    end
+    render json: {message: 'Deleted!'}
   end
 
   private
@@ -71,6 +68,6 @@ class TransactionsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def transaction_params
-      params.require(:transaction).permit(:account_id, :amount, :category_id, :date, :category, :name, :merchant, :description, :pending, :transaction_id, :transaction_type, :authorized_date, :user_id, :group_id)
+      params.require(:transaction).permit(:account_id, :amount, :date, :category, :name, :merchant, :description, :pending, :transaction_id, :transaction_type, :authorized_date, :user_id,  :category_id)
     end
 end

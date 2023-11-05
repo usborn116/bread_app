@@ -1,0 +1,35 @@
+.table{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-left: 2%;
+    margin-right: 2%;
+    margin-top: 0px;
+    width: 90vw;
+    gap: 3vh;
+}
+
+h2.table{
+    margin-top: 2vh;
+}
+
+.row{
+    display: grid;
+    margin-bottom: 2vh;
+    column-gap: 10px;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+
+.headers{
+    font-size: 18px;
+    margin-top: 0;
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+.row-span{
+    display: flex;
+}

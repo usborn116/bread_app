@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_07_12_221059) do
+ActiveRecord::Schema[7.0].define(version: 2023_08_18_211928) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -41,6 +41,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_12_221059) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "year"
+    t.bigint "user_id"
+    t.index ["user_id"], name: "index_budgets_on_user_id"
   end
 
   create_table "categories", force: :cascade do |t|
@@ -72,13 +74,13 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_12_221059) do
     t.datetime "updated_at", null: false
     t.string "institution_name"
     t.string "institution_id"
+    t.string "notice"
     t.index ["user_id"], name: "index_plaid_credentials_on_user_id"
   end
 
   create_table "transactions", force: :cascade do |t|
     t.string "account_id"
     t.float "amount"
-    t.string "category_id"
     t.date "date"
     t.text "category"
     t.string "name"
@@ -92,8 +94,9 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_12_221059) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "institution_name"
-    t.bigint "group_id"
-    t.index ["group_id"], name: "index_transactions_on_group_id"
+    t.bigint "category_id"
+    t.string "plaid_category"
+    t.index ["category_id"], name: "index_transactions_on_category_id"
     t.index ["user_id"], name: "index_transactions_on_user_id"
   end
 
@@ -113,6 +116,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_12_221059) do
   add_foreign_key "categories", "accounts"
   add_foreign_key "categories", "users"
   add_foreign_key "plaid_credentials", "users"
-  add_foreign_key "transactions", "categories", column: "group_id"
+  add_foreign_key "transactions", "categories"
   add_foreign_key "transactions", "users"
 end
