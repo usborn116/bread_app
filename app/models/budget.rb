@@ -12,7 +12,6 @@ class Budget < ApplicationRecord
           b = b.dup
           b.update(budget_id: self.id, budget_month: self.month, current: b.budget_amt)
         end
-        p self.categories
         self.update(budget_amount: self&.categories&.map(&:budget_amt)&.sum, balance: self&.categories&.map(&:current)&.sum)
         self.update(rollover: self.balance)
     end

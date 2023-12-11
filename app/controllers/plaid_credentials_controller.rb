@@ -29,7 +29,7 @@ class PlaidCredentialsController < ApplicationController
             products: products,
             country_codes: ['US'],
             language: "en",
-            redirect_uri: 'http://localhost:3000/',
+            redirect_uri: 'https://localhost:3000/',
             webhook: 'https://webhook.example.com'
             }
         )
@@ -173,6 +173,7 @@ class PlaidCredentialsController < ApplicationController
         configuration.server_index = Plaid::Configuration::Environment[ENV['PLAID_ENV']]
         configuration.api_key['PLAID-CLIENT-ID'] =  ENV['PLAID_CLIENT_ID']
         configuration.api_key['PLAID-SECRET'] = ENV['PLAID_SECRET']
+        configuration.api_key['Plaid-Version'] = '2020-09-14'
         api_client = Plaid::ApiClient.new(configuration)
         @client = Plaid::PlaidApi.new(api_client)
     end
