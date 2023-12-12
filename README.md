@@ -1,5 +1,9 @@
 # README
 
+-- 12/11/23 Note: To be able to fully use this app with Plaid, I'd need to sign up for Production access. Without that, I cannot authenticate into any financial institutions that require OAuth. Since I'm not in a position at the moment to pay for the Production level of Plaid, I'm tabling this app.
+
+It was still a lot of fun to make and I think highlights some of the ways I've grown as a developer, and I can continue to iterate on it in it's "sandbox" state just to improve my skills, but this won't be a full-fledged live app. --
+
 This is a simple personal finance app! This app uses Plaid's API to connect to your financial accounts and retrieve both transaction and balance data, which are then implemented into Transaction and Account objects. You can also categorize transactions into monthly or "savings" categories, and you can create a monthly budget that tracks all your transactions in a given month under each of the monthly categories for that month. The app uses devise for login/authentication management.
 
 All frontend components can be found in app/javascript/components! Currently, this app uses Shakapacker to handle these JS components and show them on the front end in place of the standard rails views.
